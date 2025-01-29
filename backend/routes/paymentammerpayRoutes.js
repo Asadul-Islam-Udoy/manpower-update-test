@@ -19,11 +19,11 @@ const router = express.Router();
 // Create a new payment
 router.post('/create',isAdminUserMiddleware, createPaymentControler);
 ///payment success
-router.post('/success/:traidId/:bookingId',successPaymentControler);
+router.post('/success/:traidId/:appStatus',successPaymentControler);
 ///payment fail
-router.post('/fail/:traidId',failPaymentControler);
+router.post('/fail/:traidId/:appStatus',failPaymentControler);
 ///payment cancel
-router.post('/cancel/:traidId',cancelPaymentControler);
+router.post('/cancel/:traidId/:appStatus',cancelPaymentControler);
 
 // Get a list of all payments
 router.get('/get/all', isAdminUserMiddleware,isAdminMiddleware('admin'), listPaymentsController);
