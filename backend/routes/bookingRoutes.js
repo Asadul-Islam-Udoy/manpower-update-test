@@ -55,5 +55,5 @@ router.get('/get/booking/paymentid/:payid',isAdminUserMiddleware,isAdminMiddlewa
 router.delete('/delete/booking/paymentid/:payid',isAdminUserMiddleware,isAdminMiddleware('admin'),deleteBookingByPaymentId);
 
 ///delete client personal bookings
-router.delete('/delete/user/personal/booking',isAdminUserMiddleware,deleteUserPersonalBooking);
+router.delete('/delete/user/personal/booking/:id',isAdminUserMiddleware,deleteUserPersonalBooking);
 module.exports = router;
