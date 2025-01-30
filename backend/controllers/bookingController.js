@@ -365,3 +365,25 @@ exports.deleteUserPersonalBooking = async (req, res) => {
     });
   }
 };
+
+
+exports.deleteUserPersonalBooking = async (req, res) => {
+  try {
+    const booking = await Booking.findByIdAndDelete(req.params.id);
+    if (!booking) {
+      return res.status(400).json({
+        flag: false,
+        message: "booking delete fails",
+      });
+    }
+    res.status(200).json({
+      flag: true,
+      message: "booking delete successfully!",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      flag: false,
+      message: error.message,
+    });
+  }
+};
