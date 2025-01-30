@@ -105,16 +105,18 @@ exports.getBookingByWorkerId = async (req, res) => {
     const bookings = await Booking.find({}).populate(
       "user workers.user services services.service reviews.user paymentid"
     );
-    const workerBookingList = []
+    const workerBookingList = [];
     if (bookings.length > 0) {
-      bookings.forEach(booking => {
-         if(booking.workers.length > 0){
-              const find_worker = booking.workers.find((i)=>i.user._id === req.params.userid);
-              if(find_worker){
-                workerBookingList.push(booking) 
-              }
-         }
-     });
+      bookings.forEach((booking) => {
+        if (booking.workers.length > 0) {
+          const find_worker = booking.workers.find(
+            (i) => i.user._id === req.params.userid
+          );
+          if (find_worker) {
+            workerBookingList.push(booking);
+          }
+        }
+      });
     }
     res.status(201).json({
       flag: true,
@@ -147,7 +149,7 @@ exports.updateBookingPaymentStatus = async (req, res) => {
         runValidators: true,
       }
     );
-    if(paymentStatus == 'Completed'){
+    if (paymentStatus == "Completed") {
       await Booking.findByIdAndUpdate(
         req.params.id,
         { end_date: Date.now() },
@@ -202,7 +204,9 @@ exports.updateBookingPaymentStatus = async (req, res) => {
 // get a booking payment status
 exports.getBookingPaymentStatus = async (req, res) => {
   try {
-    const bookings = await Booking.find({is_payment_status:req.params.status}).populate(
+    const bookings = await Booking.find({
+      is_payment_status: req.params.status,
+    }).populate(
       "user workers.user services services.service reviews.user paymentid"
     );
     res.status(201).json({
@@ -217,7 +221,6 @@ exports.getBookingPaymentStatus = async (req, res) => {
     });
   }
 };
-
 
 //update booking worker
 exports.updateBookingWorker = async (req, res) => {
@@ -285,11 +288,12 @@ exports.deleteBooking = async (req, res) => {
   }
 };
 
-
 ///get booking payment id
-exports.getBookingByPaymentId = async(req,res)=>{
-   try{
-    const booking = await Booking.findOne({paymentid:req.params.payid}).populate(
+exports.getBookingByPaymentId = async (req, res) => {
+  try {
+    const booking = await Booking.findOne({
+      paymentid: req.params.payid,
+    }).populate(
       "user workers.user services services.service reviews.user paymentid"
     );
     if (!booking) {
@@ -303,39 +307,61 @@ exports.getBookingByPaymentId = async(req,res)=>{
       message: "booking getting successfully!",
       booking,
     });
-   }
-   catch (error) {
+  } catch (error) {
     return res.status(400).json({
       flag: false,
       message: error.message,
     });
   }
-}
-
+};
 
 ///get booking payment id
-exports.deleteBookingByPaymentId = async(req,res)=>{
-  try{
-   const bookingpayment = await PaymentModel.findByIdAndDelete(req.params.payid);
-   if (!bookingpayment) {
-     return res.status(400).json({
-       flag: false,
-       message: "booking is not found!",
-     });
-   }
-   const booking = await Booking.findOne({paymentid:req.params.payid});
-   if (booking) {
-      await Booking.findByIdAndDelete(booking._id);    
-   }
-  return res.status(201).json({
-     flag: true,
-     message: "delete successfully!",
-   });
+exports.deleteBookingByPaymentId = async (req, res) => {
+  try {
+    const bookingpayment = await PaymentModel.findByIdAndDelete(
+      req.params.payid
+    );
+    if (!bookingpayment) {
+      return res.status(400).json({
+        flag: false,
+        message: "booking is not found!",
+      });
+    }
+    const booking = await Booking.findOne({ paymentid: req.params.payid });
+    if (booking) {
+      await Booking.findByIdAndDelete(booking._id);
+    }
+    return res.status(201).json({
+      flag: true,
+      message: "delete successfully!",
+    });
+  } catch (error) {
+    return res.status(400).json({
+      flag: false,
+      message: error.message,
+    });
   }
-  catch (error) {
-   return res.status(400).json({
-     flag: false,
-     message: error.message,
-   });
- }
-}
+};
+
+///delete user personal booking
+exports.deleteUserPersonalBooking = async (req, res) => {
+  try {
+    const booking = await Booking.findOne({ user: req.user._id });
+    if (!booking) {
+      return res.status(400).json({
+        flag: false,
+        message: "booking is not found",
+      });
+    }
+    await Booking.findByIdAndDelete(booking._id);
+    res.status(200).json({
+      flag: true,
+      message: "booking delete successfully!",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      flag: false,
+      message: error.message,
+    });
+  }
+};

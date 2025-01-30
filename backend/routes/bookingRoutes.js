@@ -12,8 +12,8 @@ const {
     listNewBookings,
     getBookingByPaymentId,
     deleteBookingByPaymentId,
-    getBookingPaymentStatus
-
+    getBookingPaymentStatus,
+    deleteUserPersonalBooking
   } = require("../controllers/bookingController.js");
 
 
@@ -54,4 +54,6 @@ router.get('/get/booking/paymentid/:payid',isAdminUserMiddleware,isAdminMiddlewa
 ///delete booking by payment id
 router.delete('/delete/booking/paymentid/:payid',isAdminUserMiddleware,isAdminMiddleware('admin'),deleteBookingByPaymentId);
 
+///delete client personal bookings
+router.delete('/delete/user/personal/booking',isAdminUserMiddleware,deleteUserPersonalBooking);
 module.exports = router;
