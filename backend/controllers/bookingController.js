@@ -369,6 +369,14 @@ exports.deleteUserPersonalBooking = async (req, res) => {
 
 exports.deleteUserPersonalBooking = async (req, res) => {
   try {
+    const booking_status = await Booking.findById(req.params.id);
+    
+    if(booking_status.is_payment_status == 'Confirmed'){
+      return res.status(400).json({
+        flag: false,
+        message: "Your booking status confirmed you don't delete it!",
+      });
+    }
     const booking = await Booking.findByIdAndDelete(req.params.id);
     if (!booking) {
       return res.status(400).json({
