@@ -2,39 +2,39 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <div className="z-20 mt-10 bg-slate-800 md:mt-0 ">
-      <footer class="bg-[#40b980] text-black">
+    <div className="z-20 mt-10 md:mt-0 " >
+      <footer class=" text-white" style={{ background: 'linear-gradient(to right, #1f541e 5%, #523a0c, #a42e19)' }}>
         <div class="container mx-auto max-w-screen-xl p-6">
           <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div class="md:col-span-1">
-              <h5 class="text-lg font-bold mb-2">Our Story</h5>
+              <h5 class="text-lg font-bold mb-2 text-black">Our Story</h5>
               <p class="text-justify">
                 ManPower.com is an e-commerce corporation based in Dhaka,
                 Bangladesh that facilitates consumer-to-consumer and
                 business-to-consumer sales through its website. We connect
                 millions of buyers and sellers across the country, empowering
                 people and creating economic opportunity for all.
-                <a href="about" class="text-black underline px-2">
+                <a href="about" class="text-white underline px-2">
                   Read More
                 </a>
               </p>
             </div>
 
             <div>
-              <h5 class="text-lg font-bold mb-2">About ManPower.com</h5>
+              <h5 class="text-lg font-bold mb-2 text-black">About ManPower.com</h5>
               <ul>
                 <li>
-                  <a href="about" class="block text-black">
+                  <a href="about" class="block text-white">
                     Our Story
                   </a>
                 </li>
                 <li>
-                  <a href="feedback" class="block text-black">
+                  <a href="feedback" class="block text-white">
                     Feedback
                   </a>
                 </li>
                 <li>
-                  <a href="contact-us" class="block text-black">
+                  <a href="contact-us" class="block text-white">
                     Contact Us
                   </a>
                 </li>
@@ -42,30 +42,30 @@ const Footer = () => {
             </div>
 
             <div>
-              <h5 class="text-lg font-bold mb-2">Help &amp; Support</h5>
+              <h5 class="text-lg font-bold mb-2 text-black">Help &amp; Support</h5>
               <ul>
                 <li>
-                  <a href="help-center" class="block text-black">
+                  <a href="help-center" class="block text-white">
                     Help Center
                   </a>
                 </li>
                 <li>
-                  <a href="terms" class="block text-black">
+                  <a href="terms" class="block text-white">
                     Terms &amp; Conditions
                   </a>
                 </li>
                 <li>
-                  <a href="privacy" class="block text-black">
+                  <a href="privacy" class="block text-white">
                     Privacy Statement
                   </a>
                 </li>
                 <li>
-                  <a href="#" class="block text-black">
+                  <a href="#" class="text-white">
                     Payment Partners
                   </a>
                 </li>
                 <li>
-                  <a href="how-to-return-a-product" class="block text-black">
+                  <a href="how-to-return-a-product" class="text-white">
                     How to return a product
                   </a>
                 </li>
@@ -73,32 +73,32 @@ const Footer = () => {
             </div>
 
             <div>
-              <h5 class="text-lg font-bold mb-2">
+              <h5 class="text-lg font-bold mb-2 text-black">
                 Earn Money with ManPower.com
               </h5>
               <ul>
                 <li>
-                  <a href="become-business-partner" class="block text-black">
+                  <a href="become-business-partner" class="block text-white">
                     Become a Business Partner with Us
                   </a>
                 </li>
                 <li>
-                  <a href="become-digital-marketer" class="block text-black">
+                  <a href="become-digital-marketer" class="block text-white">
                     Become a Digital Marketer with Us
                   </a>
                 </li>
                 <li>
-                  <a href="become-sales-consultant" class="block text-black">
+                  <a href="become-sales-consultant" class="block text-white">
                     Become a Sales Consultant with Us
                   </a>
                 </li>
                 <li>
-                  <a href="become-service-provider" class="block text-black">
+                  <a href="become-service-provider" class="block text-white">
                     Become a Service Provider with Us
                   </a>
                 </li>
                 <li>
-                  <a href="promote-your-ad" class="block text-black">
+                  <a href="promote-your-ad" class="block text-white">
                     Promote Your Ad
                   </a>
                 </li>
@@ -108,7 +108,7 @@ const Footer = () => {
 
           <div class="mt-2 grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
-              <h5 class="text-lg font-bold mb-2">Corporate Office</h5>
+              <h5 class="text-lg font-bold mb-2 text-black">Corporate Office</h5>
               <div>
                 <p> Shah Ali Tower (4th &amp; 6th Floor)</p>
                 <p>33, Kawran Bazar,</p>
@@ -119,15 +119,15 @@ const Footer = () => {
             </div>
 
             <div>
-              <h5 class="text-lg font-bold mb-2">News</h5>
+              <h5 class="text-lg font-bold mb-2 text-black">News</h5>
               <ul>
                 <li>
-                  <a href="press" class="block text-black">
+                  <a href="press" class="block text-white">
                     Press
                   </a>
                 </li>
                 <li>
-                  <a href="blog" class="block text-black">
+                  <a href="blog" class="block text-white">
                     Blog
                   </a>
                 </li>
@@ -135,7 +135,7 @@ const Footer = () => {
             </div>
 
             <div>
-              <h5 class="text-lg font-bold mb-2">Follow Us On</h5>
+              <h5 class="text-lg font-bold mb-2 text-black">Follow Us On</h5>
 
               <ul class="flex space-x-4">
                 <li>
@@ -225,7 +225,7 @@ const Footer = () => {
           </div>
         </div>
 
-        <div class="bg-gray-900 text-white py-2">
+        <div class="bg-[#133e0c] text-white py-2">
           <div class="container mx-auto text-center">
             <p class="mb-0">
               &copy; ManPower.com 2014-2025 | Powered By : Radisson Digital

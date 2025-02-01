@@ -47,6 +47,9 @@ const Header = () => {
     navigate("/");
   };
 
+
+ 
+
   return (
     <div>
       <nav className="fixed top-0 left-0 right-0 z-50 ">
@@ -96,36 +99,13 @@ const Header = () => {
                   </div>
                 )}
               </>
-              {/* <button
-                onClick={toggleSidebar}
-                type="button"
-                className="inline-flex items-center justify-center w-10 h-10 p-2 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-                aria-controls="navbar-cta"
-                aria-expanded={isSidebarOpen ? "true" : "false"}
-              >
-                <span className="sr-only">Open main menu</span>
-                <svg
-                  className="w-5 h-5"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 17 14"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M1 1h15M1 7h15M1 13h15"
-                  />
-                </svg>
-              </button> */}
+            
             </div>
               
           </div>
         </div>
 
-        <div className="w-full py-1 bg-[#40b980]">
+        <div className="w-full py-1 pt-2" style={{ background: 'linear-gradient(to right, #1f541e 5%, #523a0c, #bb2a1d)', borderBottom:' 6px solid #463014'}}>
           <div className="flex flex-wrap items-center justify-between w-full max-w-screen-xl p-3 !pt-0 mx-auto md:p-4 sm:pt-0 md:w-full mt-100 md:pb-0">
             
             <div className="flex space-x-3 md:order-2 md:space-x-0 rtl:space-x-reverse">
@@ -135,11 +115,11 @@ const Header = () => {
                     {!isSidebarOpen && (
                       <Link
                         to="/login"
-                        class="rounded-full px-3.5 overflow-hidden relative group cursor-pointer font-medium text-white"
+                        class="rounded-full uppercase px-3.5 overflow-hidden relative group cursor-pointer"
                       >
                         <span class="absolute transition-all duration-300 origin-center rotate-45 -translate-x-20 group-hover:h-64 group-hover:-translate-y-32 ease"></span>
-                        <span class="relative transition duration-300 tracking-wide group-hover:text-white ease font-bold text-lg">
-                          Sign In
+                        <span class="relative transition duration-300 tracking-wide group-hover:text-white ease">
+                        Sign In / Register
                         </span>
                       </Link>
                     )}
@@ -180,14 +160,10 @@ const Header = () => {
               className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
               id="navbar-cta"
             >
-              <ul className="flex flex-col p-4 mt-4 text-lg font-bold rounded-lg md:p-0 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 dark:bg-transparent md:dark:bg-transparent dark:border-gray-700">
-                <li className="font-serif tracking-wide duration-75 border-gray-300 ">
+              <ul className="flex flex-col p-4 mt-4 uppercase rounded-lg md:p-0 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 dark:bg-transparent md:dark:bg-transparent dark:border-gray-700">
+                <li className="tracking-wide duration-75 border-gray-300 ">
                   <NavLink
-                    className={({ isActive }) =>
-                      isActive
-                        ? "block py-2 px-3 md:p-0 text-white font-extrabold"
-                        : "block py-2 px-3 md:p-0 text-black"
-                    }
+                    
                     // href="#"
                     to={"/"}
                     aria-current="page"
@@ -195,44 +171,32 @@ const Header = () => {
                     Home
                   </NavLink>
                 </li>
-                <li className="font-serif tracking-wide duration-75 border-gray-300 ">
+                <li className="tracking-wide duration-75 border-gray-300 ">
                   <NavLink
                     to={"/about"}
-                    className={({ isActive }) =>
-                      isActive
-                        ? "block py-2 px-3 md:p-0 text-white font-extrabold"
-                        : "block py-2 px-3 md:p-0 text-black"
-                    }
+                    
                   >
                     About
                   </NavLink>
                 </li>
-                <li className="font-serif tracking-wide duration-75 border-gray-300 ">
+                <li className="tracking-wide duration-75 border-gray-300 ">
                   <NavLink
                     to={"/all/services"}
-                    className={({ isActive }) =>
-                      isActive
-                        ? "block py-2 px-3 md:p-0 text-white font-extrabold"
-                        : "block py-2 px-3 md:p-0 text-black"
-                    }
+                    
                   >
                     Service
                   </NavLink>
                 </li>
-                <li className="font-serif tracking-wide duration-75 border-gray-300 ">
+                <li className="tracking-wide duration-75 border-gray-300 ">
                   <NavLink
                     to={"/contract"}
                     href="#"
-                    className={({ isActive }) =>
-                      isActive
-                        ? "block py-2 px-3 md:p-0 text-white font-extrabold"
-                        : "block py-2 px-3 md:p-0 text-black"
-                    }
+                    
                   >
                     Contact
                   </NavLink>
                 </li>
-                <li className="font-serif tracking-wide duration-75 border-gray-300 ">
+                <li className="tracking-wide duration-75 border-gray-300 ">
                   <CategoryDropdown
                     CategoryservicesList={CategoryservicesList}
                   />

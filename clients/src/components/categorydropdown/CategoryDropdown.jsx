@@ -18,14 +18,9 @@ const CategoryDropdown = ({ CategoryservicesList }) => {
       <motion.div animate={open ? "open" : "closed"} className="relative">
         <button
           onClick={() => setOpen((pv) => !pv)}
-          className="flex items-center gap-2 font-normal border-sky-300"
+          className="flex items-center gap-2 uppercase "
         >
-          <span
-            className={`text-lg font-bold md:p-0  ${
-              isActive
-                ? "block py-2 px-3 md:p-0 text-[#25a267] "
-                : "block py-2 px-3 md:p-0 text-black "
-            }`}
+          <span 
           >
             All Categories
           </span>
@@ -37,12 +32,12 @@ const CategoryDropdown = ({ CategoryservicesList }) => {
         <motion.ul
           initial={wrapperVariants.closed}
           variants={wrapperVariants}
-          style={{ originY: "top", translateX: "-50%" }}
-          className="flex flex-col gap-2 text-[3px]  rounded-sm bg-white border shadow-md absolute z-30 top-[120%] left-[50%] w-auto overflow-hidden"
+          style={{ originY: "top", translateX: "-50%", background: 'linear-gradient(to right, #1f541e 5%, #523a0c, #bb2a1d)' }} 
+          className="flex flex-col gap-2  rounded-sm text-white border shadow-md absolute z-30 top-[120%] left-[50%] w-auto overflow-hidden"
         >
           {CategoryservicesList?.map((i, index) => (
             <Link
-              className="text-[1px] font-serif"
+              className="text-white " 
               key={index}
               to={`/category/basic/services/${i._id}/${i.category_name}`}
             >
@@ -64,10 +59,10 @@ const Option = ({ text, handleOptionClick }) => {
     <motion.li
       variants={itemVariants}
       onClick={() => handleOptionClick(text)}
-      className="flex items-center w-full gap-2 px-3 py-1 text-lg font-medium transition-colors border-b rounded-full cursor-pointer whitespace-nowrap hover:bg-indigo-100 text-slate-700 hover:text-indigo-500"
+      className="flex items-center w-full gap-2 px-3 py-1 text-white transition-colors border-b rounded-full cursor-pointer whitespace-nowrap hover:bg-indigo-100 hover:text-indigo-500"
     >
       <motion.span variants={actionIconVariants}></motion.span>
-      <span>{text}</span>
+      <span >{text}</span>
     </motion.li>
   );
 };
