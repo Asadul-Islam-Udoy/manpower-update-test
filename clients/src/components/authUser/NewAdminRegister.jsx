@@ -8,7 +8,8 @@ import {
 } from "@mui/material";
 import "react-toastify/dist/ReactToastify.css";
 import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -37,10 +38,11 @@ function NewAdminRegister() {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
-  const [otp,setOtp] = useState('');
+  const [userRole, setUserRole] = useState("admin");
+  const [otp, setOtp] = useState("");
   const [showOtpFrom, setShowOtpFrom] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState("");
-  const { error, lodding, isRegister,isUserOtp } = useSelector(
+  const { error, lodding, isRegister, isUserOtp } = useSelector(
     (state) => state.registerState
   );
 
@@ -58,13 +60,14 @@ function NewAdminRegister() {
     myfrom.set("email", email);
     myfrom.set("phone", phone);
     myfrom.set("password", password);
+    myfrom.set("userRole", userRole);
     dispatch(AdminRegisterAction(myfrom));
   };
 
-  const handleSubmitOtp=(e)=>{
+  const handleSubmitOtp = (e) => {
     e.preventDefault();
     dispatch(registerOtpAction(otp));
-  }
+  };
 
   useEffect(() => {
     if (error) {
@@ -74,14 +77,22 @@ function NewAdminRegister() {
       toast.success("send otp new admin user email address!");
       setShowOtpFrom(true);
     }
-    if(isUserOtp){
-        toast.success('new admin user create successfully!');
-        setOpen(false);
+    if (isUserOtp) {
+      toast.success("new admin user create successfully!");
+      setOpen(false);
     }
 
     dispatch(getAllAdminListsAction());
     dispatch(refreshAuthAction());
-  }, [dispatch, error, isRegister, toast, navigate, open,setShowOtpFrom,isUserOtp]);
+  }, [
+    dispatch,
+    error,
+    isRegister,
+    toast,
+    navigate,
+    open,
+    isUserOtp,
+  ]);
   return (
     <>
       <Dialog
@@ -147,7 +158,7 @@ function NewAdminRegister() {
                     style={{ color: "red" }}
                     onChange={(e) => setOtp(e.target.value)}
                   />
-                 </Box>
+                </Box>
                 <Box display="flex" justifyContent="end" mt="20px">
                   {lodding ? (
                     <LodderFrom text="Creating" />
@@ -266,6 +277,21 @@ function NewAdminRegister() {
                     sx={{ gridColumn: "span 4" }}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                   />
+                  <Select
+                    fullWidth
+                    variant="filled"
+                    type="text"
+                    value={userRole}
+                    sx={{ gridColumn: "span 4" }}
+                    style={{ cursor: "pointer" }}
+                    required
+                    onChange={(e) => setUserRole(e.target.value)}
+                  >
+                    <option>Select Service Category</option>
+                    {['super-admin','admin']?.map((item) => (
+                      <MenuItem value={item}>{item}</MenuItem>
+                    ))}
+                  </Select>
                 </Box>
                 <Box display="flex" justifyContent="end" mt="20px">
                   {lodding ? (

@@ -14,6 +14,7 @@ const {
 } = require('../controllers/paymentAmmerPayController.js');
 const isAdminUserMiddleware = require('../middleware/AdminUserMiddleware.js');
 const isAdminMiddleware = require('../middleware/AdminMiddleware.js');
+const permissionMiddleware = require('../middleware/permissionMiddleware.js');
 const router = express.Router();
 
 // Create a new payment
@@ -26,13 +27,13 @@ router.post('/fail/:traidId/:appStatus',failPaymentControler);
 router.post('/cancel/:traidId/:appStatus',cancelPaymentControler);
 
 // Get a list of all payments
-router.get('/get/all', isAdminUserMiddleware,isAdminMiddleware('admin'), listPaymentsController);
+router.get('/get/all', isAdminUserMiddleware,permissionMiddleware('invoices-balances-lists'), listPaymentsController);
 
 //get payment status base
-router.get('/get/payment/status', isAdminUserMiddleware,isAdminMiddleware('admin'), statusPaymentsController);
+router.get('/get/payment/status', isAdminUserMiddleware,permissionMiddleware('invoices-balances-lists-status'), statusPaymentsController);
 
 //get payment method base
-router.get('/get/payment/method', isAdminUserMiddleware,isAdminMiddleware('admin'), methodPaymentsController);
+router.get('/get/payment/method', isAdminUserMiddleware,permissionMiddleware('invoices-balances-lists-method'), methodPaymentsController);
 
 // Get a single payment by ID
 router.get('/get/single/:id', isAdminUserMiddleware,getPaymentByIdController);
@@ -41,9 +42,9 @@ router.get('/get/single/:id', isAdminUserMiddleware,getPaymentByIdController);
 router.get('/get/payment_by_user/:id', isAdminUserMiddleware,getPaymentByUserController);
 
 // Update payment status a payment by ID
-router.put('/update/payment/status/:id', isAdminUserMiddleware,isAdminMiddleware('admin'),updatePaymentStatusController);
+router.put('/update/payment/status/:id', isAdminUserMiddleware,isAdminMiddleware('invoices-balances-update-payment-status'),updatePaymentStatusController);
 
 // Delete a payment by ID
-router.delete('/delete/:id', isAdminUserMiddleware,isAdminMiddleware('admin'),deletePaymentController);
+router.delete('/delete/:id', isAdminUserMiddleware,permissionMiddleware('invoices-balances-delete'),deletePaymentController);
 
 module.exports = router;

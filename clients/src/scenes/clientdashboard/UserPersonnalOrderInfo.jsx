@@ -213,7 +213,7 @@ const UserPersonalOrderInfo = () => {
               {personalSingleBooking?.services?.map((i) => (
                 <div className="flex items-center gap-1">
                   <IoCheckmarkDoneOutline />
-                  <li className="list-none mb-1 mt-1">{i.service.name}</li>
+                  <li className="list-none mb-1 mt-1">{i?.service?.name}</li>
                 </div>
               ))}
               </p>

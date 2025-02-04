@@ -17,6 +17,7 @@ const {
     getUpazilaByDistrictIdController
  } = require('../controllers/workerController');
 const { applyWorkerController, getApplyAllResumeController, getApplySingleResumeController, deleteResumeWorkerController, arupWorkerResumeController } = require('../controllers/workerResumeController');
+const permissionMiddleware = require('../middleware/permissionMiddleware');
 const router = express.Router();
 
 
@@ -46,7 +47,7 @@ const uploadresume = multer({ storage: storageresume });
 
 
 //update worker profile 
-router.put('/update/worker/profile/:workerid',isAdminUserMiddleware,isAdminMiddleware('admin'),updateWorkerProfile);
+router.put('/update/worker/profile/:workerid',isAdminUserMiddleware,permissionMiddleware('worker-update'),updateWorkerProfile);
 
 //update worker profile avatar 
 router.put('/update/avatar/worker/profile/:workerid',isAdminUserMiddleware,upload.single('avatar'),updateWorkerProfileAvatar);
@@ -67,25 +68,25 @@ router.get('/find/services/workers/:serviceId',findServiceToWorkersController);
 router.get('/find/workers/services/:profileId', findWorkersToServicesController);
 
 //get all division
-router.get('/get/all/divisions', isAdminUserMiddleware, isAdminMiddleware('admin'), getAllDivisionController);
+router.get('/get/all/divisions', isAdminUserMiddleware, permissionMiddleware('division-lists'), getAllDivisionController);
 
 //get all district by division id
-router.get('/get/all/districts/:id', isAdminUserMiddleware, isAdminMiddleware('admin'), getDistrictByDivisionIdController);
+router.get('/get/all/districts/:id', isAdminUserMiddleware, permissionMiddleware('district-lists'), getDistrictByDivisionIdController);
 
 //get all upazila by district id
-router.get('/get/all/upazilas/:id', isAdminUserMiddleware, isAdminMiddleware('admin'), getUpazilaByDistrictIdController);
+router.get('/get/all/upazilas/:id', isAdminUserMiddleware, permissionMiddleware('upazila-lists'), getUpazilaByDistrictIdController);
 
 ////apply worker
 router.post('/apply/worker', isAdminUserMiddleware,uploadresume.single('resume'),applyWorkerController);
 
 ///get all resume
-router.get('/get/all/resumes',isAdminUserMiddleware,isAdminMiddleware('admin'),getApplyAllResumeController);
+router.get('/get/all/resumes',isAdminUserMiddleware,permissionMiddleware('apply-worker-lists'),getApplyAllResumeController);
 
 ///get single resume
 router.get('/get/single/resume/:userid',isAdminUserMiddleware,getApplySingleResumeController);
 /// ruser resume arup
-router.put('/resume/arup/:userid',isAdminUserMiddleware,isAdminMiddleware('admin'),arupWorkerResumeController)
+router.put('/resume/arup/:userid',isAdminUserMiddleware,permissionMiddleware('apply-worker-aprup'),arupWorkerResumeController)
 ///get delete resume
-router.delete('/delete/resume/:userid',isAdminUserMiddleware,isAdminMiddleware('admin'),deleteResumeWorkerController);
+router.delete('/delete/resume/:userid',isAdminUserMiddleware,permissionMiddleware('apply-worker-delete'),deleteResumeWorkerController);
 
 module.exports = router;

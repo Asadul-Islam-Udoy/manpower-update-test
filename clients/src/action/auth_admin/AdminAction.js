@@ -44,7 +44,19 @@ import {
   GET_ALL_PERMISSION_LISTS_FAIL,
   CREATE_ADMIN_ROLE_REQUEST,
   CREATE_ADMIN_ROLE_SUCCESS,
-  CREATE_ADMIN_ROLE_FAIL
+  CREATE_ADMIN_ROLE_FAIL,
+  GET_ALL_ROLE_LISTS_REQUEST,
+  GET_ALL_ROLE_LISTS_SUCCESS,
+  GET_ALL_ROLE_LISTS_FAIL,
+  GIVEN_ROLE_PERMISSION_TO_ADMIN_REQUEST,
+  GIVEN_ROLE_PERMISSION_TO_ADMIN_SUCCESS,
+  GIVEN_ROLE_PERMISSION_TO_ADMIN_FAIL,
+  UPDATE_ADMIN_ROLE_REQUEST,
+  UPDATE_ADMIN_ROLE_SUCCESS,
+  UPDATE_ADMIN_ROLE_FAIL,
+  DELETE_ADMIN_ROLE_REQUEST,
+  DELETE_ADMIN_ROLE_SUCCESS,
+  DELETE_ADMIN_ROLE_FAIL
 } from "../../constances/AdminConstance";
 
 ///sign up action
@@ -469,3 +481,129 @@ export const updateAdminPasswordAction =
     }
   };
 
+  ///get all roles lists
+  export const getAllRoleListsAction =
+  () => async (dispatch, getState) => {
+    try {
+      const {
+        loginState: { userInfo },
+      } = getState();
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: userInfo?.token?.accesstoken,
+        },
+      };
+      dispatch({ type:GET_ALL_ROLE_LISTS_REQUEST });
+      const { data } = await axios.get(
+        Localhost + "/api/roles/permissions/all/roles",
+        config
+      );
+      if (data) {
+        dispatch({
+          type:GET_ALL_ROLE_LISTS_SUCCESS,
+          payload: data.roles,
+        });
+      }
+    } catch (error) {
+      dispatch({
+        type:GET_ALL_ROLE_LISTS_FAIL,
+        payload: error.response.data.message,
+      });
+    }
+  };
+
+   ///give role permission to admin
+   export const givenRolePermissionAction =
+   (id,roles) => async (dispatch, getState) => {
+     try {
+       const {
+         loginState: { userInfo },
+       } = getState();
+       const config = {
+         headers: {
+           "Content-Type": "application/json",
+           Authorization: userInfo?.token?.accesstoken,
+         },
+       };
+       dispatch({ type:GIVEN_ROLE_PERMISSION_TO_ADMIN_REQUEST });
+       const { data } = await axios.put(
+         Localhost + `/api/roles/permissions/given/admin/role/permission/${id}/`,{roles},
+         config
+       );
+       if (data) {
+         dispatch({
+           type:GIVEN_ROLE_PERMISSION_TO_ADMIN_SUCCESS,
+           payload: data.roles,
+         });
+       }
+     } catch (error) {
+       dispatch({
+         type:GIVEN_ROLE_PERMISSION_TO_ADMIN_FAIL,
+         payload: error.response.data.message,
+       });
+     }
+   };
+
+
+  ///update role
+  export const updateRoleAction =
+   (id,roleName,permissions) => async (dispatch, getState) => {
+     try {
+       const {
+         loginState: { userInfo },
+       } = getState();
+       const config = {
+         headers: {
+           "Content-Type": "application/json",
+           Authorization: userInfo?.token?.accesstoken,
+         },
+       };
+       dispatch({ type:UPDATE_ADMIN_ROLE_REQUEST });
+       const { data } = await axios.put(
+         Localhost + `/api/roles/permissions/update/role/${id}/`,{roleName,permissions},
+         config
+       );
+       if (data) {
+         dispatch({
+           type:UPDATE_ADMIN_ROLE_SUCCESS,
+           payload: data,
+         });
+       }
+     } catch (error) {
+       dispatch({
+         type:UPDATE_ADMIN_ROLE_FAIL,
+         payload: error.response.data.message,
+       });
+     }
+   };
+
+   ///delete role
+   export const deleteRoleAction =
+   (id) => async (dispatch, getState) => {
+     try {
+       const {
+         loginState: { userInfo },
+       } = getState();
+       const config = {
+         headers: {
+           "Content-Type": "application/json",
+           Authorization: userInfo?.token?.accesstoken,
+         },
+       };
+       dispatch({ type:DELETE_ADMIN_ROLE_REQUEST });
+       const { data } = await axios.delete(
+         Localhost + `/api/roles/permissions/delete/role/${id}/`,config);
+       if (data) {
+         dispatch({
+           type:DELETE_ADMIN_ROLE_SUCCESS,
+           payload: data,
+         });
+       }
+     } catch (error) {
+       dispatch({
+         type:DELETE_ADMIN_ROLE_FAIL,
+         payload: error.response.data.message,
+       });
+     }
+   };

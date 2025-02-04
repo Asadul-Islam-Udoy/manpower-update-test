@@ -16,7 +16,10 @@ import {
   USER_GIVEN_THE_REVIEWS_REFRESH,
   GET_SINGLE_BOOKING_BY_ID_SUCCESS,
   GET_SINGLE_BOOKING_BY_ID_REQUEST,
-  GET_SINGLE_BOOKING_BY_ID_FAIL
+  GET_SINGLE_BOOKING_BY_ID_FAIL,
+  DELETE_CLIENT_BOOKING_REQUEST,
+  DELETE_CLIENT_BOOKING_SUCCESS,
+  DELETE_CLIENT_BOOKING_FAIL
 } from "../../constances/UserBookingConstance";
 
 //get user booking action
@@ -181,7 +184,37 @@ export const getSingleBookingByIdAction = (id) => async (dispatch, getState) => 
 };
 
 
-
+  //delete client booking
+export const DeleteClientBookingAction =
+(id) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: DELETE_CLIENT_BOOKING_REQUEST });
+    const {
+      userLoginState: { clientInfo },
+    } = getState();
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: clientInfo?.token?.accesstoken,
+      },
+    };
+    const { data } = await axios.delete(
+      Localhost + `/api/bookings/delete/user/personal/booking/${id}`,
+      config
+    );
+    if (data) {
+      dispatch({
+        type: DELETE_CLIENT_BOOKING_SUCCESS,
+        payload: data,
+      });
+    }
+  } catch (error) {
+    dispatch({
+      type: DELETE_CLIENT_BOOKING_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
 
 ////review refresh
 export const userReviewRefreshController=()=>(dispatch)=>{

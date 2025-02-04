@@ -12,12 +12,16 @@ import { Localhost } from "../../action/host/HostConnection";
 import { getActiveBannersAction } from "../../action/auth_admin/BannerAction";
 import { useDispatch, useSelector } from "react-redux";
 import Lodder from "../../components/lodder/Lodder";
+import { Link } from "react-router-dom";
 
 function Home() {
   const [dataothers, setDataOthers] = useState([]);
   const [dataallservice, setDataAllService] = useState([]);
   const [loddingother, setLoadingOther] = useState(true);
   const [loddingallservice, setLoadingAllService] = useState(true);
+  const { CategoryservicesList } = useSelector(
+    (state) => state.serviceCategoryState
+  );
   const [error, setError] = useState(null);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -77,30 +81,43 @@ function Home() {
           <div>
             <Banner />
           </div>
-          
+
           <div className=" bg-blue-50 mt-28">
             <div className="max-w-screen-xl px-4 py-4 mx-auto">
               <ul class="statGrid clearfix">
-                <li>
-                  <div class="statItem">
-                    <a href="http://jomeen.com/" target="_blank">
-                      <div class="statInfo">
+                {CategoryservicesList?.map((item, index) => (
+                  <li>
+                    <div  className="statItem">
+                      <Link
+                        className="text-white "
+                        key={index}
+                        to={`/category/basic/services/${item._id}/${item.category_name}`}
+                      >
+                        <div  className="statInfo">
+                          <img
+                            src={
+                              Localhost +
+                              `/images/services_categories/${item?.frontImage}`
+                            }
+                            alt="jomeen"
+                          />
+                        </div>
+                      </Link>
+                      <div style={{boxShadow:`inset 0 0 0 15px ${item.color ? item.color:'green'}`}}  className="statThumb concern-1 ">
                         <img
-                          src="https://serviceshop.com.bd/assets/images/category-logo-4.png"
+                          src={
+                            Localhost +
+                            `/images/services_categories/${item?.backImage}`
+                          }
                           alt="jomeen"
+                          class="icon-size"
                         />
                       </div>
-                    </a>
-                    <div class="statThumb concern-1 jomeen">
-                      <img
-                        src="https://serviceshop.com.bd/assets/images/category-icon-4.png"
-                        alt="jomeen"
-                        class="icon-size"
-                      />
                     </div>
-                  </div>
-                </li>
-                <li>
+                  </li>
+                ))}
+
+                {/* <li>
                   <div class="statItem">
                     <a href="http://jobslinkbd.com/" target="_blank">
                       <div class="statInfo">
@@ -110,7 +127,7 @@ function Home() {
                         />
                       </div>
                     </a>
-                    <div class="statThumb concern-1 Jobs Link BD">
+                    <div class="statThumb concern-1 Jobs_Link_BD">
                       <img
                         src="https://serviceshop.com.bd/assets/images/category-icon-12.png"
                         alt="Jobs Link BD"
@@ -393,14 +410,12 @@ function Home() {
                       />
                     </div>
                   </div>
-                </li>
+                </li> */}
               </ul>
             </div>
           </div>
- 
-          <AppSection /> 
 
-          
+          <AppSection />
 
           {dataallservice?.length > 0 && (
             <AllService data={dataallservice} lodding={loddingallservice} />

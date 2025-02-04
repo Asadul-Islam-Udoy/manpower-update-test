@@ -141,6 +141,7 @@ function AppsCreateModal() {
                   variant="filled"
                   required
                   type="file"
+                  inputProps={{ accept: "image/*" }}
                   sx={{ gridColumn: "span 4" }}
                   style={{ color: "red" }}
                   onChange={(e) => setImage(e.target.files[0])}

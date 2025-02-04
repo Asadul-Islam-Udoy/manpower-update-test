@@ -14,11 +14,14 @@ import {
   USER_GIVEN_THE_REVIEWS_REFRESH,
   GET_SINGLE_BOOKING_BY_ID_SUCCESS,
   GET_SINGLE_BOOKING_BY_ID_REQUEST,
-  GET_SINGLE_BOOKING_BY_ID_FAIL
+  GET_SINGLE_BOOKING_BY_ID_FAIL,
+  DELETE_CLIENT_BOOKING_REQUEST,
+  DELETE_CLIENT_BOOKING_SUCCESS,
+  DELETE_CLIENT_BOOKING_FAIL,
 } from "../constances/UserBookingConstance";
 
 export const UserPersonalBookingReducers = (
-  state = { personalBooking: [] ,personalSingleBooking:{}},
+  state = { personalBooking: [], personalSingleBooking: {} },
   action
 ) => {
   switch (action.type) {
@@ -26,13 +29,15 @@ export const UserPersonalBookingReducers = (
     case USER_GIVEN_THE_REVIEWS_REQUEST:
     case USER_BOOKING_CALCEL_REQUEST:
     case USER_BOOKING_AGAIN_REQUEST:
-      case GET_SINGLE_BOOKING_BY_ID_REQUEST:
+    case GET_SINGLE_BOOKING_BY_ID_REQUEST:
+    case DELETE_CLIENT_BOOKING_REQUEST:
       return {
         ...state,
         lodding: true,
         isReviewCreate: false,
         isBookingCancel: false,
         isBookingAgain: false,
+        isClientBookingDelete: false,
       };
     case GET_USER_PERSONAL_BOOKING_SUCCESS:
       return {
@@ -63,19 +68,27 @@ export const UserPersonalBookingReducers = (
       return {
         ...state,
         lodding: false,
-        personalSingleBooking: action.payload
+        personalSingleBooking: action.payload,
+      };
+    case DELETE_CLIENT_BOOKING_SUCCESS:
+      return {
+        ...state,
+        lodding: false,
+        isClientBookingDelete: true,
       };
     case GET_USER_PERSONAL_BOOKING_FAIL:
     case USER_GIVEN_THE_REVIEWS_FAIL:
     case USER_BOOKING_CALCEL_FAIL:
     case USER_BOOKING_AGAIN_FAIL:
-      case GET_SINGLE_BOOKING_BY_ID_FAIL:
+    case GET_SINGLE_BOOKING_BY_ID_FAIL:
+    case DELETE_CLIENT_BOOKING_FAIL:
       return {
         ...state,
         lodding: false,
         isReviewCreate: false,
         isBookingCancel: false,
         isBookingAgain: false,
+        isClientBookingDelete: false,
         error: action.payload,
       };
     case USER_GIVEN_THE_REVIEWS_REFRESH:
@@ -86,6 +99,7 @@ export const UserPersonalBookingReducers = (
         isReviewCreate: false,
         isBookingCancel: false,
         isBookingAgain: false,
+        isClientBookingDelete: false,
       };
     default:
       return state;

@@ -7,10 +7,12 @@ import { Box, Button } from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import Header from "../../components/dashboard/Header";
 import NewAdminRegister from "../../components/authUser/NewAdminRegister";
-import PermissionCreateModal from "../../components/modal/PermissionCreateModal";
+import PermissionCreateModal from "../../components/modal/RolePermissionCreateModal";
 import { getAllAdminListsAction } from "../../action/auth_admin/AdminAction";
 import { useDispatch, useSelector } from "react-redux";
 import AdminDeleteModal from "../../components/modal/AdminDeleteModal";
+import AdminRoleGivenModal from "../../components/modal/AdminRoleGivenModal";
+import { Link } from "react-router-dom";
 function Permission() {
   const theme = useTheme();
   const dispatch = useDispatch();
@@ -22,9 +24,12 @@ function Permission() {
   const [adminName, setAdminName] = useState("");
   const [isShowCreateUser, setIsShowCreateUser] = useState(false);
   const [isShowRolePermission, setShowRolePermission] = useState(false);
+  const [isShowAdminRolePermission, setShowAdminRolePermission] =
+    useState(false);
   const { error, lodding, allAdminLists } = useSelector(
     (state) => state.registerState
   );
+  const { userInfo } = useSelector((state) => state.loginState);
   useEffect(() => {
     dispatch(getAllAdminListsAction());
   }, [dispatch]);
@@ -48,16 +53,10 @@ function Permission() {
       flex: 2,
     },
     {
-      field: "role",
+      field: "roles",
       headerName: "User Roles",
       flex: 2,
     },
-    {
-      field: "Permisstion",
-      headerName: "User Permissions",
-      flex: 2,
-    },
-
     {
       field: "action",
       headerName: "Action",
@@ -65,23 +64,33 @@ function Permission() {
       renderCell: (params) => {
         return (
           <>
-            <button
-              title="admin permission"
-              className="bg-blue-600 italic  h-12 mt-[0.4px] text-center font-bold rounded-sm py-[0] px-6"
-            >
-              Permission
-            </button>
-            <button
-              onClick={() => [
-                setAdminId(params.row.id),
-                setAdminName(params.row.name),
-                setIsShowDelete((pre) => !pre),
-              ]}
-              title="delete admin"
-              className="text-center ml-2 italic  font-bold h-12 mt-[0.4px] rounded-sm py-[0] px-10 bg-red-600"
-            >
-              Delete
-            </button>
+            {(userInfo?.user?.permissions?.includes("admin-give-permission") ||
+              userInfo?.user?.userType == "super-admin") && (
+              <button
+                onClick={() => [
+                  setAdminId(params.row.id),
+                  setShowAdminRolePermission((pre) => !pre),
+                ]}
+                title="admin permission"
+                className="bg-blue-600 italic  h-12 mt-[0.4px] text-center font-bold rounded-sm py-[0] px-6"
+              >
+                Permission
+              </button>
+            )}
+            {(userInfo?.user?.permissions?.includes("admin-delete") ||
+              userInfo?.user?.userType == "super-admin") && (
+              <button
+                onClick={() => [
+                  setAdminId(params.row.id),
+                  setAdminName(params.row.name),
+                  setIsShowDelete((pre) => !pre),
+                ]}
+                title="delete admin"
+                className="text-center ml-2 italic  font-bold h-12 mt-[0.4px] rounded-sm py-[0] px-10 bg-red-600"
+              >
+                Delete
+              </button>
+            )}
           </>
         );
       },
@@ -98,6 +107,7 @@ function Permission() {
         name: item.name,
         email: item.email,
         phone: item.phone,
+        roles: item?.roles?.map((item, index) => item.name),
       });
     });
   }
@@ -117,6 +127,9 @@ function Permission() {
           {isShowDelete && (
             <AdminDeleteModal adminId={adminId} name={adminName} />
           )}
+          {isShowAdminRolePermission && (
+            <AdminRoleGivenModal adminId={adminId} />
+          )}
           <Topbar setIsSidebar={setIsSidebar} />
           {/* worker delete modal */}
           <Box
@@ -134,24 +147,51 @@ function Permission() {
                   onClick={() => setShowRolePermission((pre) => !pre)}
                   style={{ color: "white", width: "100%" }}
                 >
-                  <Button className="!py-2 !px-5 !font-bold !text-white !bg-blue-500 !capitalize">
-                    Create User Role
-                  </Button>
+                  {(userInfo?.user?.permissions?.includes(
+                    "admin-role-create"
+                  ) ||
+                    userInfo?.user?.userType == "super-admin") && (
+                    <Button className="!py-2 !px-5 !font-bold !text-white !bg-blue-500 !capitalize">
+                      Create User Role
+                    </Button>
+                  )}
                 </div>
+              </div>
+              <div className="ml-24">
+                <Link to="/dashboard/permissions/role/update">
+                  <div
+                    onClick={() => setShowRolePermission((pre) => !pre)}
+                    style={{ color: "white", width: "100%" }}
+                  >
+                    {(userInfo?.user?.permissions?.includes(
+                      "admin-role-lists"
+                    ) ||
+                      userInfo?.user?.userType == "super-admin") && (
+                      <Button className="!py-2 !px-12 !font-bold !text-white !bg-orange-700 !capitalize">
+                        Role Lists
+                      </Button>
+                    )}
+                  </div>
+                </Link>
               </div>
               {/* worker district input */}
             </div>
             <div className="flex justify-between p-1 pb-0 justify-items-center">
-              <Header title="Permission" />
+              <Header title="Permissions" />
 
               <div>
                 <div
                   onClick={() => setIsShowCreateUser((pre) => !pre)}
                   style={{ color: "white", width: "100%" }}
                 >
-                  <Button className="!py-2 !px-5 !font-bold !text-white !bg-yellow-500 !capitalize">
-                    Create New Admin
-                  </Button>
+                  {(userInfo?.user?.permissions?.includes(
+                    "admin-new-user-create"
+                  ) ||
+                    userInfo?.user?.userType == "super-admin") && (
+                    <Button className="!py-2 !px-5 !font-bold !text-white !bg-yellow-500 !capitalize">
+                      Create New Admin
+                    </Button>
+                  )}
                 </div>
               </div>
             </div>

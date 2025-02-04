@@ -174,6 +174,7 @@ function BannerUpdateModal({ id }) {
                 fullWidth
                 variant="filled"
                 type="file"
+                inputProps={{ accept: "image/*" }}
                 sx={{ gridColumn: "span 4" }}
                 style={{ color: "red" }}
                 onChange={imageHanlers}

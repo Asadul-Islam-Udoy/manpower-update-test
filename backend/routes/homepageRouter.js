@@ -5,6 +5,7 @@ const shoriid = require('shortid')
 const path = require('path');
 const isAdminMiddleware = require('../middleware/AdminMiddleware');
 const isAdminUserMiddleware = require('../middleware/AdminUserMiddleware');
+const permissionMiddleware = require('../middleware/permissionMiddleware');
 const router = express.Router();
 
 
@@ -32,9 +33,9 @@ const storageapps = multer.diskStorage({
   const uploadvideos = multer({ storage: storagevideos });
   
 
-router.post('/create/apps',isAdminUserMiddleware,isAdminMiddleware('admin'),uploadapps.single('image'),createAppsController);
+router.post('/create/apps',isAdminUserMiddleware,permissionMiddleware('home-pages-apps-imges-create'),uploadapps.single('image'),createAppsController);
 
-router.post('/create/videos',isAdminUserMiddleware,isAdminMiddleware('admin'),uploadvideos.single('video'),createVideosController);
+router.post('/create/videos',isAdminUserMiddleware,permissionMiddleware('home-pages-video-update'),uploadvideos.single('video'),createVideosController);
 
 router.get('/get/apps',getAppsController);
 

@@ -8,10 +8,16 @@ const serviceCategorySchema = new mongoose.Schema({
         type:String,
         required:true
     },
-    image:{
+    frontImage:{
         type:String,
     },
+    backImage:{
+        type:String
+    },
     description:{
+        type:String
+    },
+    color:{
         type:String
     }
 },{timestamps:true});

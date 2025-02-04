@@ -12,11 +12,24 @@ const PermissionseederData = [
   {
     name: "admin-role-lists"
   },
-  /// end roles
   {
-    name: "admin-permission-lists",
+    name: "admin-give-permission"
   },
-  /// end permission
+  {
+    name: "admin-permission-lists"
+  },
+
+    /// end roles and permission
+  {
+    name: "division-lists"
+  },
+  {
+    name: "district-lists"
+  },
+  {
+    name: "upazila-lists"
+  },
+  /// end addresss
   {
     name: "worker-info-get",
   },
@@ -51,8 +64,20 @@ const PermissionseederData = [
   {
     name: "client-lists",
   },
+  {
+    name: "client-nid-verified",
+  },
   /// end clients
-
+  {
+    name: "contract-lists",
+  },
+  {
+    name: "contract-message-lists",
+  },
+  {
+    name: "contract-message-delete",
+  },
+  /// end contracts 
   {
     name: "service-discount-edit",
   },
@@ -84,10 +109,16 @@ const PermissionseederData = [
   },
   ///end service categories
   {
-    name: "notification-info-get",
+    name: "client-notification-info-get",
   },
   {
-    name: "notification-lists",
+    name: "client-notification-lists",
+  },
+  {
+    name: "client-notification-delete",
+  },
+  {
+    name: "client-notification-update",
   },
   ///end notifications
   {
@@ -95,6 +126,9 @@ const PermissionseederData = [
   },
   {
     name: "apply-worker-lists",
+  },
+  {
+    name: "apply-worker-delete",
   },
   ///end apply workers
   {
@@ -115,6 +149,9 @@ const PermissionseederData = [
   {
     name: "banner-image",
   },
+  {
+    name: "banner-info",
+  },
   ///end banner
   {
     name: "invoices-balances-info-get",
@@ -125,7 +162,23 @@ const PermissionseederData = [
   {
     name: "invoices-balances-delete",
   },
+  {
+    name: "invoices-balances-lists-status",
+  },
+  {
+    name: "invoices-balances-lists-method",
+  },
+  {
+    name: "invoices-balances-update-payment-status",
+  },
   ///end invoices-balances
+  {
+    name: "review-info",
+  },
+  {
+    name: "review-delete",
+  },
+  /// end review
   {
     name: "booking-info-get",
   },
@@ -141,7 +194,18 @@ const PermissionseederData = [
   {
     name: "booking-add-workers",
   },
-
+  {
+    name: "booking-update-payment-status",
+  },
+  {
+    name: "booking-payment-status-info",
+  },
+  {
+    name: "booking-by-payment-info",
+  },
+  {
+    name: "booking-payment-delete",
+  },
   /// end bookings
   {
     name: "home-pages-lists",
@@ -153,7 +217,9 @@ const PermissionseederData = [
     name: "home-pages-apps-imges-create",
   },
   ///end home-pages
-
+  {
+    name: "admin-lists",
+  },
   {
     name: "admin-profile-lists",
   },
@@ -166,6 +232,12 @@ const PermissionseederData = [
   {
     name: "admin-profile-password-edit",
   },
+  {
+    name: "admin-new-user-create",
+  },
+  {
+    name:"admin-delete",
+  }
 ];
 
 const seedPermissionData = async () => {
@@ -173,6 +245,7 @@ const seedPermissionData = async () => {
       const existingData = await Permission.find({});
       if (existingData.length === 0) {
         await Permission.insertMany(PermissionseederData);
+
         console.log("Permission Seeder data successfully!");
       } else {
         console.log("Permission Seeder data already exists, skipping seed.");

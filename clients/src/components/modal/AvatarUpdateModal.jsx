@@ -137,6 +137,7 @@ function AvatarUpdateModal({ id }) {
                 fullWidth
                 variant="filled"
                 type="file"
+                inputProps={{ accept: "image/*" }}
                 sx={{ gridColumn: "span 4" }}
                 style={{ color: "red" }}
                 onChange={(e) => setAvatar(e.target.files[0])}

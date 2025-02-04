@@ -37,15 +37,19 @@ function ServiceCategoryUpdateModal({ categoryId }) {
   const [open, setOpen] = useState(true);
 
   const isNonMobile = useMediaQuery("(min-width:600px)");
-  const { lodding, error, allCategoriesServices, isCategoryUpdate } = useSelector(
-    (state) => state.servicesCategoiesState
-  );
+  const { lodding, error, allCategoriesServices, isCategoryUpdate } =
+    useSelector((state) => state.servicesCategoiesState);
   const dispatch = useDispatch();
   const singleService = allCategoriesServices?.find(
     (i) => i._id === categoryId
   );
-  const [image, setImage] = useState("");
-  const [shwoImage, setShowImage] = useState(singleService?.image);
+  const [frontImage, setFrontImage] = useState("");
+  const [backImage, setBackImage] = useState("");
+  const [shwoFrontImage, setShowFrontImage] = useState(
+    singleService?.frontImage
+  );
+  const [shwoBackImage, setShowBackImage] = useState(singleService?.backImage);
+  const [color, setColor] = useState(singleService?.color);
   const [categoryName, setCategoryName] = useState(
     singleService?.category_name
   );
@@ -63,8 +67,12 @@ function ServiceCategoryUpdateModal({ categoryId }) {
     myFrom.set("category_name", categoryName);
     myFrom.set("description", description);
     myFrom.set("parentId", parentId);
-    if (image) {
-      myFrom.set("image", image);
+    myFrom.set("color", color);
+    if (frontImage) {
+      myFrom.set("frontImage", frontImage);
+    }
+    if (backImage) {
+      myFrom.set("backImage", backImage);
     }
     dispatch(updateServicesCategoriesAction(categoryId, myFrom));
   };
@@ -133,83 +141,141 @@ function ServiceCategoryUpdateModal({ categoryId }) {
           <form onSubmit={handleSubmit}>
             <Box
               display="grid"
-              gap="30px"
-              gridTemplateColumns="repeat(4, minmax(0, 1fr))"
+              gap="20px"
+              gridTemplateColumns="repeat(2, minmax(0, 1fr))"
               sx={{
                 "& > div": {
-                  gridColumn: isNonMobile ? undefined : "span 4",
+                  gridColumn: isNonMobile ? undefined : "span 2",
                 },
               }}
             >
-              <Typography sx={{ gridColumn: "span 4" }}>
-                Service Category Name
-              </Typography>
-              <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                sx={{ gridColumn: "span 4" }}
-                value={categoryName}
-                style={{ color: "red" }}
-                onChange={(e) => setCategoryName(e.target.value)}
-              />
-              <Typography>Description</Typography>
-              <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                value={description}
-                sx={{ gridColumn: "span 4" }}
-                onChange={(e) => setDescription(e.target.value)}
-              />
-              <Typography sx={{ gridColumn: "span 4" }}>
-                Select Parent Service
-              </Typography>
-              <Select
-                fullWidth
-                variant="filled"
-                type="text"
-                value={parentId}
-                sx={{ gridColumn: "span 4" }}
-                style={{ cursor: "pointer" }}
-                onChange={(e) => setParentId(e.target.value)}
-              >
-                <option>Select Service Category</option>
-                {allCategoriesServices?.map((item) => (
-                  <MenuItem value={item._id}>{item.category_name}</MenuItem>
-                ))}
-              </Select>
-              <Typography>Service Image</Typography>
-              <TextField
-                fullWidth
-                variant="filled"
-                type="file"
-                sx={{ gridColumn: "span 4" }}
-                onChange={(e) => setImage(e.target.files[0])}
-              />
-              {image ? (
-                <Typography>
-                  <Typography>New Image</Typography>
-                  <img
-                    style={{ height: "80px", width: "80px" }}
-                    src={image && URL.createObjectURL(image)}
-                  />
+              <div>
+                <Typography sx={{ gridColumn: "span 2" }}>
+                  Service Category Name
                 </Typography>
-              ) : (
-                <>
-                  {shwoImage && (
-                    <Typography>
-                      <Typography>Old image</Typography>
-                      <img
-                        style={{ height: "80px", width: "80px" }}
-                        src={
-                          Localhost + `/images/services_categories/${shwoImage}`
-                        }
-                      />
-                    </Typography>
-                  )}
-                </>
-              )}
+                <TextField
+                  fullWidth
+                  variant="filled"
+                  type="text"
+                  sx={{ gridColumn: "span 2" }}
+                  value={categoryName}
+                  style={{ color: "red" }}
+                  onChange={(e) => setCategoryName(e.target.value)}
+                />
+              </div>
+              <div>
+                <Typography>Description</Typography>
+                <TextField
+                  fullWidth
+                  variant="filled"
+                  type="text"
+                  value={description}
+                  sx={{ gridColumn: "span 2" }}
+                  onChange={(e) => setDescription(e.target.value)}
+                />
+              </div>
+              
+              <div>
+                <Typography sx={{ gridColumn: "span 2" }}>
+                  Select Parent Service Category
+                </Typography>
+                <Select
+                  fullWidth
+                  variant="filled"
+                  type="text"
+                  value={parentId}
+                  sx={{ gridColumn: "span 2" }}
+                  style={{ cursor: "pointer" }}
+                  onChange={(e) => setParentId(e.target.value)}
+                >
+                  <option>Select Service Category</option>
+                  {allCategoriesServices?.map((item) => (
+                    <MenuItem value={item._id}>{item.category_name}</MenuItem>
+                  ))}
+                </Select>
+              </div>
+              <div>
+                <Typography sx={{ gridColumn: "span 2" }}>Color</Typography>
+                <TextField
+                  fullWidth
+                  type="color"
+                  value={color}
+                  sx={{ gridColumn: "span 2" }}
+                  onChange={(e) => setColor(e.target.value)}
+                />
+              </div>
+              <div>
+                <Typography>Service Category Front Image</Typography>
+                <TextField
+                  fullWidth
+                  variant="filled"
+                  inputProps={{ accept: "image/*" }}
+                  type="file"
+                  sx={{ gridColumn: "span 4" }}
+                  onChange={(e) => setFrontImage(e.target.files[0])}
+                />
+                {frontImage ? (
+                  <Typography>
+                    <Typography>New Front Image</Typography>
+                    <img
+                      style={{ height: "80px", width: "80px" }}
+                      src={frontImage && URL.createObjectURL(frontImage)}
+                    />
+                  </Typography>
+                ) : (
+                  <>
+                    {shwoFrontImage && (
+                      <Typography>
+                        <Typography>Old Front Image</Typography>
+                        <img
+                          style={{ height: "80px", width: "80px" }}
+                          src={
+                            Localhost +
+                            `/images/services_categories/${shwoFrontImage}`
+                          }
+                        />
+                      </Typography>
+                    )}
+                  </>
+                )}
+              </div>
+
+              <div>
+                {/* backe image */}
+                <Typography>Service Category Back Image</Typography>
+                <TextField
+                  fullWidth
+                  variant="filled"
+                  type="file"
+                  inputProps={{ accept: "image/*" }}
+                  sx={{ gridColumn: "span 4" }}
+                  onChange={(e) => setBackImage(e.target.files[0])}
+                />
+                {backImage ? (
+                  <Typography>
+                    <Typography>New Back Image</Typography>
+                    <img
+                      style={{ height: "80px", width: "80px" }}
+                      src={backImage && URL.createObjectURL(backImage)}
+                    />
+                  </Typography>
+                ) : (
+                  <>
+                    {shwoBackImage && (
+                      <Typography>
+                        <Typography>Old Back Image</Typography>
+                        <img
+                          style={{ height: "80px", width: "80px" }}
+                          src={
+                            Localhost +
+                            `/images/services_categories/${shwoBackImage}`
+                          }
+                        />
+                      </Typography>
+                    )}
+                  </>
+                )}
+              </div>
             </Box>
             <Box display="flex" justifyContent="end" mt="20px">
               {lodding ? (

@@ -4,16 +4,16 @@ const fs = require("fs");
 //service category create
 exports.serviceCategoryCreate = async (req, res) => {
   try {
-    const { category_name, description, parentId } = req.body;
-    let image = "";
-    if (req.file) {
-      image = req.file.filename;
-    }
+    const { category_name, description, parentId,color } = req.body;
+    const frontImage = req.files['frontImage'] ? req.files['frontImage'][0] : '';
+    const backImage = req.files['backImage'] ? req.files['backImage'][0] : '';
     const category = await ServiceCategory.create({
       category_name,
-      image,
+      frontImage:frontImage?.filename,
+      backImage:backImage?.filename,
       parentId,
       description,
+      color
     });
     if (!category) {
       return res.status(400).json({
@@ -51,7 +51,10 @@ async function FilterCategories(services, parentId = null) {
         _id: i._id,
         category_name: i.category_name,
         description: i.description,
+        frontImage:i.frontImage,
+        backImage:i.backImage,
         parentId: i.parentId,
+        color:i.color,
         children: await FilterCategories(services, i._id),
       });
     }
@@ -63,6 +66,7 @@ async function FilterCategories(services, parentId = null) {
 exports.getAllServiceCategories = async (req, res) => {
   try {
     const categoriesList = await ServiceCategory.find().populate("parentId");
+
     if (!categoriesList) {
       return res.status(400).json({
         flag: false,
@@ -118,10 +122,13 @@ exports.getSingleServiceCategory = async (req, res) => {
 //service category update
 exports.serviceCategoryUpdate = async (req, res) => {
   try {
-    const { category_name, description, parentId } = req.body;
+    const { category_name, description, parentId , color} = req.body;
+    const frontImage = req.files['frontImage'] ? req.files['frontImage'][0] : '';
+    const backImage = req.files['backImage'] ? req.files['backImage'][0] : '';
+    const parentIdModified = parentId == "null" && null;
     const category = await ServiceCategory.findByIdAndUpdate(
       req.params.id,
-      { category_name, description, parentId },
+      { category_name, description, parentId:parentIdModified,color },
       { new: true }
     );
     if (!category) {
@@ -130,15 +137,15 @@ exports.serviceCategoryUpdate = async (req, res) => {
         message: "service category update fails!",
       });
     }
-    let image = "";
-    if (req.file) {
-      image = req.file.filename;
+    let imageF = "";
+    if (frontImage !== '') {
+      imageF = frontImage?.filename;
       imagepath = path.join(
         path.dirname(__dirname),
         "../backend/public/images/services_categories/"
       );
-      if (fs.existsSync(imagepath + category.image)) {
-        fs.unlink(imagepath + category.image, (err) => {
+      if (fs.existsSync(imagepath + category.frontImage)) {
+        fs.unlink(imagepath + category.frontImage, (err) => {
           if (err) {
             console.log(err);
           } else {
@@ -147,7 +154,27 @@ exports.serviceCategoryUpdate = async (req, res) => {
         });
       }
     }
-    category.image = image || category.image;
+
+    let imageB = ''
+    if (backImage !== '') {
+      imageB = backImage?.filename;
+      imagepath = path.join(
+        path.dirname(__dirname),
+        "../backend/public/images/services_categories/"
+      );
+      if (fs.existsSync(imagepath + category.backImage)) {
+        fs.unlink(imagepath + category.backImage, (err) => {
+          if (err) {
+            console.log(err);
+          } else {
+            console.log("delete successfully");
+          }
+        });
+      }
+    }
+
+    category.frontImage = imageF || category.frontImage;
+    category.backImage = imageB || category.backImage;
     category.save({ validateBeforeSave: false });
     const categories = await ServiceCategory.find({}).populate("parentId");
     res.status(200).json({

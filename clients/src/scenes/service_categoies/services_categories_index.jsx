@@ -65,6 +65,18 @@ function ServicesCategoiesIndex() {
       flex: 5,
     },
     {
+      field: "color",
+      headerName: "Color",
+      flex: 5,
+      renderCell: (params) => {
+        return(
+          <>
+          <p style={{backgroundColor:params.row.color}} className="h-5 w-5 rounded-full">color</p>
+          </>
+        )
+      }
+    },
+    {
       field: "parent_category",
       headerName: "Parent Category",
       flex: 5,
@@ -75,25 +87,55 @@ function ServicesCategoiesIndex() {
       flex: 5,
     },
     {
-      field: "image",
-      headerName: "Service Category Image",
+      field: "frontImage",
+      headerName: "Service Category Front Image",
       flex: 3,
       renderCell: (params) => {
         return (
           <>
             <div>
-              {params.row.image && (
+              {params.row.frontImage && (
                 <Link
                   to={
                     Localhost +
-                    `/images/services_categories/${params.row.image}`
+                    `/images/services_categories/${params.row.frontImage}`
                   }
                 >
                   <img
                     style={{ height: "50px", width: "30px" }}
                     src={
                       Localhost +
-                      `/images/services_categories/${params.row.image}`
+                      `/images/services_categories/${params.row.frontImage}`
+                    }
+                    alt="imgestt"
+                  />
+                </Link>
+              )}
+            </div>
+          </>
+        );
+      },
+    },
+    {
+      field: "bakeImage",
+      headerName: "Service Category BackImage Image",
+      flex: 3,
+      renderCell: (params) => {
+        return (
+          <>
+            <div>
+              {params.row?.backImage && (
+                <Link
+                  to={
+                    Localhost +
+                    `/images/services_categories/${params.row?.backImage}`
+                  }
+                >
+                  <img
+                    style={{ height: "50px", width: "30px" }}
+                    src={
+                      Localhost +
+                      `/images/services_categories/${params.row?.backImage}`
                     }
                     alt="imgestt"
                   />
@@ -172,9 +214,11 @@ function ServicesCategoiesIndex() {
       parent_category: allCategoriesServices?.find(
         (item) => item?._id == element?.parentId
       )?.category_name,
-      image: element.image,
+      frontImage: element.frontImage,
+      backImage:element.backImage,
       children_category: element.children?.map((i) => i.category_name),
       description: element.description,
+      color:element?.color
     });
   });
   return (

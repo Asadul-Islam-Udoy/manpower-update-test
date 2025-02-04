@@ -43,11 +43,28 @@ import {
   CREATE_ADMIN_ROLE_REQUEST,
   CREATE_ADMIN_ROLE_SUCCESS,
   CREATE_ADMIN_ROLE_FAIL,
+  GET_ALL_ROLE_LISTS_REQUEST,
+  GET_ALL_ROLE_LISTS_SUCCESS,
+  GET_ALL_ROLE_LISTS_FAIL,
+  GIVEN_ROLE_PERMISSION_TO_ADMIN_REQUEST,
+  GIVEN_ROLE_PERMISSION_TO_ADMIN_SUCCESS,
+  GIVEN_ROLE_PERMISSION_TO_ADMIN_FAIL,
+  UPDATE_ADMIN_ROLE_REQUEST,
+  UPDATE_ADMIN_ROLE_SUCCESS,
+  UPDATE_ADMIN_ROLE_FAIL,
+  DELETE_ADMIN_ROLE_REQUEST,
+  DELETE_ADMIN_ROLE_SUCCESS,
+  DELETE_ADMIN_ROLE_FAIL,
 } from "../constances/AdminConstance";
 
 // signup reducers
 export const registerReducers = (
-  state = { userRegisterInfo: {}, allAdminLists: [], allPermissionLists: [] },
+  state = {
+    userRegisterInfo: {},
+    allAdminLists: [],
+    allPermissionLists: [],
+    allRoleLists: [],
+  },
   action
 ) => {
   switch (action.type) {
@@ -57,13 +74,20 @@ export const registerReducers = (
     case GET_ALL_PERMISSION_LISTS_REQUEST:
     case CREATE_ADMIN_ROLE_REQUEST:
     case DELETE_ADMIN_REQUEST:
+    case GET_ALL_ROLE_LISTS_REQUEST:
+    case GIVEN_ROLE_PERMISSION_TO_ADMIN_REQUEST:
+    case UPDATE_ADMIN_ROLE_REQUEST:
+    case DELETE_ADMIN_ROLE_REQUEST:
       return {
         ...state,
         lodding: true,
         isRegister: false,
         isUserOtp: false,
-        isAdminDelete:false,
-        isRoleCreate:false,
+        isAdminDelete: false,
+        isRoleCreate: false,
+        isRolePermission: false,
+        isRoleUpdate:false,
+        isRoleDelete:false
       };
     case GET_ALL_ADMIN_LISTS_SUCCESS:
       return {
@@ -95,30 +119,60 @@ export const registerReducers = (
       return {
         ...state,
         lodding: false,
-        isRoleCreate:true
+        isRoleCreate: true,
       };
     case DELETE_ADMIN_SUCCESS:
-      return{
+      return {
         ...state,
-        lodding:false,
-        isAdminDelete:true,
-        allAdminLists:action.payload
-      }
+        lodding: false,
+        isAdminDelete: true,
+        allAdminLists: action.payload,
+      };
+    case GET_ALL_ROLE_LISTS_SUCCESS:
+      return {
+        ...state,
+        lodding: false,
+        allRoleLists: action.payload,
+      };
+    case GIVEN_ROLE_PERMISSION_TO_ADMIN_SUCCESS:
+      return {
+        ...state,
+        lodding: false,
+        isRolePermission: true,
+      };
+    case UPDATE_ADMIN_ROLE_SUCCESS:
+      return {
+        ...state,
+        lodding: false,
+        isRoleUpdate: true,
+      };
+    case DELETE_ADMIN_ROLE_SUCCESS:
+      return {
+        ...state,
+        lodding: false,
+        isRoleDelete: true,
+      };
     case REGISTER_CREATE_FAIL:
     case OTP_SEND_FAIL:
     case GET_ALL_ADMIN_LISTS_FAIL:
     case GET_ALL_PERMISSION_LISTS_FAIL:
     case CREATE_ADMIN_ROLE_FAIL:
     case DELETE_ADMIN_FAIL:
+    case GET_ALL_ROLE_LISTS_FAIL:
+    case GIVEN_ROLE_PERMISSION_TO_ADMIN_FAIL:
+    case UPDATE_ADMIN_ROLE_FAIL:
+    case DELETE_ADMIN_ROLE_FAIL:
       return {
         ...state,
         lodding: false,
         isRegister: false,
-        isRoleCreate:false,
+        isRoleCreate: false,
         userRegister: null,
         isUserOtp: false,
+        isRolePermission: false,
+        isRoleUpdate:false,
+        isRoleDelete:false,
         error: action.payload,
-
       };
     case REFRESH_LODDER_AUTH:
       return {
@@ -127,8 +181,11 @@ export const registerReducers = (
         isRegister: false,
         userRegister: null,
         isUserOtp: false,
-        isAdminDelete:false,
-        isRoleCreate:false,
+        isAdminDelete: false,
+        isRoleCreate: false,
+        isRolePermission: false,
+        isRoleUpdate:false,
+        isRoleDelete:false,
         error: null,
       };
     default:

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import DoNotDisturbIcon from '@mui/icons-material/DoNotDisturb';
+import DoNotDisturbIcon from "@mui/icons-material/DoNotDisturb";
 import {
   bookingAgainAction,
   bookingCancleAction,
@@ -11,6 +11,9 @@ import {
 } from "../../action/auth_user/UserBookingAction";
 import { toast } from "react-toastify";
 import ReactStars from "react-rating-stars-component";
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import ClientDeleteBookingModal from "./ClientDeleteBookingModal";
+import ClientLodder from "../lodder/ClientLodder";
 const ClientOrder = () => {
   const {
     lodding,
@@ -23,10 +26,13 @@ const ClientOrder = () => {
   const { clientInfo } = useSelector((state) => state.userLoginState);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [isDeleteBooking,setIsDeleteBooking] = useState(false);
+
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
   const [serviceId, setServiceId] = useState([]);
   const [workerId, setWorkerId] = useState([]);
+  const [bookingId,setBookingId] = useState('');
   const { id } = useParams();
 
   useEffect(() => {
@@ -108,36 +114,44 @@ const ClientOrder = () => {
     <section className="bg-blue-200  rounded-md group-2 w-full mt-[24px] px-7 md:w-[100%] py-8 antialiased min-h-screen   dark:bg-gray-900 md:py-0">
       <div className="mx-auto max-w-screen-2xl border-gray-500 px-4 2xl:px-0">
         <div className="mx-auto max-w-7xl">
+        {isDeleteBooking && <ClientDeleteBookingModal bookingId={bookingId}/>}
           <div className="gap-4 w-full md:text-center  sm:flex sm:items-center sm:justify-between">
-            {personalBooking?.length>0 &&
-            <h2 className="text-xl md:mt-0 mt-8 text-center font-semibold text-gray-900 dark:text-white sm:text-2xl">
-              My orders
-            </h2>
-            }
+            {personalBooking?.length > 0 && (
+              <h2 className="text-xl md:mt-0 mt-8 text-center font-semibold text-gray-900 dark:text-white sm:text-2xl">
+                My orders
+              </h2>
+            )}
           </div>
-
+          {lodding && <ClientLodder/>}
           <div className="mt-1 md:mt-6 flow-root sm:mt-8">
             <div className="divide-y divide-gray-200 dark:divide-gray-700">
               {personalBooking?.map((item) => (
                 <>
-                  {item.is_payment_status !== "Pending" && (
+                  {item?.is_payment_status !== "Pending" && (
                     <div className="flex flex-wrap items-center gap-y-4 py-6">
                       <dl className="w-1/2 sm:w-1/4 lg:w-auto lg:flex-1">
                         <Link
                           to={`/user/personal/order/info/${item._id}`}
-                          className="w-full inline-flex justify-center rounded-lg  border border-gray-200 bg-blue-400 px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700 lg:w-auto"
+                          className="w-full text-[8px] inline-flex justify-center rounded-lg  border border-white bg-blue-400 px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700 lg:w-auto"
                         >
                           booking info
                         </Link>
                       </dl>
-
+                      <dl onClick={()=>[setIsDeleteBooking((pre)=>!pre),setBookingId(item._id)]} className="w-1/2 sm:w-1/4 lg:w-auto lg:flex-1">
+                        <Link
+                          title="delete booking"
+                          className="w-full inline-flex justify-center rounded-lg border border-white ml-1 bg-red-400 px-6 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700 lg:w-auto"
+                        >
+                          <DeleteOutlineIcon/>
+                        </Link>
+                      </dl>
                       <dl className="w-1/2 p-3 sm:w-1/4 lg:w-auto lg:flex-1">
                         <dt className="text-base font-medium text-gray-500 dark:text-gray-400">
                           Service Name:
                         </dt>
                         {item?.services.map((i) => (
                           <dd className="mt-1.5 text-[10px]  text-gray-900 dark:text-white">
-                            {i.service.name}
+                            {i?.service?.name}
                           </dd>
                         ))}
                       </dl>
@@ -147,7 +161,7 @@ const ClientOrder = () => {
                           Total Price:
                         </dt>
                         <dd className="mt-1.5 text-base font-semibold text-gray-900 dark:text-white">
-                          {item.total_amount.toFixed(2)} Tk
+                          {item?.total_amount.toFixed(2)} Tk
                         </dd>
                       </dl>
                       {item?.total_paid ? (
@@ -156,7 +170,7 @@ const ClientOrder = () => {
                             Paid Amount:
                           </dt>
                           <dd className="mt-1.5 text-base font-semibold text-gray-900 dark:text-white">
-                            {item.total_paid} Tk
+                            {item?.total_paid} Tk
                           </dd>
                         </dl>
                       ) : (
@@ -165,7 +179,7 @@ const ClientOrder = () => {
                             Advance:
                           </dt>
                           <dd className="mt-1.5 text-base font-semibold text-gray-900 dark:text-white">
-                            {item.advance_amount} Tk
+                            {item?.advance_amount} Tk
                           </dd>
                         </dl>
                       )}
@@ -372,12 +386,12 @@ const ClientOrder = () => {
           </div>
         </div>
       </div>
-      {personalBooking?.length<0 &&
-      <div className=" w-full text-red-500 flex-col font-serif italic md:text-[22px] flex h-[500px] justify-center items-center">
-        <DoNotDisturbIcon/>
-        <h1>NO BOOKING</h1>
-      </div>
-      }
+      {personalBooking?.length < 0 && (
+        <div className=" w-full text-red-500 flex-col font-serif italic md:text-[22px] flex h-[500px] justify-center items-center">
+          <DoNotDisturbIcon />
+          <h1>NO BOOKING</h1>
+        </div>
+      )}
     </section>
   );
 };

@@ -7,6 +7,7 @@ const {
     deleteReview,
     getReviewBookingById
   } = require("../controllers/reviewController.js");
+const permissionMiddleware = require('../middleware/permissionMiddleware.js');
 
 
 const router = express.Router();
@@ -18,10 +19,10 @@ router.put('/create/review/:bookingId',isAdminUserMiddleware,bookingReviewContro
 router.get('/get/all', listReviews);
 
 //get review  booking by id
-router.get('/get/review/booking/:bookingId',isAdminUserMiddleware,isAdminMiddleware('admin'), getReviewBookingById);
+router.get('/get/review/booking/:bookingId',isAdminUserMiddleware,permissionMiddleware('review-info'), getReviewBookingById);
 
 
 // Delete a review by ID
-router.delete('/review/delete/:id',isAdminUserMiddleware,isAdminMiddleware('admin'), deleteReview);
+router.delete('/review/delete/:id',isAdminUserMiddleware,permissionMiddleware('review-delete'), deleteReview);
 
 module.exports = router;

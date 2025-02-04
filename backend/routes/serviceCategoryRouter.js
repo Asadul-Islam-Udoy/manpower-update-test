@@ -1,6 +1,5 @@
 const express = require("express");
 const isAdminUserMiddleware = require("../middleware/AdminUserMiddleware");
-const isAdminMiddleware = require("../middleware/AdminMiddleware");
 const multer = require('multer');
 const shoriid = require('shortid')
 const path = require('path');
@@ -12,6 +11,7 @@ const {
   getSingleServiceCategory,
   getParentCategoryController,
 } = require("../controllers/serviceCategoryController");
+const permissionMiddleware = require("../middleware/permissionMiddleware");
 
 const router = express.Router();
 
@@ -32,7 +32,7 @@ const upload = multer({ storage: storage });
 router.post(
   "/create",
   isAdminUserMiddleware,
-  isAdminMiddleware("admin"),upload.single('image'),
+  permissionMiddleware("service-category-create"),upload.fields([{name:'frontImage',maxCount:1},{name:'backImage',maxCount:1}]),
   serviceCategoryCreate
 );
 
@@ -47,8 +47,8 @@ router.get("/get/single/:id", getSingleServiceCategory);
 router.put(
   "/update/:id",
   isAdminUserMiddleware,
-  isAdminMiddleware("admin"),
-  upload.single('image'),
+  permissionMiddleware("service-category-update"),
+  upload.fields([{name:'frontImage',maxCount:1},{name:'backImage',maxCount:1}]),
   serviceCategoryUpdate
 );
 
@@ -56,7 +56,7 @@ router.put(
 router.delete(
   "/delete/:id",
   isAdminUserMiddleware,
-  isAdminMiddleware("admin"),
+  permissionMiddleware("service-category-delete"),
   serviceCategoryDelete
 );
 

@@ -73,7 +73,7 @@ adminSchema.methods.compareAdminPasswordMethod = async function (password) {
 ///create json web token
 adminSchema.methods.getAdminTokenMethod = function () {
   const accesstoken = jwt.sign({ _id: this._id }, process.env.JWT_SECRITE_KEY, {
-    expiresIn: "1m",
+    expiresIn: "5m",
   });
   const refreshtoken = jwt.sign(
     { _id: this._id },

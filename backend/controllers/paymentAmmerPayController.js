@@ -32,9 +32,9 @@ exports.createPaymentControler = async (req, res) => {
       cus_city: addressInfo?.city,
       opt_a : app,
       cus_country: "Bangladesh",
-      success_url: `${req.protocol}s://${req.get('host')}/api/payments/ammerpay/success/${traid_id}/${app}`,
-      fail_url: `${req.protocol}s://${req.get('host')}/api/payments/ammerpay/fail/${traid_id}/${app}`,
-      cancel_url: `${req.protocol}s://${req.get('host')}/api/payments/ammerpay/cancel/${traid_id}/${app}`,
+      success_url: `http://localhost:8000/api/payments/ammerpay/success/${traid_id}/${app}`,
+      fail_url: `http://localhost:8000/api/payments/ammerpay/fail/${traid_id}/${app}`,
+      cancel_url: `http://localhost:8000/api/payments/ammerpay/cancel/${traid_id}/${app}`,
       type: "json",
     };
     const { data } = await axios.post(
@@ -47,7 +47,6 @@ exports.createPaymentControler = async (req, res) => {
         message: "payment fails",
       });
     }
-
     if (bookingId) {
       const booking = await BookingModel.findById(bookingId);
       await PaymentModel.create({
@@ -121,7 +120,7 @@ exports.createPaymentControler = async (req, res) => {
         }
       }
     }
-    if (app == 'ammerpay-app') {
+     if (app == 'ammerpay-app') {
       return res.status(200).json({
         flag: true,
         message: "successfully",
@@ -215,7 +214,7 @@ exports.successPaymentControler = async (req, res) => {
       message: "payment successfully completed",
     });
   }
-  res.redirect(`${req.protocol}s://${req.get('host')}/user/payment/success`);
+  res.redirect("http://localhost:7000/user/payment/success");
 };
 
 ///payment fail
@@ -235,7 +234,7 @@ exports.failPaymentControler = async (req, res) => {
     });
   }
   else{
-    res.redirect(`${req.protocol}s://${req.get('host')}/user/payment/fails`);
+    res.redirect("http://localhost:7000/user/payment/fails");
   }
 };
 
@@ -256,7 +255,7 @@ exports.cancelPaymentControler = async (req, res) => {
     });
   }
   else{
-    res.redirect(`${req.protocol}s://${req.get('host')}/user/payment/cancel`);
+    res.redirect("http://localhost:7000/user/payment/cancel");
   }
   
 };

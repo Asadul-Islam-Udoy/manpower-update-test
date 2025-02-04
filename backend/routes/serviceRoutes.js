@@ -19,6 +19,7 @@ const {
     homeCategoryShowPerUniqueServiceController,
     homePagesNewServiceController
   } = require("../controllers/serviceController");
+const permissionMiddleware = require('../middleware/permissionMiddleware');
 
 const router = express.Router();
 
@@ -34,7 +35,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 // Create a new service
-router.post('/create', isAdminUserMiddleware,isAdminMiddleware('admin'),upload.single('image'), createService);
+router.post('/create', isAdminUserMiddleware,permissionMiddleware('service-create'),upload.single('image'), createService);
 
 // Get a list of all services
 router.get('/get/all', listServices);
@@ -43,16 +44,16 @@ router.get('/get/all', listServices);
 router.get('/get/single/:id', getServiceById);
 
 // Update a service by ID
-router.put('/update/:id',isAdminUserMiddleware,isAdminMiddleware('admin'),upload.single('image'), updateService);
+router.put('/update/:id',isAdminUserMiddleware,permissionMiddleware('service-update'),upload.single('image'), updateService);
 
 // Delete a service by ID
-router.delete('/delete/:id',isAdminUserMiddleware,isAdminMiddleware('admin'),deleteService);
+router.delete('/delete/:id',isAdminUserMiddleware,permissionMiddleware('service-delete'),deleteService);
 
 // category id base services
 router.get('/category_id/services/:id', categoryIdServices);
 
 // category id base services
-router.put('/update/discount/:id',isAdminUserMiddleware, isAdminMiddleware('admin'), ServicesDiscount);
+router.put('/update/discount/:id',isAdminUserMiddleware, isAdminMiddleware('service-discount-edit'), ServicesDiscount);
 
 ///get category basic services
 router.get('/categories/basic/services',getServiceCategoriesBasicContorller);

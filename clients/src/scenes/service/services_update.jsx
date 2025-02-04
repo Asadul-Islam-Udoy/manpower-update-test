@@ -253,6 +253,7 @@ function ServiceUpdate() {
                       fullWidth
                       variant="filled"
                       type="file"
+                      inputProps={{ accept: "image/*" }}
                       sx={{ gridColumn: "span 4" }}
                       onChange={(e) => setImage(e.target.files[0])}
                     />

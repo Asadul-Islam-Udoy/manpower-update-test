@@ -50,10 +50,10 @@ router.get('/protected',authMiddleware, permissionMiddleware('view_dashboard'), 
 ///////////////
 
 // create new admin
-router.post('/create/sign-up',isAdminUserMiddleware,isAdminMiddleware('admin'),NewAdminRegisterController);
+router.post('/create/sign-up',isAdminUserMiddleware,permissionMiddleware('admin-new-user-create'),NewAdminRegisterController);
 
 /// create new admin verified to the email
-router.put('/is_verified/phone/otp/:userOtp',isAdminUserMiddleware,isAdminMiddleware('admin'),NewAdminRegisterVerifiedController);
+router.put('/is_verified/phone/otp/:userOtp',isAdminUserMiddleware,permissionMiddleware('admin-new-user-create'),NewAdminRegisterVerifiedController);
 
 //refresh admin token
 router.post('/refresh/token',AdminrefreshToken);
@@ -65,25 +65,25 @@ router.post('/signin',adminSignIn);
 router.get('/resend/email_otp/:id',resendEmailOtp);
 
 // Get a list of all admins 
-router.get('/get/all/admins',isAdminUserMiddleware,isAdminMiddleware('admin'), listAdmins);
+router.get('/get/all/admins',isAdminUserMiddleware,permissionMiddleware('admin-lists'), listAdmins);
 
 // Get a single admin by ID
-router.get('/get/single/admin/:id',isAdminUserMiddleware,isAdminMiddleware('admin'), getAdminById);
+router.get('/get/single/admin/:id',isAdminUserMiddleware,permissionMiddleware('admin-info'), getAdminById);
 
 // Update a admin by ID
-router.put('/update/admin/profile/:id',  isAdminUserMiddleware,isAdminMiddleware('admin'),upload.single('avatar'),updateAdminController);
+router.put('/update/admin/profile/:id',  isAdminUserMiddleware,permissionMiddleware('admin-profile-update'),upload.single('avatar'),updateAdminController);
 
 // Update a user email
-router.put('/update/admin/email/address',isAdminUserMiddleware,isAdminMiddleware('admin'), updateAdminEmail);
+router.put('/update/admin/email/address',isAdminUserMiddleware,permissionMiddleware('admin-profile-email-edit'), updateAdminEmail);
 
 //admin update email verified
-router.put('/update/admin/verified/email',isAdminUserMiddleware,isAdminMiddleware('admin'),adminUpdateEmailVerified);
+router.put('/update/admin/verified/email',isAdminUserMiddleware,isAdminMiddleware('admin-profile-email-edit'),adminUpdateEmailVerified);
 
 // update admin password
-router.put('/update/admin/password',isAdminUserMiddleware,isAdminMiddleware('admin'),updateAdminPassword);
+router.put('/update/admin/password',isAdminUserMiddleware,permissionMiddleware('admin-profile-password-edit'),updateAdminPassword);
 
 // Delete a admin by ID
-router.delete('/delete/admin/:id',isAdminUserMiddleware,isAdminMiddleware('admin'), deleteAdmin);
+router.delete('/delete/admin/:id',isAdminUserMiddleware,permissionMiddleware('admin-delete'), deleteAdmin);
 
 // reset admin password in phone
 router.put('/admin/password/reset', adminPasswordReset);

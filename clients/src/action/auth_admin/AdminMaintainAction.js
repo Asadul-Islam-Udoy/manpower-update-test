@@ -155,16 +155,7 @@ export const createWorkerConfrimAction =
 //get all workers
 export const getAllWorkerAction = (keyword) => async (dispatch, getState) => {
   try {
-    const {
-      loginState: { userInfo },
-    } = getState();
     dispatch({ type: GET_ALL_WORKERS_REQUEST });
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: userInfo?.token?.accesstoken,
-      },
-    };
     let link;
     if (keyword) {
       link = Localhost + `/api/workers/get/all?keyword=${keyword}`;
@@ -685,11 +676,9 @@ export const refreshServiceAction = () => (dispatch) => {
 export const getAllCategoriesServicesAction = () => async (dispatch) => {
   try {
     dispatch({ type: GET_ALL_CATEGORY_SERVICES_REQUEST });
-    const config = { headers: { "Content-Type": "application/json" } };
-    const { data } = await axios.get(
-      Localhost + "/api/services/categories/get/all",
-      config
-    );
+    const config = { headers: { "Content-Type": "application/json" }};
+    const { data } = await axios.get(Localhost + "/api/services/categories/get/all/",config);
+    console.log('data',data)
     if (data) {
       dispatch({
         type: GET_ALL_CATEGORY_SERVICES_SUCCESS,

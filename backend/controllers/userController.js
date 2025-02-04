@@ -67,7 +67,7 @@ exports.UserSignupController = async (req, res) => {
       }
       if (phone !== '') {
         if(Number(phone)) {
-          if (phone.length >= 11 || phone.length <= 5) {
+          if (phone.length >= 12 || phone.length <= 5) {
             return res.status(400).json({
               flag: false,
               message: "phone number will be maximum 11 and minimum 5 ",

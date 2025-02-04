@@ -97,7 +97,7 @@ exports.getAllClientProfile=async(req,res)=>{
     //get unique client profile ///apps developer
     exports.getUniqueClientProfile=async(req,res)=>{
         try{
-
+         console.log(req.params.userid)
          const client = await ClientProfile.findOne({user:req.params.userid}).populate('user');
          res.status(201).json({
             flag:true,

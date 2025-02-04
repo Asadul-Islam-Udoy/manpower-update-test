@@ -13,6 +13,7 @@ const {
     getIsActiveBannersController,
     getSingleBannersController
     } = require('../controllers/bannerController');
+const permissionMiddleware = require('../middleware/permissionMiddleware');
 
 const router = express.Router();
 
@@ -27,13 +28,13 @@ const storage = multer.diskStorage({
   })
   
 const upload = multer({ storage: storage });
-router.post('/create',isAdminUserMiddleware,isAdminMiddleware('admin'),upload.array('images'),crateBannerController);
-router.delete('/delete/:id',isAdminUserMiddleware,isAdminMiddleware('admin'),deleteBannerController);
-router.get('/get/all',isAdminUserMiddleware,isAdminMiddleware('admin'),getAllBannerController);
+router.post('/create',isAdminUserMiddleware,permissionMiddleware('banner-create'),upload.array('images'),crateBannerController);
+router.delete('/delete/:id',isAdminUserMiddleware,permissionMiddleware('banner-delete'),deleteBannerController);
+router.get('/get/all',isAdminUserMiddleware,permissionMiddleware('banner-lists'),getAllBannerController);
 router.get('/get/active',getIsActiveBannersController);
-router.get('/get/single/banner/:id',isAdminUserMiddleware,isAdminMiddleware('admin'),getSingleBannersController);
-router.put('/update/:id',isAdminUserMiddleware,isAdminMiddleware('admin'),upload.array('images'),updateBannerController);
-router.put('/update/isactive/:id',isAdminUserMiddleware,isAdminMiddleware('admin'),updateBannerisActiveController);
+router.get('/get/single/banner/:id',isAdminUserMiddleware,permissionMiddleware('banner-image'),getSingleBannersController);
+router.put('/update/:id',isAdminUserMiddleware,permissionMiddleware('banner-update'),upload.array('images'),updateBannerController);
+router.put('/update/isactive/:id',isAdminUserMiddleware,permissionMiddleware('banner-active'),updateBannerisActiveController);
 
 module.exports = router;
 

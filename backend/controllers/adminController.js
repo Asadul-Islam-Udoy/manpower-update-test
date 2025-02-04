@@ -6,10 +6,11 @@ const jwt = require("jsonwebtoken");
 const path = require("path");
 const fs = require("fs");
 
+
 // signup  user controller ///apps developer
 exports.NewAdminRegisterController = async (req, res) => {
   try {
-    const { name, phone, email, password } = req.body;
+    const { name, phone, email, password ,userRole } = req.body;
     const checkadmin = await Admin.findOne({
       $or: [{ email: { $eq: email } }, { phone: { $eq: phone } }],
     });
@@ -53,6 +54,7 @@ exports.NewAdminRegisterController = async (req, res) => {
           phone: phone,
           name: name,
           password,
+          userType:userRole
         });
         await emailVerifiedMethod(req, res, admin); ///send otp user email address method
       }
@@ -99,7 +101,7 @@ exports.NewAdminRegisterVerifiedController=async(req,res)=>{
 ///user login controller
 exports.adminSignIn = AsyncErrorHandler(async (req, res) => {
   const { email, password } = req.body;
-  const admin = await Admin.findOne({ email }).select("+password");
+  const admin = await Admin.findOne({ email }).select("+password").populate({path:'roles',populate:{path:'permissions',model:'Permission'}});
   if (!admin) {
     return res.status(400).json({
       flag: false,
@@ -141,7 +143,7 @@ exports.AdminrefreshToken = async (req, res) => {
       }
     );
     if (decode) {
-      const adminfind = await Admin.findById(decode._id);
+      const adminfind = await Admin.findById(decode._id).populate({path:'roles',populate:{path:'permissions',model:'Permission'}});;
       if (!adminfind) {
         res.status(400).json({
           flag: false,
@@ -163,7 +165,7 @@ exports.AdminrefreshToken = async (req, res) => {
 // List all users
 exports.listAdmins = async (req, res) => {
   try {
-    const admins = await Admin.find({_id:{$ne:req?.user?._id}});
+    const admins = await Admin.find({_id:{$ne:req?.user?._id}}).populate({path:'roles',populate:{path:'permissions',model:'Permission'}});
     res.status(200).json({
       flag: true,
       message: "all user getting successfully",

@@ -214,6 +214,7 @@ function ServiceCreateModal() {
                 fullWidth
                 variant="filled"
                 type="file"
+                inputProps={{ accept: "image/*" }}
                 required
                 sx={{ gridColumn: "span 4" }}
                 onChange={(e) => setImage(e.target.files[0])}

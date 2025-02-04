@@ -14,18 +14,20 @@ const {
     deleteBookingByPaymentId,
     getBookingPaymentStatus,
     deleteUserPersonalBooking
+
   } = require("../controllers/bookingController.js");
+const permissionMiddleware = require('../middleware/permissionMiddleware.js');
 
 
 const router = express.Router();
 
 
 // Get a list of all bookings
-router.get('/get/all/bookings',isAdminUserMiddleware,isAdminMiddleware('admin'), listBookings);
+router.get('/get/all/bookings',isAdminUserMiddleware,permissionMiddleware('booking-lists'), listBookings);
 
 
 // Get a list of all bookings
-router.get('/get/all/new/bookings',isAdminUserMiddleware,isAdminMiddleware('admin'), listNewBookings);
+router.get('/get/all/new/bookings',isAdminUserMiddleware,permissionMiddleware('booking-lists'), listNewBookings);
 
 // Get a single booking by ID
 router.get('/get/unique/booking/:id',isAdminUserMiddleware, getBookingById);
@@ -40,19 +42,19 @@ router.get('/get/unique/worker/booking/:userid', isAdminUserMiddleware, getBooki
 router.put('/update/payment_status/:id',isAdminUserMiddleware, updateBookingPaymentStatus);
 
 //get a booking payment status
-router.get('/get/booking/payment_status/:status',isAdminUserMiddleware,isAdminMiddleware('admin'), getBookingPaymentStatus);
+router.get('/get/booking/payment_status/:status',isAdminUserMiddleware,permissionMiddleware('booking-payment-status-info'), getBookingPaymentStatus);
 
 // Update or insert worker 
-router.put('/update/booking/worker/:id',isAdminUserMiddleware,isAdminMiddleware('admin'), updateBookingWorker);
+router.put('/update/booking/worker/:id',isAdminUserMiddleware,permissionMiddleware('booking-add-workers'), updateBookingWorker);
 
 // Delete a booking by ID
-router.delete('/delete/:id', isAdminUserMiddleware,isAdminMiddleware('admin'), deleteBooking);
+router.delete('/delete/:id', isAdminUserMiddleware,permissionMiddleware('booking-delete'), deleteBooking);
 
 ///get booking by payment id
-router.get('/get/booking/paymentid/:payid',isAdminUserMiddleware,isAdminMiddleware('admin'),getBookingByPaymentId);
+router.get('/get/booking/paymentid/:payid',isAdminUserMiddleware,permissionMiddleware('booking-by-payment-info'),getBookingByPaymentId);
 
 ///delete booking by payment id
-router.delete('/delete/booking/paymentid/:payid',isAdminUserMiddleware,isAdminMiddleware('admin'),deleteBookingByPaymentId);
+router.delete('/delete/booking/paymentid/:payid',isAdminUserMiddleware,permissionMiddleware('booking-payment-delete'),deleteBookingByPaymentId);
 
 ///delete client personal bookings
 router.delete('/delete/user/personal/booking/:id',isAdminUserMiddleware,deleteUserPersonalBooking);
