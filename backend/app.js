@@ -77,9 +77,9 @@ app.use('/api/contracts',contractRouters);
 app.use('/api/homepages',homepageRouters);
 app.use('/api/roles/permissions',rolePermissionRoutes);
 
-// app.use(express.static(path.join(__dirname,'../clients/build')));
-// app.get('*',(req,res)=>{
-//     res.sendFile(path.resolve(__dirname,'../clients/build/index.html'))
-// })
+app.use(express.static(path.join(__dirname,'../clients/build')));
+app.get('*',(req,res)=>{
+    res.sendFile(path.resolve(__dirname,'../clients/build/index.html'))
+})
 
 module.exports = app;
