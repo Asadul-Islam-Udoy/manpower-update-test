@@ -103,8 +103,7 @@ function App() {
 
   useEffect(() => {
     if (
-      (!intervalId && userInfo?.user?.userType == "admin") ||
-      userInfo?.user?.userType == "super-admin"
+      !intervalId && (userInfo?.user?.userType == "admin" || userInfo?.user?.userType == "super-admin")
     ) {
       const id = setInterval(() => {
         dispatch(userTokenRefreshAction());
@@ -117,14 +116,17 @@ function App() {
     }
   }, [
     dispatch,
+    !intervalId,
     userInfo?.user?.userType == "admin" ||
-      userInfo?.user?.userType == "super-admin",
+    userInfo?.user?.userType == "super-admin",
     navigate,
     isLogout,
   ]);
 
-  const adminMiddlware = userInfo?.user?.userType === "admin" || "super-admin";
+  const adminMiddlware = userInfo?.user?.userType === "admin" || userInfo?.user?.userType === "super-admin";
   const chakeSuperAdmin = userInfo?.user?.userType == "super-admin";
+
+  console.log('sdid',adminMiddlware)
   return (
     <CartProvider>
       <ColorModeContext.Provider value={colorMode}>
@@ -312,9 +314,7 @@ function App() {
                   path="/dashboard"
                   element={
                     <AdminMiddleware
-                      isAdmin={
-                        userInfo?.user?.userType === "admin" || "super-admin"
-                      }
+                      isAdmin={adminMiddlware}
                     >
                       <Dashboard />
                     </AdminMiddleware>

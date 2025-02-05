@@ -166,11 +166,10 @@ function BannerCreateModal({ id }) {
                 variant="filled"
                 required
                 type="file"
-                inputProps={{ accept: "image/*" }}
+                inputProps={{ accept: "image/*", multiple: true }}
                 sx={{ gridColumn: "span 4" }}
                 style={{ color: "red" }}
                 onChange={imageHanlers}
-                multiple
               />
               <div style={{ display: "flex", flexDirection: "column" }}>
                 {showNewImages?.length > 0 && (

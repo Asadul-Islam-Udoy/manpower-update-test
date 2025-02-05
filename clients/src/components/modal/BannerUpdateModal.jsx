@@ -174,11 +174,10 @@ function BannerUpdateModal({ id }) {
                 fullWidth
                 variant="filled"
                 type="file"
-                inputProps={{ accept: "image/*" }}
+                inputProps={{ accept: "image/*", multiple: true }}
                 sx={{ gridColumn: "span 4" }}
                 style={{ color: "red" }}
                 onChange={imageHanlers}
-                multiple
               />
               <div style={{ display: "flex", flexDirection: "column" }}>
                 {shwoImages?.length > 0 && (
