@@ -1,1 +1,1 @@
-export const Localhost = 'http://localhost:8000';
+export const Localhost = 'https://manpower-update-test.onrender.com';
