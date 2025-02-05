@@ -161,7 +161,7 @@ function BannerCreateModal({ id }) {
                 onChange={(e) => setDescription(e.target.value)}
               />
               <Typography>Banner Images</Typography>
-              <input
+              <TextField
                 fullWidth
                 variant="filled"
                 required

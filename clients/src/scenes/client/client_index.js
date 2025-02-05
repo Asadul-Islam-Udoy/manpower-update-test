@@ -31,10 +31,11 @@ const Client = () => {
   const [singleNotificationShow, setSingleNotificationshow] = useState(false);
   const [groupNotificationShow, setGroupNotificationshow] = useState(false);
   const [clientId, setClientId] = useState("");
-  const [clientName,setClientName] = useState("");
+  const [clientName, setClientName] = useState("");
   const { lodding, error, allclients } = useSelector(
     (state) => state.allclientsState
   );
+  const { userInfo } = useSelector((state) => state.loginState);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -125,66 +126,74 @@ const Client = () => {
                 height: "100%",
               }}
             >
-              <button
-                style={{
-                  backgroundColor: "#50a6f5",
-                  marginLeft: "3px",
-                  border: "none",
-                  borderRadius: "3px",
-                  padding: "0px 10px",
-                  cursor: "pointer",
-                  height: "30px",
-                  width: "40px",
-                  display: "flex",
-                  alignItems: "center",
-                }}
-                title="client Info"
-              >
-                <Link to={`/user/profile/${params.row.id}`}>
-                  <InfoIcon style={{ color: "white" }} />
-                </Link>
-              </button>
-
-              <button
-                style={{
-                  backgroundColor: "rgb(131 116 9)",
-                  marginLeft: "3px",
-                  border: "none",
-                  borderRadius: "3px",
-                  padding: "0px 10px",
-                  cursor: "pointer",
-                  height: "30px",
-                  width: "40px",
-                  display: "flex",
-                  alignItems: "center",
-                }}
-                title="delete"
-                onClick={() => [
-                  setSingleNotificationshow((pre) => !pre),
-                  setClientId(params?.row?.id),
-                  setClientName(params?.row?.name)
-                ]}
-              >
-                <CircleNotificationsIcon style={{ color: "white" }} />
-              </button>
-              <button
-                style={{
-                  backgroundColor: "#ef630f",
-                  marginLeft: "3px",
-                  border: "none",
-                  borderRadius: "3px",
-                  padding: "0px 10px",
-                  cursor: "pointer",
-                  height: "30px",
-                  width: "40px",
-                  display: "flex",
-                  alignItems: "center",
-                }}
-                title="delete"
-                onClick={() => deleteHandler(params.row.id)}
-              >
-                <DeleteForeverIcon style={{ color: "white" }} />
-              </button>
+              {(userInfo?.user?.permissions?.includes("client-info-get") ||
+                userInfo?.user?.userType == "super-admin") && (
+                <button
+                  style={{
+                    backgroundColor: "#50a6f5",
+                    marginLeft: "3px",
+                    border: "none",
+                    borderRadius: "3px",
+                    padding: "0px 10px",
+                    cursor: "pointer",
+                    height: "30px",
+                    width: "40px",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                  title="client Info"
+                >
+                  <Link to={`/user/profile/${params.row.id}`}>
+                    <InfoIcon style={{ color: "white" }} />
+                  </Link>
+                </button>
+              )}
+              {(userInfo?.user?.permissions?.includes("client-single-notification-send") ||
+                userInfo?.user?.userType == "super-admin") && (
+                <button
+                  style={{
+                    backgroundColor: "rgb(131 116 9)",
+                    marginLeft: "3px",
+                    border: "none",
+                    borderRadius: "3px",
+                    padding: "0px 10px",
+                    cursor: "pointer",
+                    height: "30px",
+                    width: "40px",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                  title="send single notification"
+                  onClick={() => [
+                    setSingleNotificationshow((pre) => !pre),
+                    setClientId(params?.row?.id),
+                    setClientName(params?.row?.name),
+                  ]}
+                >
+                  <CircleNotificationsIcon style={{ color: "white" }} />
+                </button>
+              )}
+              {(userInfo?.user?.permissions?.includes("client-delete") ||
+                userInfo?.user?.userType == "super-admin") && (
+                <button
+                  style={{
+                    backgroundColor: "#ef630f",
+                    marginLeft: "3px",
+                    border: "none",
+                    borderRadius: "3px",
+                    padding: "0px 10px",
+                    cursor: "pointer",
+                    height: "30px",
+                    width: "40px",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                  title="delete"
+                  onClick={() => deleteHandler(params.row.id)}
+                >
+                  <DeleteForeverIcon style={{ color: "white" }} />
+                </button>
+              )}
             </div>
           </>
         );
@@ -221,7 +230,9 @@ const Client = () => {
           }
         >
           <Topbar setIsSidebar={setIsSidebar} />
-          {singleNotificationShow && <SingleNotificationModal id={clientId} clientName={clientName}/>}
+          {singleNotificationShow && (
+            <SingleNotificationModal id={clientId} clientName={clientName} />
+          )}
           {groupNotificationShow && <GroupNotificationModal />}
           {/* worker delete modal */}
           {deleteModal && <WorkerClientDeleteModel workerData={singleworker} />}
@@ -235,6 +246,8 @@ const Client = () => {
             <div className="flex justify-between p-5 pb-0 justify-items-center">
               <Header title="Clients" />
               <div>
+              {(userInfo?.user?.permissions?.includes("client-group-notification-send") ||
+                userInfo?.user?.userType == "super-admin") && (
                 <Button
                   className="!py-2 !px-5 !font-bold !text-white !bg-yellow-500 !capitalize"
                   onClick={() => [setGroupNotificationshow((pre) => !pre)]}
@@ -242,6 +255,7 @@ const Client = () => {
                   <CircleNotificationsIcon />
                   Send Group Notification
                 </Button>
+                )}
               </div>
             </div>
             <Box
@@ -277,7 +291,7 @@ const Client = () => {
             >
               <DataGrid
                 slots={{
-                toolbar: GridToolbar,
+                  toolbar: GridToolbar,
                 }}
                 rows={mockDataClients}
                 columns={columns}

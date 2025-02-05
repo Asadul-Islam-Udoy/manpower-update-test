@@ -3,7 +3,7 @@ import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { ColorModeContext, tokens } from "../../theme";
 import Header from "../../components/dashboard/Header";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
-import AttributionIcon from '@mui/icons-material/Attribution';
+import AttributionIcon from "@mui/icons-material/Attribution";
 import { useTheme, Typography } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
 import Sidebar from "../global/Sidebar";
@@ -27,7 +27,10 @@ import WorkerDeleteModel from "../../components/modal/DeleteModal";
 import { Link } from "react-router-dom";
 import AvatarUpdateModal from "../../components/modal/AvatarUpdateModal";
 import WorkerStatusModal from "../../components/modal/WorkerStatusModal";
-import { GetAllResumeAction, WorkerRefreshAction } from "../../action/auth_user/UserAction";
+import {
+  GetAllResumeAction,
+  WorkerRefreshAction,
+} from "../../action/auth_user/UserAction";
 const Worker = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -37,20 +40,23 @@ const Worker = () => {
   const [workerId, setWorkerId] = useState("");
   const [workerName, setWorkerName] = useState("");
   const [shwoAvator, setShowAvatar] = useState(false);
-  const [divisionId, setDivisionId] = useState('');
-  const [districtId, setDistrictId] = useState('');
-  const [upazilaId, setUpazilaId] = useState('');
-  const [showStatus,setShowStatus] = useState(false);
-  const [userId,setUserId] = useState('')
+  const [divisionId, setDivisionId] = useState("");
+  const [districtId, setDistrictId] = useState("");
+  const [upazilaId, setUpazilaId] = useState("");
+  const [showStatus, setShowStatus] = useState(false);
+  const [userId, setUserId] = useState("");
   const dispatch = useDispatch();
-  const { lodding, allworkers , isAvatarUpdate} = useSelector(
+  const { lodding, allworkers, isAvatarUpdate } = useSelector(
     (state) => state.allworkerState
   );
-  const { error,  isapplyDelete } = useSelector(
+  const { userInfo } = useSelector((state) => state.loginState);
+  const { error, isapplyDelete } = useSelector(
     (state) => state.workerResumeApplyState
   );
-  const { alldivisions, alldistricts, allupazilas } = useSelector((state) => state.bdStateCounteState);
-  
+  const { alldivisions, alldistricts, allupazilas } = useSelector(
+    (state) => state.bdStateCounteState
+  );
+
   const deleteHandler = (id) => {
     setWorkerId(id);
     setDeleteModal((pre) => !pre);
@@ -66,13 +72,12 @@ const Worker = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(getAllDistrictAction(divisionId))
+    dispatch(getAllDistrictAction(divisionId));
   }, [dispatch, divisionId]);
 
   useEffect(() => {
-    dispatch(getAllUpazilaAction(districtId))
+    dispatch(getAllUpazilaAction(districtId));
   }, [dispatch, districtId]);
-
 
   useEffect(() => {
     if (error) {
@@ -164,99 +169,119 @@ const Worker = () => {
                 height: "100%",
               }}
             >
-              <button
-                style={{
-                  border: "none",
-                  borderRadius: "3px",
-                  backgroundColor: "#50a6f5",
-                  padding: "0px 10px",
-                  marginRight: "3px",
-                  height: "30px",
-                  width: "40px",
-                  display: "flex",
-                  alignItems: "center",
-                }}
-                title="worker info"
-              >
-                <Link to={`/dashboard/worker/profile/${params?.row?.userid}`}>
-                  <InfoIcon style={{ color: "white" }} />
-                </Link>
-              </button>
-              <button
-                style={{
-                  border: "none",
-                  borderRadius: "3px",
-                  backgroundColor: "#a80caf",
-                  padding: "1px 10px",
-                  marginRight: "3px",
-                  height: "30px",
-                  width: "40px",
-                  display: "flex",
-                  alignItems: "center",
-                }}
-                title="image update"
-                onClick={() => avatarUpdateHandler(params?.row?.userid)}
-              >
-                <Link>
-                  <AddPhotoAlternateIcon style={{ color: "white" }} />
-                </Link>
-              </button>
-              <button
-                style={{
-                  border: "none",
-                  borderRadius: "3px",
-                  backgroundColor: "#50a6f5",
-                  padding: "1px 10px",
-                  marginRight: "3px",
-                  height: "30px",
-                  width: "40px",
-                  display: "flex",
-                  alignItems: "center",
-                }}
-                title="update"
-              >
-                <Link to={`/dashboard/worker/update/${params.row.userid}`}>
-                  <BorderColorIcon style={{ color: "white" }} />
-                </Link>
-              </button>
-              <button
-                style={{
-                  backgroundColor: "#ef630f",
-                  marginLeft: "3px",
-                  border: "none",
-                  borderRadius: "3px",
-                  padding: "0px 10px",
-                  cursor: "pointer",
-                  padding: "1px 10px",
-                  marginRight: "3px",
-                  height: "30px",
-                  width: "40px",
-                  display: "flex",
-                  alignItems: "center",
-                }}
-                title="delete"
-                onClick={() => deleteHandler(params.row.userid)}
-              >
-                <DeleteForeverIcon style={{ color: "white" }} />
-              </button>
-              <button
-                style={{
-                  border: "none",
-                  borderRadius: "3px",
-                  backgroundColor: "#50a6f5",
-                  padding: "1px 10px",
-                  marginRight: "3px",
-                  height: "30px",
-                  width: "40px",
-                  display: "flex",
-                  alignItems: "center",
-                  position:'relative'
-                }}
-                title="status"
-                onClick={()=>[setShowStatus((pre)=>!pre),setWorkerName(params.row.name),setWorkerId(params.row.id),setUserId(params.row.userid)]}
-              >
-              <AttributionIcon style={{ color: "white" }}/>
-              </button>
+              {(userInfo?.user?.permissions?.includes("worker-info-get") ||
+                userInfo?.user?.userType == "super-admin") && (
+                <button
+                  style={{
+                    border: "none",
+                    borderRadius: "3px",
+                    backgroundColor: "#50a6f5",
+                    padding: "0px 10px",
+                    marginRight: "3px",
+                    height: "30px",
+                    width: "40px",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                  title="worker info"
+                >
+                  <Link to={`/dashboard/worker/profile/${params?.row?.userid}`}>
+                    <InfoIcon style={{ color: "white" }} />
+                  </Link>
+                </button>
+              )}
+              {(userInfo?.user?.permissions?.includes("worker-avatar-create") ||
+                userInfo?.user?.userType == "super-admin") && (
+                <button
+                  style={{
+                    border: "none",
+                    borderRadius: "3px",
+                    backgroundColor: "#a80caf",
+                    padding: "1px 10px",
+                    marginRight: "3px",
+                    height: "30px",
+                    width: "40px",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                  title="image update"
+                  onClick={() => avatarUpdateHandler(params?.row?.userid)}
+                >
+                  <Link>
+                    <AddPhotoAlternateIcon style={{ color: "white" }} />
+                  </Link>
+                </button>
+              )}
+              {(userInfo?.user?.permissions?.includes("worker-update") ||
+                userInfo?.user?.userType == "super-admin") && (
+                <button
+                  style={{
+                    border: "none",
+                    borderRadius: "3px",
+                    backgroundColor: "#50a6f5",
+                    padding: "1px 10px",
+                    marginRight: "3px",
+                    height: "30px",
+                    width: "40px",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                  title="update"
+                >
+                  <Link to={`/dashboard/worker/update/${params.row.userid}`}>
+                    <BorderColorIcon style={{ color: "white" }} />
+                  </Link>
+                </button>
+              )}
+              {(userInfo?.user?.permissions?.includes("worker-delete") ||
+                userInfo?.user?.userType == "super-admin") && (
+                <button
+                  style={{
+                    backgroundColor: "#ef630f",
+                    marginLeft: "3px",
+                    border: "none",
+                    borderRadius: "3px",
+                    padding: "0px 10px",
+                    cursor: "pointer",
+                    padding: "1px 10px",
+                    marginRight: "3px",
+                    height: "30px",
+                    width: "40px",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                  title="delete"
+                  onClick={() => deleteHandler(params.row.userid)}
+                >
+                  <DeleteForeverIcon style={{ color: "white" }} />
+                </button>
+              )}
+              {(userInfo?.user?.permissions?.includes("worker-status-update") ||
+                userInfo?.user?.userType == "super-admin") && (
+                <button
+                  style={{
+                    border: "none",
+                    borderRadius: "3px",
+                    backgroundColor: "#50a6f5",
+                    padding: "1px 10px",
+                    marginRight: "3px",
+                    height: "30px",
+                    width: "40px",
+                    display: "flex",
+                    alignItems: "center",
+                    position: "relative",
+                  }}
+                  title="status"
+                  onClick={() => [
+                    setShowStatus((pre) => !pre),
+                    setWorkerName(params.row.name),
+                    setWorkerId(params.row.id),
+                    setUserId(params.row.userid),
+                  ]}
+                >
+                  <AttributionIcon style={{ color: "white" }} />
+                </button>
+              )}
             </div>
           </>
         );
@@ -269,19 +294,21 @@ const Worker = () => {
       toast.error(error);
     }
     dispatch(getAllWorkerAction());
-  }, [dispatch, error, toast,isAvatarUpdate]);
+  }, [dispatch, error, toast, isAvatarUpdate]);
 
   let mockDataWorkers = [];
   if (allworkers?.length > 0) {
     if (divisionId && !districtId && !upazilaId) {
       const find_division = alldivisions?.find((i) => i._id == divisionId);
       if (find_division) {
-        const find_workers = allworkers.filter((i) => i._id == find_division?.profile_id);
+        const find_workers = allworkers.filter(
+          (i) => i._id == find_division?.profile_id
+        );
         if (find_workers?.length > 0) {
           find_workers.forEach((item, index) => {
             mockDataWorkers.push({
               sn: index + 1,
-              id:item._id,
+              id: item._id,
               userid: item.user?._id,
               name: item.username,
               phone: item.phone_or_email,
@@ -297,38 +324,14 @@ const Worker = () => {
           });
         }
       }
-    }
-    else if(divisionId && districtId && !upazilaId){
-      const find_district = alldistricts?.find((i) => i._id == districtId && i.division_id == divisionId);
+    } else if (divisionId && districtId && !upazilaId) {
+      const find_district = alldistricts?.find(
+        (i) => i._id == districtId && i.division_id == divisionId
+      );
       if (find_district) {
-        const find_workers = allworkers.filter((i) => i._id == find_district?.profile_id);
-        if (find_workers?.length > 0) {
-          find_workers.forEach((item, index) => {
-            mockDataWorkers.push({
-              sn: index + 1,
-              id:item._id,
-              userid: item.user?._id,
-              name: item.username,
-              phone: item.phone_or_email,
-              isfree: item.is_free,
-              address: item.address,
-              area: item.area,
-              ratings: item.ratings,
-              avatar: item?.avatar,
-              services: [
-                item?.services?.map(
-                  (i, index) => `(${index + 1})` + " " + i.service?.name
-                ),
-              ],
-            });
-          });
-        }
-      }
-    }
-    else if(divisionId && districtId && upazilaId){
-      const find_upazila = allupazilas?.find((i) => i._id == upazilaId && i.district_id == districtId);
-      if (find_upazila) {
-        const find_workers = allworkers.filter((i) => i._id == find_upazila?.profile_id);
+        const find_workers = allworkers.filter(
+          (i) => i._id == find_district?.profile_id
+        );
         if (find_workers?.length > 0) {
           find_workers.forEach((item, index) => {
             mockDataWorkers.push({
@@ -351,8 +354,37 @@ const Worker = () => {
           });
         }
       }
-    }
-    else {
+    } else if (divisionId && districtId && upazilaId) {
+      const find_upazila = allupazilas?.find(
+        (i) => i._id == upazilaId && i.district_id == districtId
+      );
+      if (find_upazila) {
+        const find_workers = allworkers.filter(
+          (i) => i._id == find_upazila?.profile_id
+        );
+        if (find_workers?.length > 0) {
+          find_workers.forEach((item, index) => {
+            mockDataWorkers.push({
+              sn: index + 1,
+              id: item._id,
+              userid: item.user?._id,
+              name: item.username,
+              phone: item.phone_or_email,
+              isfree: item.is_free,
+              address: item.address,
+              area: item.area,
+              ratings: item.ratings,
+              avatar: item?.avatar,
+              services: [
+                item?.services?.map(
+                  (i, index) => `(${index + 1})` + " " + i.service?.name
+                ),
+              ],
+            });
+          });
+        }
+      }
+    } else {
       allworkers.forEach((item, index) => {
         mockDataWorkers.push({
           sn: index + 1,
@@ -389,7 +421,13 @@ const Worker = () => {
           {/* worker delete modal */}
           {deleteModal && <WorkerDeleteModel workerId={workerId} />}
           {shwoAvator && <AvatarUpdateModal id={workerId} />}
-          {showStatus && <WorkerStatusModal workerId={workerId} workerName={workerName} id={userId}/>}
+          {showStatus && (
+            <WorkerStatusModal
+              workerId={workerId}
+              workerName={workerName}
+              id={userId}
+            />
+          )}
           <Box
             m="20px"
             sx={{
@@ -397,88 +435,105 @@ const Worker = () => {
               borderRadius: "8px",
             }}
           >
-            <div className="w-[100%] flex justify-center items-center">
-              <Typography className=" font-serif" sx={{ gridColumn: "span 4" }}>
-                Search Workers
-              </Typography>
-            </div>
+            {(userInfo?.user?.permissions?.includes("division-lists") ||
+              userInfo?.user?.userType == "super-admin") && (
+              <div className="w-[100%] flex justify-center items-center">
+                <Typography
+                  className=" font-serif"
+                  sx={{ gridColumn: "span 4" }}
+                >
+                  Search Workers
+                </Typography>
+              </div>
+            )}
             {/* worker division input */}
             <div className="flex w-full justify-around items-center">
               <div className="w-full">
                 <div>
-                  <select
-                    style={{ borderBottom: "1px solid black" }}
-                    onChange={(e) => setDivisionId(e.target.value)}
-                    className={`p-[10px] w-[90%] ${!divisionId ? "ml-14" : "ml-0"} font-serif  rounded-md ${isDarkMode
-                      ? "bg-gray-700"
-                      : "bg-gray-200 p-[14px]"
+                  {(userInfo?.user?.permissions?.includes("division-lists") ||
+                    userInfo?.user?.userType == "super-admin") && (
+                    <select
+                      style={{ borderBottom: "1px solid black" }}
+                      onChange={(e) => setDivisionId(e.target.value)}
+                      className={`p-[10px] w-[90%] ${
+                        !divisionId ? "ml-14" : "ml-0"
+                      } font-serif  rounded-md ${
+                        isDarkMode ? "bg-gray-700" : "bg-gray-200 p-[14px]"
                       }`}
-                  >
-                    <option className="">select worker division</option>
-                    {alldivisions?.map((item, index) => (
-                      <option key={index} value={item._id}>{item.division_name}</option>
-                    ))}
-
-                  </select>
+                    >
+                      <option className="">select worker division</option>
+                      {alldivisions?.map((item, index) => (
+                        <option key={index} value={item._id}>
+                          {item.division_name}
+                        </option>
+                      ))}
+                    </select>
+                  )}
                 </div>
               </div>
               {/* worker district input */}
-              {alldistricts?.length > 0 &&
+              {alldistricts?.length > 0 && (
                 <div className="w-full">
                   <div>
-                    <select
-                      style={{ borderBottom: "1px solid black" }}
-                      onChange={(e) => setDistrictId(e.target.value)}
-                      className={`p-[10px] w-[90%] font-serif  rounded-md ${isDarkMode
-                        ? "bg-gray-700"
-                        : "bg-gray-200 p-[14px]"
+                    {(userInfo?.user?.permissions?.includes("district-lists") ||
+                      userInfo?.user?.userType == "super-admin") && (
+                      <select
+                        style={{ borderBottom: "1px solid black" }}
+                        onChange={(e) => setDistrictId(e.target.value)}
+                        className={`p-[10px] w-[90%] font-serif  rounded-md ${
+                          isDarkMode ? "bg-gray-700" : "bg-gray-200 p-[14px]"
                         }`}
-                    >
-                      <option>select worker district</option>
-                      {alldistricts?.map((item, index) => (
-                        <option key={index} value={item._id}>{item.district_name}</option>
-                      ))}
-
-                    </select>
+                      >
+                        <option>select worker district</option>
+                        {alldistricts?.map((item, index) => (
+                          <option key={index} value={item._id}>
+                            {item.district_name}
+                          </option>
+                        ))}
+                      </select>
+                    )}
                   </div>
                 </div>
-              }
+              )}
               {/* worker upazila input */}
-              {allupazilas?.length > 0 &&
+              {allupazilas?.length > 0 && (
                 <div className="w-full">
                   <div>
-                    <select
-                      style={{ borderBottom: "1px solid black" }}
-                      onChange={(e) => setUpazilaId(e.target.value)}
-                      className={`p-[10px] w-[90%] font-serif  rounded-md ${isDarkMode
-                        ? "bg-gray-700"
-                        : "bg-gray-200 p-[14px]"
+                    {(userInfo?.user?.permissions?.includes("upazila-lists") ||
+                      userInfo?.user?.userType == "super-admin") && (
+                      <select
+                        style={{ borderBottom: "1px solid black" }}
+                        onChange={(e) => setUpazilaId(e.target.value)}
+                        className={`p-[10px] w-[90%] font-serif  rounded-md ${
+                          isDarkMode ? "bg-gray-700" : "bg-gray-200 p-[14px]"
                         }`}
-                    >
-                      <option>select worker upazila</option>
-                      {allupazilas?.map((item, index) => (
-                        <option key={index} value={item._id}>{item.upazila_name}</option>
-                      ))}
-
-                    </select>
+                      >
+                        <option>select worker upazila</option>
+                        {allupazilas?.map((item, index) => (
+                          <option key={index} value={item._id}>
+                            {item.upazila_name}
+                          </option>
+                        ))}
+                      </select>
+                    )}
                   </div>
                 </div>
-              }
-
+              )}
             </div>
             <div className="flex justify-between p-1 pb-0 justify-items-center">
               <Header title="Workers" />
 
               <div>
-
                 <Link
                   to="/dashboard/worker/create"
                   style={{ color: "white", width: "100%" }}
                 >
-                  <Button className="!py-2 !px-5 !font-bold !text-white !bg-yellow-500 !capitalize"
-                  >
-                    Create Worker
-                  </Button>
+                  {(userInfo?.user?.permissions?.includes("worker-create") ||
+                    userInfo?.user?.userType == "super-admin") && (
+                    <Button className="!py-2 !px-5 !font-bold !text-white !bg-yellow-500 !capitalize">
+                      Create Worker
+                    </Button>
+                  )}
                 </Link>
               </div>
             </div>
@@ -513,7 +568,6 @@ const Worker = () => {
                 },
               }}
             >
-
               <DataGrid
                 slots={{
                   toolbar: GridToolbar,

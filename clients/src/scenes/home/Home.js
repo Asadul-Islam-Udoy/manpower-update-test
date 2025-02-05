@@ -116,6 +116,301 @@ function Home() {
                     </div>
                   </li>
                 ))}
+
+                {/* <li>
+                  <div class="statItem">
+                    <a href="http://jobslinkbd.com/" target="_blank">
+                      <div class="statInfo">
+                        <img
+                          src="https://serviceshop.com.bd/assets/images/category-logo-12.png"
+                          alt="Jobs"
+                        />
+                      </div>
+                    </a>
+                    <div class="statThumb concern-1 Jobs_Link_BD">
+                      <img
+                        src="https://serviceshop.com.bd/assets/images/category-icon-12.png"
+                        alt="Jobs Link BD"
+                        class="icon-size"
+                      />
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="statItem">
+                    <a href="http://newsnetworkbd.com" target="_blank">
+                      <div class="statInfo">
+                        <img
+                          src="https://serviceshop.com.bd/assets/images/category-logo-6.png"
+                          alt="Newspaper"
+                        />
+                      </div>
+                    </a>
+                    <div class="statThumb concern-1 Newspaper">
+                      <img
+                        src="https://serviceshop.com.bd/assets/images/category-icon-6.png"
+                        alt="Newspaper"
+                        class="icon-size"
+                      />
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="statItem">
+                    <a href="http://medicalsheba.com" target="_blank">
+                      <div class="statInfo">
+                        <img
+                          src="https://serviceshop.com.bd/assets/images/category-logo-15.png"
+                          alt="Doctor"
+                        />
+                      </div>
+                    </a>
+                    <div class="statThumb concern-1 Doctor">
+                      <img
+                        src="https://serviceshop.com.bd/assets/images/category-icon-15.png"
+                        alt="Doctor"
+                        class="icon-size"
+                      />
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="statItem">
+                    <a href="http://booksshopbd.com" target="_blank">
+                      <div class="statInfo">
+                        <img
+                          src="https://serviceshop.com.bd/assets/images/category-logo-5.png"
+                          alt="Book"
+                        />
+                      </div>
+                    </a>
+                    <div class="statThumb concern-1 Book">
+                      <img
+                        src="https://serviceshop.com.bd/assets/images/category-icon-5.png"
+                        alt="Book"
+                        class="icon-size"
+                      />
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="statItem">
+                    <a href="http://rlab.doyalbaba.com/" target="_blank">
+                      <div class="statInfo">
+                        <img
+                          src="https://serviceshop.com.bd/assets/images/category-logo-8.png"
+                          alt="Education"
+                        />
+                      </div>
+                    </a>
+                    <div class="statThumb concern-1 Education">
+                      <img
+                        src="https://serviceshop.com.bd/assets/images/category-icon-8.png"
+                        alt="Education"
+                        class="icon-size"
+                      />
+                    </div>
+                  </div>
+                </li>
+
+                <li>
+                  <div class="statItem">
+                    <a href="http://beautybeezbd.com" target="_blank">
+                      <div class="statInfo">
+                        <img
+                          src="https://serviceshop.com.bd/assets/images/category-logo-9.png"
+                          alt="Beauty"
+                        />
+                      </div>
+                    </a>
+                    <div class="statThumb concern-1 Parlour">
+                      <img
+                        src="https://serviceshop.com.bd/assets/images/category-icon-9.png"
+                        alt="Parlour"
+                        class="icon-size"
+                      />
+                    </div>
+                  </div>
+                </li>
+
+                <li>
+                  <div class="statItem">
+                    <a href="http://kawranbazar.com.bd" target="_blank">
+                      <div class="statInfo">
+                        <img
+                          src="https://serviceshop.com.bd/assets/images/category-logo-7.jpg"
+                          alt="EShop"
+                        />
+                      </div>
+                    </a>
+                    <div class="statThumb concern-1 Shop">
+                      <img
+                        src="https://serviceshop.com.bd/assets/images/category-icon-7.png"
+                        alt="Shop"
+                        class="icon-size"
+                      />
+                    </div>
+                  </div>
+                </li>
+
+                <li>
+                  <div class="statItem">
+                    <a href="http://appsshopbd.com/" target="_blank">
+                      <div class="statInfo">
+                        <img
+                          src="https://serviceshop.com.bd/assets/images/category-logo-14.png"
+                          alt="appsshop"
+                        />
+                      </div>
+                    </a>
+                    <div class="statThumb concern-1 appsshop">
+                      <img
+                        src="https://serviceshop.com.bd/assets/images/category-icon-14.png"
+                        alt="appsshop"
+                        class="icon-size"
+                      />
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="statItem">
+                    <a href="http://binodonghor.com/" target="_blank">
+                      <div class="statInfo">
+                        <img
+                          src="https://serviceshop.com.bd/assets/images/category-logo-16.png"
+                          alt="binodonghor"
+                        />
+                      </div>
+                    </a>
+                    <div class="statThumb concern-1 binodonghor">
+                      <img
+                        src="https://serviceshop.com.bd/assets/images/category-icon-16.png"
+                        alt="binodonghor"
+                        class="icon-size"
+                      />
+                    </div>
+                  </div>
+                </li>
+
+                <li>
+                  <div class="statItem">
+                    <a href="https://carhat.com.bd/" target="_blank">
+                      <div class="statInfo">
+                        <img
+                          src="https://serviceshop.com.bd/assets/images/category-logo-27.png"
+                          alt="Carbiz"
+                        />
+                      </div>
+                    </a>
+                    <div class="statThumb concern-1 Carbiz">
+                      <img
+                        src="https://serviceshop.com.bd/assets/images/category-icon-27.png"
+                        alt="Carbiz"
+                        class="icon-size"
+                      />
+                    </div>
+                  </div>
+                </li>
+
+                <li>
+                  <div class="statItem">
+                    <a href="http://travelsolution.com.bd/" target="_blank">
+                      <div class="statInfo">
+                        <img
+                          src="https://serviceshop.com.bd/assets/images/category-logo-28.jpg"
+                          alt="TravelTour"
+                        />
+                      </div>
+                    </a>
+                    <div class="statThumb concern-1 TravelTour">
+                      <img
+                        src="https://serviceshop.com.bd/assets/images/category-icon-28.png"
+                        alt="TravelTour"
+                        class="icon-size"
+                      />
+                    </div>
+                  </div>
+                </li>
+
+                <li>
+                  <div class="statItem">
+                    <a href="http://meetface.radissonbd.com/" target="_blank">
+                      <div class="statInfo">
+                        <img
+                          src="https://serviceshop.com.bd/assets/images/category-logo-29.png"
+                          alt="Meetface"
+                        />
+                      </div>
+                    </a>
+                    <div class="statThumb concern-1 Dating">
+                      <img
+                        src="https://serviceshop.com.bd/assets/images/category-icon-29.png"
+                        alt="Dating"
+                        class="icon-size"
+                      />
+                    </div>
+                  </div>
+                </li>
+
+                <li>
+                  <div class="statItem">
+                    <a href="http://digitaltvbd.com/" target="_blank">
+                      <div class="statInfo">
+                        <img
+                          src="https://serviceshop.com.bd/assets/images/category-logo-30.png"
+                          alt="digitaltvbd"
+                        />
+                      </div>
+                    </a>
+                    <div class="statThumb concern-1 digitaltvbd">
+                      <img
+                        src="https://serviceshop.com.bd/assets/images/category-icon-30.png"
+                        alt="digitaltvbd"
+                        class="icon-size"
+                      />
+                    </div>
+                  </div>
+                </li>
+
+                <li>
+                  <div class="statItem">
+                    <a href="http://amaderkagoj.com/" target="_blank">
+                      <div class="statInfo">
+                        <img
+                          src="https://serviceshop.com.bd/assets/images/category-logo-31.jpg"
+                          alt="amaderkagoj"
+                        />
+                      </div>
+                    </a>
+                    <div class="statThumb concern-1 amaderkagoj">
+                      <img
+                        src="https://serviceshop.com.bd/assets/images/category-icon-31.png"
+                        alt="amaderkagoj"
+                        class="icon-size"
+                      />
+                    </div>
+                  </div>
+                </li>
+
+                <li>
+                  <div class="statItem">
+                    <a href="https://www.doyalbaba.com/" target="_blank">
+                      <div class="statInfo">
+                        <img
+                          src="https://serviceshop.com.bd/assets/images/category-logo-32.png"
+                          alt="Doyalbaba"
+                        />
+                      </div>
+                    </a>
+                    <div class="statThumb concern-1 Doyalbaba">
+                      <img
+                        src="https://serviceshop.com.bd/assets/images/category-icon-32.png"
+                        alt="Doyalbaba"
+                        class="icon-size"
+                      />
+                    </div>
+                  </div>
+                </li> */}
               </ul>
             </div>
           </div>

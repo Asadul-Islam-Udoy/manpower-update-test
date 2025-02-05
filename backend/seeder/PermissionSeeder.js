@@ -34,6 +34,9 @@ const PermissionseederData = [
     name: "worker-info-get",
   },
   {
+    name:"worker-create"
+  },
+  {
     name: "worker-avatar-create",
   },
   {

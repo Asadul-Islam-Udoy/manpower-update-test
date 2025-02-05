@@ -41,6 +41,7 @@ const reducer = combineReducers({
 //adimin
 const userIn = localStorage.getItem('userInfo')?
 JSON.parse(localStorage.getItem('userInfo')):null;
+console.log('hie',userIn)
 ///client 
 const clientIn = localStorage.getItem('clientInfo')?
 JSON.parse(localStorage.getItem('clientInfo')):null;

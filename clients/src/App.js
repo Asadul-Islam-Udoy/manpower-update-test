@@ -70,6 +70,7 @@ import AdminForgetPasswordRequestValidate from "./scenes/login/AdminForgetPasswo
 import AdminForgetPasswordRequest from "./scenes/login/AdminForgetPasswordRequest";
 import Permission from "./scenes/user_permission/Permission";
 import UpdateRole from "./scenes/user_permission/RoleLists";
+import AdminPermission from "./scenes/middleware/AdminPermission";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -101,9 +102,12 @@ function App() {
   }, [dispatch, error == "jwt expired", intervalId, error, navigate, toast]);
 
   useEffect(() => {
-    if (!intervalId && userInfo?.user?.userType == "admin" || userInfo?.user?.userType =="super-admin") {
+    if (
+      (!intervalId && userInfo?.user?.userType == "admin") ||
+      userInfo?.user?.userType == "super-admin"
+    ) {
       const id = setInterval(() => {
-      dispatch(userTokenRefreshAction());
+        dispatch(userTokenRefreshAction());
       }, 10000);
       setIntervalId(id);
     }
@@ -111,8 +115,16 @@ function App() {
       window.location.reload();
       setIntervalId(null);
     }
-  }, [dispatch, userInfo?.user?.userType == "admin" || userInfo?.user?.userType =="super-admin", navigate, isLogout]);
+  }, [
+    dispatch,
+    userInfo?.user?.userType == "admin" ||
+      userInfo?.user?.userType == "super-admin",
+    navigate,
+    isLogout,
+  ]);
 
+  const adminMiddlware = userInfo?.user?.userType === "admin" || "super-admin";
+  const chakeSuperAdmin = userInfo?.user?.userType == "super-admin";
   return (
     <CartProvider>
       <ColorModeContext.Provider value={colorMode}>
@@ -127,11 +139,26 @@ function App() {
                 <Route path="/login" element={<UserLogin />} />
                 <Route path="/register/:userType" element={<Register_User />} />
                 <Route path="/login/worker" element={<WorkerLogin />} />
-                <Route path="/register/user/otp/:emailorphone" element={<UserOtp />} />
-                <Route path="/user/forget/password/request" element={<ForgetPasswordRequest />} />
-                <Route path="/user/forget/password/requiest/validate/:emailorphone" element={<ForgetPasswordRequestValidate />} />
-                <Route path="/admin/forget/password/request" element={<AdminForgetPasswordRequest />} />
-                <Route path="/admin/forget/password/request/validate" element={<AdminForgetPasswordRequestValidate />} />
+                <Route
+                  path="/register/user/otp/:emailorphone"
+                  element={<UserOtp />}
+                />
+                <Route
+                  path="/user/forget/password/request"
+                  element={<ForgetPasswordRequest />}
+                />
+                <Route
+                  path="/user/forget/password/requiest/validate/:emailorphone"
+                  element={<ForgetPasswordRequestValidate />}
+                />
+                <Route
+                  path="/admin/forget/password/request"
+                  element={<AdminForgetPasswordRequest />}
+                />
+                <Route
+                  path="/admin/forget/password/request/validate"
+                  element={<AdminForgetPasswordRequestValidate />}
+                />
                 <Route path="/all/services" element={<GetService />} />
                 <Route path="/contract" element={<UserContact />} />
                 <Route path="/about" element={<About />} />
@@ -189,7 +216,7 @@ function App() {
                     </UserMiddleware>
                   }
                 />
-                                <Route
+                <Route
                   path="/user/client/notification/:id"
                   element={
                     <UserMiddleware
@@ -255,14 +282,14 @@ function App() {
                     </UserMiddleware>
                   }
                 />
-              {/* worker section */}
+                {/* worker section */}
                 <Route
                   path="/apply/worker/my/manpower"
                   element={
                     <UserMiddleware
                       isUser={clientInfo?.user?.userType === "worker"}
                     >
-                     < WorkerApply/>
+                      <WorkerApply />
                     </UserMiddleware>
                   }
                 />
@@ -270,9 +297,13 @@ function App() {
                   path="/profile/worker/my/manpower/:id"
                   element={
                     <UserMiddleware
-                      isUser={clientInfo?.user?.userType === "worker" || 'admin' || 'super-admin'}
+                      isUser={
+                        clientInfo?.user?.userType === "worker" ||
+                        "admin" ||
+                        "super-admin"
+                      }
                     >
-                     <WorkerDashboard />
+                      <WorkerDashboard />
                     </UserMiddleware>
                   }
                 />
@@ -281,7 +312,9 @@ function App() {
                   path="/dashboard"
                   element={
                     <AdminMiddleware
-                      isAdmin={userInfo?.user?.userType === "admin" || "super-admin"}
+                      isAdmin={
+                        userInfo?.user?.userType === "admin" || "super-admin"
+                      }
                     >
                       <Dashboard />
                     </AdminMiddleware>
@@ -291,20 +324,32 @@ function App() {
                 <Route
                   path="/dashboard/permissions"
                   element={
-                    <AdminMiddleware
-                      isAdmin={userInfo?.user?.userType === "admin" || "super-admin"}
-                    >
-                   <Permission/>
+                    <AdminMiddleware isAdmin={adminMiddlware}>
+                      <AdminPermission
+                        isAdmin={
+                          userInfo?.user?.permissions?.includes(
+                            "admin-lists"
+                          ) || chakeSuperAdmin
+                        }
+                      >
+                        <Permission />
+                      </AdminPermission>
                     </AdminMiddleware>
                   }
                 />
                 <Route
-                  path="/dashboard/permissions/role/update"
+                  path="/dashboard/permissions/roles"
                   element={
-                    <AdminMiddleware
-                      isAdmin={userInfo?.user?.userType === "admin" || "super-admin"}
-                    >
-                   <UpdateRole/>
+                    <AdminMiddleware isAdmin={adminMiddlware}>
+                      <AdminPermission
+                        isAdmin={
+                          userInfo?.user?.permissions?.includes(
+                            "admin-role-lists"
+                          ) || chakeSuperAdmin
+                        }
+                      >
+                        <UpdateRole />
+                      </AdminPermission>
                     </AdminMiddleware>
                   }
                 />
@@ -312,10 +357,16 @@ function App() {
                 <Route
                   path="/dashboard/worker"
                   element={
-                    <AdminMiddleware
-                      isAdmin={userInfo?.user?.userType === "admin" || "super-admin"}
-                    >
-                      <Worker />
+                    <AdminMiddleware isAdmin={adminMiddlware}>
+                      <AdminPermission
+                        isAdmin={
+                          userInfo?.user?.permissions?.includes(
+                            "worker-lists"
+                          ) || chakeSuperAdmin
+                        }
+                      >
+                        <Worker />
+                      </AdminPermission>
                     </AdminMiddleware>
                   }
                 />
@@ -324,10 +375,16 @@ function App() {
                 <Route
                   path="/dashboard/worker/create"
                   element={
-                    <AdminMiddleware
-                      isAdmin={userInfo?.user?.userType === "admin" || "super-admin"}
-                    >
-                      <WorkerCreate />
+                    <AdminMiddleware isAdmin={adminMiddlware}>
+                      <AdminPermission
+                        isAdmin={
+                          userInfo?.user?.permissions?.includes(
+                            "worker-create"
+                          ) || chakeSuperAdmin
+                        }
+                      >
+                        <WorkerCreate />
+                      </AdminPermission>
                     </AdminMiddleware>
                   }
                 />
@@ -335,21 +392,33 @@ function App() {
                 <Route
                   path="/dashboard/worker/profile/:id"
                   element={
-                    <AdminMiddleware
-                      isAdmin={userInfo?.user?.userType === "admin" || "super-admin"}
-                    >
-                      <WorkerProfile />
+                    <AdminMiddleware isAdmin={adminMiddlware}>
+                      <AdminPermission
+                        isAdmin={
+                          userInfo?.user?.permissions?.includes(
+                            "worker-info-get"
+                          ) || chakeSuperAdmin
+                        }
+                      >
+                        <WorkerProfile />
+                      </AdminPermission>
                     </AdminMiddleware>
                   }
                 />
-                
+
                 <Route
                   path="/dashboard/applications"
                   element={
-                    <AdminMiddleware
-                      isAdmin={userInfo?.user?.userType === "admin" || "super-admin"}
-                    >
-                      <WorkerApplyIndex />
+                    <AdminMiddleware isAdmin={adminMiddlware}>
+                      <AdminPermission
+                        isAdmin={
+                          userInfo?.user?.permissions?.includes(
+                            "apply-worker-lists"
+                          ) || chakeSuperAdmin
+                        }
+                      >
+                        <WorkerApplyIndex />
+                      </AdminPermission>
                     </AdminMiddleware>
                   }
                 />
@@ -357,10 +426,16 @@ function App() {
                 <Route
                   path="/dashboard/worker/update/:id"
                   element={
-                    <AdminMiddleware
-                      isAdmin={userInfo?.user?.userType === "admin" || "super-admin"}
-                    >
-                      <WorkerUpdate />
+                    <AdminMiddleware isAdmin={adminMiddlware}>
+                      <AdminPermission
+                        isAdmin={
+                          userInfo?.user?.permissions?.includes(
+                            "worker-update"
+                          ) || chakeSuperAdmin
+                        }
+                      >
+                        <WorkerUpdate />
+                      </AdminPermission>
                     </AdminMiddleware>
                   }
                 />
@@ -368,10 +443,16 @@ function App() {
                 <Route
                   path="/dashboard/client"
                   element={
-                    <AdminMiddleware
-                      isAdmin={userInfo?.user?.userType === "admin" || "super-admin"}
-                    >
-                      <Client />
+                    <AdminMiddleware isAdmin={adminMiddlware}>
+                      <AdminPermission
+                        isAdmin={
+                          userInfo?.user?.permissions?.includes(
+                            "client-lists"
+                          ) || chakeSuperAdmin
+                        }
+                      >
+                        <Client />
+                      </AdminPermission>
                     </AdminMiddleware>
                   }
                 />
@@ -379,7 +460,9 @@ function App() {
                   path="/dashboard/services"
                   element={
                     <AdminMiddleware
-                      isAdmin={userInfo?.user?.userType === "admin" || "super-admin"}
+                      isAdmin={
+                        userInfo?.user?.userType === "admin" || "super-admin"
+                      }
                     >
                       <ServicesIndex />
                     </AdminMiddleware>
@@ -389,7 +472,9 @@ function App() {
                   path="/dashboard/service/update/:id"
                   element={
                     <AdminMiddleware
-                      isAdmin={userInfo?.user?.userType === "admin" || "super-admin"}
+                      isAdmin={
+                        userInfo?.user?.userType === "admin" || "super-admin"
+                      }
                     >
                       <ServiceUpdate />
                     </AdminMiddleware>
@@ -399,7 +484,9 @@ function App() {
                   path="/dashboard/services/categories"
                   element={
                     <AdminMiddleware
-                      isAdmin={userInfo?.user?.userType === "admin" || "super-admin"}
+                      isAdmin={
+                        userInfo?.user?.userType === "admin" || "super-admin"
+                      }
                     >
                       <ServicesCategoiesIndex />
                     </AdminMiddleware>
@@ -409,7 +496,9 @@ function App() {
                   path="/dashboard/contacts"
                   element={
                     <AdminMiddleware
-                      isAdmin={userInfo?.user?.userType === "admin" || "super-admin"}
+                      isAdmin={
+                        userInfo?.user?.userType === "admin" || "super-admin"
+                      }
                     >
                       <AdminContacts />
                     </AdminMiddleware>
@@ -419,7 +508,9 @@ function App() {
                   path="/dashboard/home/page"
                   element={
                     <AdminMiddleware
-                      isAdmin={userInfo?.user?.userType === "admin" || "super-admin"}
+                      isAdmin={
+                        userInfo?.user?.userType === "admin" || "super-admin"
+                      }
                     >
                       <HomePageManage />
                     </AdminMiddleware>
@@ -429,7 +520,9 @@ function App() {
                   path="/dashboard/banners"
                   element={
                     <AdminMiddleware
-                      isAdmin={userInfo?.user?.userType === "admin" || "super-admin"}
+                      isAdmin={
+                        userInfo?.user?.userType === "admin" || "super-admin"
+                      }
                     >
                       <BannerIndex />
                     </AdminMiddleware>
@@ -439,7 +532,9 @@ function App() {
                   path="/dashboard/banners/images/:id"
                   element={
                     <AdminMiddleware
-                      isAdmin={userInfo?.user?.userType === "admin" || "super-admin"}
+                      isAdmin={
+                        userInfo?.user?.userType === "admin" || "super-admin"
+                      }
                     >
                       <BannerImage />
                     </AdminMiddleware>
@@ -449,7 +544,9 @@ function App() {
                   path="/dashboard/notifications"
                   element={
                     <AdminMiddleware
-                      isAdmin={userInfo?.user?.userType === "admin" || "super-admin"}
+                      isAdmin={
+                        userInfo?.user?.userType === "admin" || "super-admin"
+                      }
                     >
                       <NotificationIndex />
                     </AdminMiddleware>
@@ -459,7 +556,9 @@ function App() {
                   path="/dashboard/notification/info/:id"
                   element={
                     <AdminMiddleware
-                      isAdmin={userInfo?.user?.userType === "admin" || "super-admin"}
+                      isAdmin={
+                        userInfo?.user?.userType === "admin" || "super-admin"
+                      }
                     >
                       <NotificationInfo />
                     </AdminMiddleware>
@@ -469,7 +568,9 @@ function App() {
                   path="/dashboard/invoices"
                   element={
                     <AdminMiddleware
-                      isAdmin={userInfo?.user?.userType === "admin" || "super-admin"}
+                      isAdmin={
+                        userInfo?.user?.userType === "admin" || "super-admin"
+                      }
                     >
                       <Invoices />
                     </AdminMiddleware>
@@ -479,7 +580,9 @@ function App() {
                   path="/dashboard/booking"
                   element={
                     <AdminMiddleware
-                      isAdmin={userInfo?.user?.userType === "admin" || "super-admin"}
+                      isAdmin={
+                        userInfo?.user?.userType === "admin" || "super-admin"
+                      }
                     >
                       <BookingIndex />
                     </AdminMiddleware>
@@ -490,7 +593,9 @@ function App() {
                   path="/dashboard/get/booking/status/:status"
                   element={
                     <AdminMiddleware
-                      isAdmin={userInfo?.user?.userType === "admin" || "super-admin"}
+                      isAdmin={
+                        userInfo?.user?.userType === "admin" || "super-admin"
+                      }
                     >
                       <BookingIndexByStatus />
                     </AdminMiddleware>
@@ -501,7 +606,9 @@ function App() {
                   path="/dashboard/new/booking"
                   element={
                     <AdminMiddleware
-                      isAdmin={userInfo?.user?.userType === "admin" || "super-admin"}
+                      isAdmin={
+                        userInfo?.user?.userType === "admin" || "super-admin"
+                      }
                     >
                       <NewBookingIndex />
                     </AdminMiddleware>
@@ -511,7 +618,9 @@ function App() {
                   path="/dashboard/booking/info/:id"
                   element={
                     <AdminMiddleware
-                      isAdmin={userInfo?.user?.userType === "admin" || "super-admin"}
+                      isAdmin={
+                        userInfo?.user?.userType === "admin" || "super-admin"
+                      }
                     >
                       <BookingInfo />
                     </AdminMiddleware>
@@ -521,7 +630,9 @@ function App() {
                   path="/dashboard/payment/booking/info/:pid"
                   element={
                     <AdminMiddleware
-                      isAdmin={userInfo?.user?.userType === "admin" || "super-admin"}
+                      isAdmin={
+                        userInfo?.user?.userType === "admin" || "super-admin"
+                      }
                     >
                       <PaymentBookingInfo />
                     </AdminMiddleware>
@@ -531,7 +642,9 @@ function App() {
                   path="/dashboard/admin/profile/:id"
                   element={
                     <AdminMiddleware
-                      isAdmin={userInfo?.user?.userType === "admin" || "super-admin"}
+                      isAdmin={
+                        userInfo?.user?.userType === "admin" || "super-admin"
+                      }
                     >
                       <AdminProfile />
                     </AdminMiddleware>
@@ -541,7 +654,9 @@ function App() {
                   path="/dashboard/faq"
                   element={
                     <AdminMiddleware
-                      isAdmin={userInfo?.user?.userType === "admin" || "super-admin"}
+                      isAdmin={
+                        userInfo?.user?.userType === "admin" || "super-admin"
+                      }
                     >
                       <FAQ />
                     </AdminMiddleware>

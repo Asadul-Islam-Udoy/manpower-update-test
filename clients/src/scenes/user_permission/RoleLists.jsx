@@ -8,8 +8,8 @@ import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import Header from "../../components/dashboard/Header";
 import { getAllRoleListsAction } from "../../action/auth_admin/AdminAction";
 import { useDispatch, useSelector } from "react-redux";
-import {  useNavigate } from "react-router-dom";
-import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
+import { useNavigate } from "react-router-dom";
+import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
 import DeleteRoleModal from "../../components/modal/DeleteRoleModal";
 import UpdateRolePermissionModal from "../../components/modal/UpdateRolePermissionModal";
 function UpdateRole() {
@@ -21,12 +21,13 @@ function UpdateRole() {
   const colorMode = useContext(ColorModeContext);
   const [isSidebar, setIsSidebar] = useState(true);
   const [roleId, setRoleId] = useState("");
-  const [isShowUpdate,setIsShowUpdate] = useState(false);
+  const [isShowUpdate, setIsShowUpdate] = useState(false);
   const { error, lodding, allRoleLists } = useSelector(
     (state) => state.registerState
   );
+  const { userInfo } = useSelector((state) => state.loginState);
   useEffect(() => {
-     dispatch(getAllRoleListsAction());
+    dispatch(getAllRoleListsAction());
   }, [dispatch]);
 
   const columns = [
@@ -49,26 +50,32 @@ function UpdateRole() {
       renderCell: (params) => {
         return (
           <>
-            <button
-            onClick={() => [
-              setRoleId(params.row.id),
-              setIsShowUpdate((pre) => !pre),
-            ]}
-              title="udate role"
-              className="bg-blue-600 italic  h-12 mt-[0.4px] text-center font-bold rounded-sm py-[0] px-6"
-            >
-              Update
-            </button>
-            <button
-              onClick={() => [
-                setRoleId(params.row.id),
-                setIsShowDelete((pre) => !pre),
-              ]}
-              title="delete role"
-              className="text-center ml-2 italic  font-bold h-12 mt-[0.4px] rounded-sm py-[0] px-6 bg-red-600"
-            >
-              Delete
-            </button>
+            {(userInfo?.user?.permissions?.includes("admin-role-update") ||
+              userInfo?.user?.userType == "super-admin") && (
+              <button
+                onClick={() => [
+                  setRoleId(params.row.id),
+                  setIsShowUpdate((pre) => !pre),
+                ]}
+                title="udate role"
+                className="bg-blue-600 italic  h-12 mt-[0.4px] text-center font-bold rounded-sm py-[0] px-6"
+              >
+                Update
+              </button>
+            )}
+            {(userInfo?.user?.permissions?.includes("admin-role-delete") ||
+              userInfo?.user?.userType == "super-admin") && (
+              <button
+                onClick={() => [
+                  setRoleId(params.row.id),
+                  setIsShowDelete((pre) => !pre),
+                ]}
+                title="delete role"
+                className="text-center ml-2 italic  font-bold h-12 mt-[0.4px] rounded-sm py-[0] px-6 bg-red-600"
+              >
+                Delete
+              </button>
+            )}
           </>
         );
       },
@@ -83,7 +90,7 @@ function UpdateRole() {
         sn: index + 1,
         id: item._id,
         name: item.name,
-        permissions:item?.permissions?.map((item,index)=>item.name ,)
+        permissions: item?.permissions?.map((item, index) => item.name),
       });
     });
   }
@@ -98,8 +105,8 @@ function UpdateRole() {
               : "sidbar__container__2"
           }
         >
-          {isShowDelete && <DeleteRoleModal roleId={roleId}/>}
-          {isShowUpdate && <UpdateRolePermissionModal roleId={roleId}/>}
+          {isShowDelete && <DeleteRoleModal roleId={roleId} />}
+          {isShowUpdate && <UpdateRolePermissionModal roleId={roleId} />}
           <Topbar setIsSidebar={setIsSidebar} />
           {/* worker delete modal */}
           <Box
@@ -117,7 +124,7 @@ function UpdateRole() {
                   style={{ color: "white", width: "100%" }}
                 >
                   <Button className="!py-2 !px-5 !font-bold !text-white !bg-blue-500 !capitalize">
-                    <ArrowCircleLeftIcon/>
+                    <ArrowCircleLeftIcon />
                   </Button>
                 </div>
               </div>

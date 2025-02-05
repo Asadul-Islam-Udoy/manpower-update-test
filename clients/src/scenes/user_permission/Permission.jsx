@@ -158,7 +158,7 @@ function Permission() {
                 </div>
               </div>
               <div className="ml-24">
-                <Link to="/dashboard/permissions/role/update">
+                <Link to="/dashboard/permissions/roles">
                   <div
                     onClick={() => setShowRolePermission((pre) => !pre)}
                     style={{ color: "white", width: "100%" }}

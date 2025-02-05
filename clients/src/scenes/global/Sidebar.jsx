@@ -5,10 +5,10 @@ import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
 import "react-pro-sidebar/dist/css/styles.css";
 import { tokens } from "../../theme";
-import ApprovalIcon from '@mui/icons-material/Approval';
-import GroupIcon from '@mui/icons-material/Group';
-import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
-import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
+import ApprovalIcon from "@mui/icons-material/Approval";
+import GroupIcon from "@mui/icons-material/Group";
+import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
+import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import ViewCarouselIcon from "@mui/icons-material/ViewCarousel";
 import CleaningServicesIcon from "@mui/icons-material/CleaningServices";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
@@ -44,7 +44,7 @@ const Sidebar = () => {
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
-  const { error, userInfo } = useSelector((state) => state.loginState);
+  const {  userInfo } = useSelector((state) => state.loginState);
   return (
     <Box
       sx={{
@@ -141,29 +141,36 @@ const Sidebar = () => {
             >
               Data
             </Typography>
-            <Item
-              title="User Permissions"
-              to="/dashboard/permissions"
-              icon={<GroupIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-
-            <Item
-              title="Manage Workers"
-              to="/dashboard/worker"
-              icon={<EngineeringIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-
-            <Item
-              title="Manage Clients"
-              to="/dashboard/client"
-              icon={<PeopleOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
+            {(userInfo?.user?.permissions?.includes("admin-lists") ||
+              userInfo?.user?.userType == "super-admin") && (
+              <Item
+                title="User Permissions"
+                to="/dashboard/permissions"
+                icon={<GroupIcon />}
+                selected={selected}
+                setSelected={setSelected}
+              />
+            )}
+            {(userInfo?.user?.permissions?.includes("worker-lists") ||
+              userInfo?.user?.userType == "super-admin") && (
+              <Item
+                title="Manage Workers"
+                to="/dashboard/worker"
+                icon={<EngineeringIcon />}
+                selected={selected}
+                setSelected={setSelected}
+              />
+            )}
+            {(userInfo?.user?.permissions?.includes("client-lists") ||
+              userInfo?.user?.userType == "super-admin") && (
+              <Item
+                title="Manage Clients"
+                to="/dashboard/client"
+                icon={<PeopleOutlinedIcon />}
+                selected={selected}
+                setSelected={setSelected}
+              />
+            )}
             <Item
               title="Manage Services"
               to="/dashboard/services"
