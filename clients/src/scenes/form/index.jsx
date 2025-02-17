@@ -62,8 +62,14 @@ const AdminProfile = () => {
         }
       >
         <Topbar setIsSidebar={setIsSidebar} />
-        {showEmailUpdate && <UpdateAdminEamilModal setShowEmailUpdate={setShowEmailUpdate}/>}
-        {showPasswordUpdate && <UpdateAdminPasswordModal setShowPasswordUpdate={setShowPasswordUpdate}/>}
+        {showEmailUpdate && (
+          <UpdateAdminEamilModal setShowEmailUpdate={setShowEmailUpdate} />
+        )}
+        {showPasswordUpdate && (
+          <UpdateAdminPasswordModal
+            setShowPasswordUpdate={setShowPasswordUpdate}
+          />
+        )}
         <Box m="20px">
           <div className="flex justify-between">
             <Header
@@ -73,8 +79,13 @@ const AdminProfile = () => {
             <div>
               {" "}
               {!showEmailUpdate && !showPasswordUpdate ? (
-                <AdminProfileSidbar setShowEmailUpdate={setShowEmailUpdate} setShowPasswordUpdate={setShowPasswordUpdate}/>
-              ):''}
+                <AdminProfileSidbar
+                  setShowEmailUpdate={setShowEmailUpdate}
+                  setShowPasswordUpdate={setShowPasswordUpdate}
+                />
+              ) : (
+                ""
+              )}
             </div>
           </div>
           <div
@@ -141,15 +152,22 @@ const AdminProfile = () => {
               {lodding ? (
                 <LodderFrom text="Updating" />
               ) : (
-                <Button
-                  type="submit"
-                  className=" hover:text-white"
-                  style={{ fontWeight: "bold" }}
-                  color="secondary"
-                  variant="contained"
-                >
-                  Update Admin
-                </Button>
+                <>
+                  {(userInfo?.user?.permissions?.includes(
+                    "admin-profile-update"
+                  ) ||
+                    userInfo?.user?.userType == "super-admin") && (
+                    <Button
+                      type="submit"
+                      className=" hover:text-white"
+                      style={{ fontWeight: "bold" }}
+                      color="secondary"
+                      variant="contained"
+                    >
+                      Update Admin
+                    </Button>
+                  )}
+                </>
               )}
             </Box>
           </form>

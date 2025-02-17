@@ -8,7 +8,6 @@ import { GetSingleBookingAction } from "../../action/auth_admin/BookingAction";
 import { Link, useParams } from "react-router-dom";
 import { ColorModeContext, tokens } from "../../theme";
 import { useTheme } from "@emotion/react";
-import Rating from "@mui/material/Rating";
 function BookingInfo() {
   const contentRef = useRef();
   const { id } = useParams();
@@ -43,6 +42,14 @@ function BookingInfo() {
     };
 
     html2pdf().set(options).from(element).save();
+  };
+
+  
+  const date_convart = (time) => {
+    return new Date(time).toLocaleDateString();
+  };
+  const time_convart = (time) => {
+    return new Date(time).toLocaleTimeString();
   };
 
   return (
@@ -369,7 +376,8 @@ function BookingInfo() {
                                 {item.service?.service_discount?.discount}%
                               </p>
                             )}
-                            <p>worker start time :{item?.work_start_date}</p>
+                            <p>worker start time : {date_convart(item?.work_start_date)}-{time_convart(item?.work_start_date)}</p>
+                            <p>worker end time : {date_convart(item?.work_end_date)}-{time_convart(item?.work_end_date)}</p>
                             <p>time schedule :{item?.time_schedule}</p>
                           </div>
                         </>

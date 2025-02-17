@@ -22,7 +22,6 @@ import DeleteBookingModel from "../../components/modal/DeleteBookingModal";
 import Commentbox from "./commentbox";
 function BookingIndex() {
   const [isSidebar, setIsSidebar] = useState(true);
-
   const dispatch = useDispatch();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -30,10 +29,8 @@ function BookingIndex() {
   const [showWorker, setShowWorker] = useState(false);
   const [showPaymentStatus, setShowPaymentStatus] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
-  const { lodding, allbooking } = useSelector(
-    (state) => state.bookingState
-  );
-
+  const { lodding, allbooking } = useSelector((state) => state.bookingState);
+  const { userInfo } = useSelector((state) => state.loginState);
   useEffect(() => {
     dispatch(GetAllBookingAction());
   }, [dispatch]);
@@ -147,89 +144,101 @@ function BookingIndex() {
                 height: "100%",
               }}
             >
-              <button
-                style={{
-                  border: "none",
-                  borderRadius: "3px",
-                  backgroundColor: "#50a6f5",
-                  padding: "0px 10px",
-                  marginLeft: "3px",
-                  height: "30px",
-                  width: "40px",
-                  display: "flex",
-                  alignItems: "center",
-                }}
-                title="booking info"
-              >
-                <Link to={`/dashboard/booking/info/${params.row?.id}`}>
-                  <InfoIcon style={{ color: "white" }} />
-                </Link>
-              </button>
-
-              <button
-                style={{
-                  backgroundColor: "rgb(200 126 20)",
-                  marginLeft: "3px",
-                  border: "none",
-                  borderRadius: "3px",
-                  padding: "0px 10px",
-                  cursor: "pointer",
-                  height: "30px",
-                  width: "40px",
-                  display: "flex",
-                  alignItems: "center",
-                }}
-                title="add service worker"
-                onClick={() => [
-                  setShowWorker((pre) => !pre),
-                  setBookingId(params.row.id),
-                ]}
-              >
-                <HailIcon style={{ color: "white" }} />
-              </button>
-              <button
-                style={{
-                  backgroundColor: "#ef63",
-                  marginLeft: "3px",
-                  border: "none",
-                  borderRadius: "3px",
-                  padding: "0px 10px",
-                  cursor: "pointer",
-                  height: "30px",
-                  width: "40px",
-                  display: "flex",
-                  alignItems: "center",
-                }}
-                title="edit payment status"
-                onClick={() => [
-                  setShowPaymentStatus((pre) => !pre),
-                  setBookingId(params.row.id),
-                ]}
-              >
-                <BorderColorIcon style={{ color: "white" }} />
-              </button>
-
-              <button
-                style={{
-                  backgroundColor: "#ef630f",
-                  marginLeft: "3px",
-                  border: "none",
-                  borderRadius: "3px",
-                  padding: "0px 10px",
-                  cursor: "pointer",
-                  height: "30px",
-                  width: "40px",
-                  display: "flex",
-                  alignItems: "center",
-                }}
-                title="delete"
-                onClick={() => [
-                  setShowDelete((pre) => !pre),
-                  setBookingId(params.row.id),
-                ]}
-              >
-                <DeleteForeverIcon style={{ color: "white" }} />
-              </button>
+              {(userInfo?.user?.permissions?.includes("booking-info-get") ||
+                userInfo?.user?.userType == "super-admin") && (
+                <button
+                  style={{
+                    border: "none",
+                    borderRadius: "3px",
+                    backgroundColor: "#50a6f5",
+                    padding: "0px 10px",
+                    marginLeft: "3px",
+                    height: "30px",
+                    width: "40px",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                  title="booking info"
+                >
+                  <Link to={`/dashboard/booking/info/${params.row?.id}`}>
+                    <InfoIcon style={{ color: "white" }} />
+                  </Link>
+                </button>
+              )}
+              {(userInfo?.user?.permissions?.includes("booking-add-workers") ||
+                userInfo?.user?.userType == "super-admin") && (
+                <button
+                  style={{
+                    backgroundColor: "rgb(200 126 20)",
+                    marginLeft: "3px",
+                    border: "none",
+                    borderRadius: "3px",
+                    padding: "0px 10px",
+                    cursor: "pointer",
+                    height: "30px",
+                    width: "40px",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                  title="add service worker"
+                  onClick={() => [
+                    setShowWorker((pre) => !pre),
+                    setBookingId(params.row.id),
+                  ]}
+                >
+                  <HailIcon style={{ color: "white" }} />
+                </button>
+              )}
+              {(userInfo?.user?.permissions?.includes(
+                "booking-update-payment-status"
+              ) ||
+                userInfo?.user?.userType == "super-admin") && (
+                <button
+                  style={{
+                    backgroundColor: "#ef63",
+                    marginLeft: "3px",
+                    border: "none",
+                    borderRadius: "3px",
+                    padding: "0px 10px",
+                    cursor: "pointer",
+                    height: "30px",
+                    width: "40px",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                  title="edit payment status"
+                  onClick={() => [
+                    setShowPaymentStatus((pre) => !pre),
+                    setBookingId(params.row.id),
+                  ]}
+                >
+                  <BorderColorIcon style={{ color: "white" }} />
+                </button>
+              )}
+              {(userInfo?.user?.permissions?.includes("booking-delete") ||
+                userInfo?.user?.userType == "super-admin") && (
+                <button
+                  style={{
+                    backgroundColor: "#ef630f",
+                    marginLeft: "3px",
+                    border: "none",
+                    borderRadius: "3px",
+                    padding: "0px 10px",
+                    cursor: "pointer",
+                    height: "30px",
+                    width: "40px",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                  title="delete"
+                  onClick={() => [
+                    setShowDelete((pre) => !pre),
+                    setBookingId(params.row.id),
+                  ]}
+                >
+                  <DeleteForeverIcon style={{ color: "white" }} />
+                </button>
+              )}
             </div>
           </>
         );
@@ -282,110 +291,113 @@ function BookingIndex() {
           {showDelete && <DeleteBookingModel bookingId={bookingId} />}
           <Box m="20px">
             <Header title="Bookings" subtitle="List of Bookings " />
-            <Link
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                color: "white",
-                width: "100%",
-                backgroundColor: "#897406",
-                borderRadius: "5px",
-              }}
-            >
+            {(userInfo?.user?.permissions?.includes("booking-lists") ||
+              userInfo?.user?.userType == "super-admin") && (
               <Link
                 style={{
-                  backgroundColor: "#dfb811",
-                  width: "10%",
-                  fontWeight: "bold",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
                   color: "white",
-                  margin: "3px",
-                  padding: "2px 20px",
-                  borderRadius: "3px",
+                  width: "100%",
+                  backgroundColor: "#897406",
+                  borderRadius: "5px",
                 }}
-                to={`/dashboard/get/booking/status/${"Pending"}`}
               >
-                <Button
+                <Link
                   style={{
+                    backgroundColor: "#dfb811",
                     width: "10%",
                     fontWeight: "bold",
                     color: "white",
                     margin: "3px",
+                    padding: "2px 20px",
+                    borderRadius: "3px",
                   }}
+                  to={`/dashboard/get/booking/status/${"Pending"}`}
                 >
-                  Pending
-                </Button>
-              </Link>
-              <Link
-                style={{
-                  backgroundColor: "#4b81e9",
-                  width: "10%",
-                  fontWeight: "bold",
-                  color: "white",
-                  margin: "3px",
-                  padding: "2px 20px",
-                  borderRadius: "3px",
-                }}
-                to={`/dashboard/get/booking/status/${"Confirmed"}`}
-              >
-                <Button
+                  <Button
+                    style={{
+                      width: "10%",
+                      fontWeight: "bold",
+                      color: "white",
+                      margin: "3px",
+                    }}
+                  >
+                    Pending
+                  </Button>
+                </Link>
+                <Link
                   style={{
+                    backgroundColor: "#4b81e9",
                     width: "10%",
                     fontWeight: "bold",
                     color: "white",
                     margin: "3px",
+                    padding: "2px 20px",
+                    borderRadius: "3px",
                   }}
+                  to={`/dashboard/get/booking/status/${"Confirmed"}`}
                 >
-                  Confirmed
-                </Button>
-              </Link>
-              <Link
-                style={{
-                  backgroundColor: "#47bd47",
-                  width: "10%",
-                  fontWeight: "bold",
-                  color: "white",
-                  margin: "3px",
-                  padding: "2px 20px",
-                  borderRadius: "3px",
-                }}
-                to={`/dashboard/get/booking/status/${"Completed"}`}
-              >
-                <Button
+                  <Button
+                    style={{
+                      width: "10%",
+                      fontWeight: "bold",
+                      color: "white",
+                      margin: "3px",
+                    }}
+                  >
+                    Confirmed
+                  </Button>
+                </Link>
+                <Link
                   style={{
+                    backgroundColor: "#47bd47",
                     width: "10%",
                     fontWeight: "bold",
                     color: "white",
                     margin: "3px",
+                    padding: "2px 20px",
+                    borderRadius: "3px",
                   }}
+                  to={`/dashboard/get/booking/status/${"Completed"}`}
                 >
-                  Completed
-                </Button>
-              </Link>
-              <Link
-                style={{
-                  backgroundColor: "#e14778",
-                  width: "10%",
-                  fontWeight: "bold",
-                  color: "white",
-                  margin: "3px",
-                  padding: "2px 20px",
-                  borderRadius: "3px",
-                }}
-                to={`/dashboard/get/booking/status/${"Cancelled"}`}
-              >
-                <Button
+                  <Button
+                    style={{
+                      width: "10%",
+                      fontWeight: "bold",
+                      color: "white",
+                      margin: "3px",
+                    }}
+                  >
+                    Completed
+                  </Button>
+                </Link>
+                <Link
                   style={{
+                    backgroundColor: "#e14778",
                     width: "10%",
                     fontWeight: "bold",
                     color: "white",
                     margin: "3px",
+                    padding: "2px 20px",
+                    borderRadius: "3px",
                   }}
+                  to={`/dashboard/get/booking/status/${"Cancelled"}`}
                 >
-                  Cancelled
-                </Button>
+                  <Button
+                    style={{
+                      width: "10%",
+                      fontWeight: "bold",
+                      color: "white",
+                      margin: "3px",
+                    }}
+                  >
+                    Cancelled
+                  </Button>
+                </Link>
               </Link>
-            </Link>
+            )}
             <Box
               m="40px 0 0 0"
               height="73vh"

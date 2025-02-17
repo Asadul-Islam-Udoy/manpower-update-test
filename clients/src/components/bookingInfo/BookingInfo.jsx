@@ -12,8 +12,7 @@ const BookingInfo = () => {
   };
 
   const handleProceed = () => {
-   
-    // console.log("Proceed with booking:", cart, formData);
+   // console.log("Proceed with booking:", cart, formData);
   }; 
 
   return (

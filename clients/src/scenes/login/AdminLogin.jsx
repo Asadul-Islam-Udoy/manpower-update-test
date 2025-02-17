@@ -37,8 +37,8 @@ function AdminLogin() {
       window.location.reload();
     }
     if (isLogin) {
-      toast.success("admin login successfully!");
-      if (userInfo?.user.userType === "admin" || "super-admin") {
+      // toast.success("admin login successfully!");
+      if (userInfo?.user.userType === "admin" || userInfo?.user.userType === "super-admin") {
         navigate("/dashboard");
         setButtonDisabled(false);
       } else {

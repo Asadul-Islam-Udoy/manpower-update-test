@@ -14,7 +14,8 @@ import ReactStars from "react-rating-stars-component";
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import ClientDeleteBookingModal from "./ClientDeleteBookingModal";
 import ClientLodder from "../lodder/ClientLodder";
-const ClientOrder = () => {
+import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
+const ClientOrder = ({setActiveTab,setMenuOpen}) => {
   const {
     lodding,
     error,
@@ -115,7 +116,8 @@ const ClientOrder = () => {
       <div className="mx-auto max-w-screen-2xl border-gray-500 px-4 2xl:px-0">
         <div className="mx-auto max-w-7xl">
         {isDeleteBooking && <ClientDeleteBookingModal bookingId={bookingId}/>}
-          <div className="gap-4 w-full md:text-center  sm:flex sm:items-center sm:justify-between">
+          <div className="gap-1 w-full md:text-center  sm:flex sm:items-center">
+            <div onClick={()=>[setActiveTab('profile'),setMenuOpen(true)]} className="md:mt-0 mt-8 cursor-pointer"><ArrowCircleLeftIcon style={{fontSize:'30px'}}/></div>
             {personalBooking?.length > 0 && (
               <h2 className="text-xl md:mt-0 mt-8 text-center font-semibold text-gray-900 dark:text-white sm:text-2xl">
                 My orders

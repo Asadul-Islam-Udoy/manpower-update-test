@@ -7,7 +7,7 @@ const About = () => {
   return (
     <>
       <Header />
-      <div className="pt-24 bg-white md:pt-40">
+      <div className="pt-36 bg-white md:pt-40 ">
         <div className="max-w-screen-xl mx-auto">
           <div className="text-center">
             <h1 className="text-center text-2xl md:text-5xl font-bold mb-16  text-[#25a267]   inline-block">

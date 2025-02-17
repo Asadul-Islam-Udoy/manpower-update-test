@@ -39,7 +39,7 @@ const Helps = () => {
       <Header />
       <div
         style={{ width: "100%" }}
-        className="h-100 lg:w-38 md:h-full md:w-48 md:mt-0 mt-8  "
+        className="h-100 lg:w-38 md:h-full md:w-48 md:mt-0 mt-20  "
       >
         <section
           className="bg-blue-100 md:pt-24 dark:bg-slate-800"

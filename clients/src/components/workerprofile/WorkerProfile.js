@@ -1,13 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import ReactStars from "react-rating-stars-component";
 import { getSingleWorkerAction } from "../../action/auth_admin/AdminMaintainAction";
 import { getUserBookingAction } from "../../action/auth_user/UserBookingAction";
 const WorkerProfile = ({ workerId }) => {
   const dispatch = useDispatch();
-  const { personalBooking } = useSelector(
-    (state) => state.userpersonalBookingState
-  );
   const { singleworker } = useSelector((state) => state.sigleWorkerState);
   useEffect(() => {
     dispatch(getSingleWorkerAction(workerId));
@@ -17,81 +13,124 @@ const WorkerProfile = ({ workerId }) => {
     dispatch(getUserBookingAction(workerId));
   }, [dispatch, workerId]);
 
-  console.log("workerId", personalBooking);
   return (
-    <div
-      style={{ scrollbarWidth: "none" }}
-      className="h-screen overflow-auto"
-    >
-      <section className="min-h-screen mt-0 md:pt-10 md:-mt-20">
-        <div className="w-full lg:w-[100%]   md:w-2/3 px-4 mx-auto">
-          <div className="flex flex-col w-full min-w-0 mt-16 mb-6 overflow-y-scroll text-black break-words bg-white rounded-lg shadow-xl md:min-h-screen">
+    <div style={{ scrollbarWidth: "none" }} className="min-h-[300px]">
+      <section className=" mt-0  md:-mt-14">
+        <div className="w-full lg:w-[100%]   md:w-2/3 md:px-4 px-0 mx-auto">
+          <div className="flex flex-col w-full min-w-0 mt-10  text-black break-words bg-white ">
             <div className="m-5">
-              <section className="rounded-md group-2 w-full mt-[24px] px-7 md:w-[100%] py-8 antialiased min-h-screen  md:py-0">
+              <section className="rounded-md group-2 w-full mt-[40px] px-7 md:w-[100%] py-1 antialiased min-h-[710px]  md:py-0">
                 <div className="px-4 mx-auto border-gray-500 max-w-screen-2xl 2xl:px-0">
                   <div className="mx-auto max-w-7xl">
                     <div>
-                      <div className="flex-col w-full gap-4 text-center bg-blue-100 rounded-md sm:flex sm:items-center sm:justify-between">
+                      <div className="flex-col w-full min-w-96 gap-3 text-center border border-black rounded-md sm:flex sm:items-center sm:justify-between">
                         <h2 className="w-full font-serif text-xl font-semibold text-center text-gray-900 sm:text-2xl">
                           {singleworker?.worker?.username}
                         </h2>
-                        <span className="w-full font-bold text-center">
-                          {singleworker?.worker?.phone_or_email}
-                        </span>
-                        <p className=" text-[10px] md:w-[60%]">
+                        <p className=" text-[10px] md:w-[60%] py-3 md:-mt-4 -mt-1">
                           {singleworker?.worker?.profile_description}
                         </p>
                       </div>
-                      <div className="mt-5">
-                        <h3 className="my-3 text-lg ">
-                          Phone:
-                          <span>{singleworker?.worker?.phone_number}</span>
-                        </h3>
-                        <h3 className="my-3 text-lg ">
-                          Gender:<span>{singleworker?.worker?.gender}</span>
-                        </h3>
-                        <h3 className="my-3 text-lg ">
-                          Birthday:<span>{singleworker?.worker?.birthday}</span>
-                        </h3>
-                        <h3 className="my-3 text-lg ">
-                          Blood Group:
-                          <span>{singleworker?.worker?.blood_group}</span>
-                        </h3>
-                        <h3 className="my-3 text-lg ">
-                          Nationality:
-                          <span>{singleworker?.worker?.nationality}</span>
-                        </h3>
-                        <h3 className="my-3 text-lg ">
-                          Ratings:<span>{singleworker?.worker?.ratings}</span>
-                        </h3>
-                        <h3 className="my-3 text-lg ">
-                          Relationship:
-                          <span>{singleworker?.worker?.relationship}</span>
-                        </h3>
-                        <h3 className="my-3 text-lg ">
-                          Religion:<span>{singleworker?.worker?.religion}</span>
-                        </h3>
-                        <h3 className="my-3 text-lg ">
-                          Free:<span>{singleworker?.worker?.is_free}</span>
-                        </h3>
-                        <h3 className="my-3 text-lg ">
-                          Languages:
-                          <span>
-                            {singleworker?.worker?.languages?.map(
-                              (item, index) => (
-                                <span>
-                                  {item}
-                                  {singleworker?.worker?.languages?.length !==
-                                    index + 1 && ","}
-                                </span>
-                              )
-                            )}
-                          </span>
-                        </h3>
+                      <div className="mt-5  grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                        <div className=" col-span-2">
+                          <h3 className="my-3  text-lg ">
+                            Phone:
+                            <span>{singleworker?.worker?.phone_number}</span>
+                          </h3>
+                          <h3 className="my-3 text-lg ">
+                            Gender:<span>{singleworker?.worker?.gender}</span>
+                          </h3>
+                          <h3 className="my-3 text-lg ">
+                            Birthday:
+                            <span>{singleworker?.worker?.birthday}</span>
+                          </h3>
+                          <h3 className="my-3 text-lg ">
+                            Blood Group:
+                            <span>{singleworker?.worker?.blood_group}</span>
+                          </h3>
+                          <h3 className="my-3 text-lg ">
+                            Nationality:
+                            <span>{singleworker?.worker?.nationality}</span>
+                          </h3>
+                          <h3 className="my-3 text-lg ">
+                            Ratings:<span>{singleworker?.worker?.ratings}</span>
+                          </h3>
+                          <h3 className="my-3 text-lg ">
+                            Relationship:
+                            <span>{singleworker?.worker?.relationship}</span>
+                          </h3>
+                          <h3 className="my-3 text-lg ">
+                            Religion:
+                            <span>{singleworker?.worker?.religion}</span>
+                          </h3>
+                          <h3 className="my-3 text-lg ">
+                            Free:<span>{singleworker?.worker?.is_free}</span>
+                          </h3>
+                          <h3 className="my-3 text-lg ">
+                            Languages:
+                            <span>
+                              {singleworker?.worker?.languages?.map(
+                                (item, index) => (
+                                  <span>
+                                    {item}
+                                    {singleworker?.worker?.languages?.length !==
+                                      index + 1 && ","}
+                                  </span>
+                                )
+                              )}
+                            </span>
+                          </h3>
+                        </div>
+                        <div className="mt-2 col-span-2 h-96 overflow-auto  w-full">
+                          {singleworker?.worker?.education_qualification?.map(
+                            (item) => (
+                              <>
+                                <h1 className="font-bold p-2 w-full items-center bg-gray-50 border">
+                                  Education Qualification
+                                </h1>
+                                <div className="m-2 gap-1">
+                                  <b>Institute</b>:{" "}
+                                  <span>{item.institute}</span>
+                                  <hr />
+                                  <b>Degree</b>:{" "}
+                                  <span>{item.degree}</span>
+                                  <hr />
+                                  <b>Education Level</b>:{" "}
+                                  <span>{item.education_level}</span>
+                                  <hr />
+                                  <b>Major Subject</b>:{" "}
+                                  <span>{item.major_subject}</span>
+                                  <hr />
+                                  <b>Board University</b>:{" "}
+                                  <span>{item.board_university}</span>
+                                  <hr />
+                                  <b>Accreditation</b>:{" "}
+                                  <span>{item.accreditation}</span>
+                                  <hr />
+                                  <b>Admission_year</b>:{" "}
+                                  <span>{item.admission_year}</span>
+                                  <hr />
+                                  <b>Graduation_year</b>:{" "}
+                                  <span>{item.graduation_year}</span>
+                                  <hr />
+                                  <b>Gpa Or Cgpa</b>:{" "}
+                                  <span>{item.gpa_cgpa}</span>
+                                  <hr />
+                                  <b>Honors Awards</b>:{" "}
+                                  <span>{item.honors_awards}</span>
+                                  <hr />
+                                  <b>Location</b>:{" "}
+                                  <span>{item.location}</span>
+                                  <hr />
+                                </div>
+                              </>
+                            )
+                          )}
+                        </div>
                       </div>
                     </div>
                     <div className="py-4">
-                      <div className="flow-root  mt-2 sm:mt-8">
+                      {/* <div className="flow-root  mt-2 sm:mt-8">
                         {singleworker?.worker?.services?.length > 0 && (
                           <>
                             <div className="w-full gap-2  md:text-center sm:flex sm:items-center sm:justify-between">
@@ -106,8 +145,8 @@ const WorkerProfile = ({ workerId }) => {
                             </div>
                           </>
                         )}
-                      </div>
-                      <div className="flow-root mt-2 sm:mt-8">
+                      </div> */}
+                      {/* <div className="flow-root mt-2 sm:mt-8">
                         <div className="w-full gap-2 md:text-center sm:flex sm:items-center sm:justify-between">
                           <h4 className="w-full font-semibold text-center text-gray-900 border  md:text-lg sm:text-2xl">
                             Your Booking Lists
@@ -258,7 +297,7 @@ const WorkerProfile = ({ workerId }) => {
                             </>
                           ))}
                         </div>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </div>
@@ -267,14 +306,6 @@ const WorkerProfile = ({ workerId }) => {
           </div>
         </div>
       </section>
-
-      {/* {showModal && (
-        <CreateClientProfile
-          handleCloseModal={handleCloseModal}
-          initialData={clientProfile}
-          handleSaveProfile={handleSaveProfile}
-        />
-      )} */}
     </div>
   );
 };

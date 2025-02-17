@@ -29,6 +29,7 @@ function ServicesCategoiesIndex() {
   const { lodding, error, allCategoriesServices, isCategoryUpdate } =
     useSelector((state) => state.servicesCategoiesState);
   const dispatch = useDispatch();
+  const { userInfo } = useSelector((state) => state.loginState);
   useEffect(() => {
     if (error) {
       toast.error(error);
@@ -69,12 +70,17 @@ function ServicesCategoiesIndex() {
       headerName: "Color",
       flex: 5,
       renderCell: (params) => {
-        return(
+        return (
           <>
-          <p style={{backgroundColor:params.row.color}} className="h-5 w-5 rounded-full">color</p>
+            <p
+              style={{ backgroundColor: params.row.color }}
+              className="h-5 w-5 rounded-full"
+            >
+              color
+            </p>
           </>
-        )
-      }
+        );
+      },
     },
     {
       field: "parent_category",
@@ -161,42 +167,52 @@ function ServicesCategoiesIndex() {
                 height: "100%",
               }}
             >
-              <button
-                style={{
-                  border: "none",
-                  borderRadius: "3px",
-                  backgroundColor: "#50a6f5",
-                  padding: "0px 10px",
-                  height: "30px",
-                  width: "40px",
-                  display: "flex",
-                  alignItems: "center",
-                }}
-                title="update"
-                onClick={() => updateHandler(params.row.id)}
-              >
-                <Link>
-                  <BorderColorIcon style={{ color: "white" }} />
-                </Link>
-              </button>
-              <button
-                style={{
-                  backgroundColor: "#ef630f",
-                  marginLeft: "3px",
-                  border: "none",
-                  borderRadius: "3px",
-                  padding: "0px 10px",
-                  cursor: "pointer",
-                  height: "30px",
-                  width: "40px",
-                  display: "flex",
-                  alignItems: "center",
-                }}
-                title="delete"
-                onClick={() => deleteHandler(params.row.id, params.row.name)}
-              >
-                <DeleteForeverIcon style={{ color: "white" }} />
-              </button>
+              {(userInfo?.user?.permissions?.includes(
+                "service-category-update"
+              ) ||
+                userInfo?.user?.userType == "super-admin") && (
+                <button
+                  style={{
+                    border: "none",
+                    borderRadius: "3px",
+                    backgroundColor: "#50a6f5",
+                    padding: "0px 10px",
+                    height: "30px",
+                    width: "40px",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                  title="update"
+                  onClick={() => updateHandler(params.row.id)}
+                >
+                  <Link>
+                    <BorderColorIcon style={{ color: "white" }} />
+                  </Link>
+                </button>
+              )}
+              {(userInfo?.user?.permissions?.includes(
+                "service-category-delete"
+              ) ||
+                userInfo?.user?.userType == "super-admin") && (
+                <button
+                  style={{
+                    backgroundColor: "#ef630f",
+                    marginLeft: "3px",
+                    border: "none",
+                    borderRadius: "3px",
+                    padding: "0px 10px",
+                    cursor: "pointer",
+                    height: "30px",
+                    width: "40px",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                  title="delete"
+                  onClick={() => deleteHandler(params.row.id, params.row.name)}
+                >
+                  <DeleteForeverIcon style={{ color: "white" }} />
+                </button>
+              )}
             </div>
           </>
         );
@@ -215,10 +231,10 @@ function ServicesCategoiesIndex() {
         (item) => item?._id == element?.parentId
       )?.category_name,
       frontImage: element.frontImage,
-      backImage:element.backImage,
+      backImage: element.backImage,
       children_category: element.children?.map((i) => i.category_name),
       description: element.description,
-      color:element?.color
+      color: element?.color,
     });
   });
   return (
@@ -254,12 +270,17 @@ function ServicesCategoiesIndex() {
               <Header title="Category Services" />
               <Link>
                 {" "}
-                <Button
-                  className="!py-2 !px-5 !font-bold !text-white !bg-yellow-500 !capitalize"
-                  onClick={createHandler}
-                >
-                  Category Service Category
-                </Button>
+                {(userInfo?.user?.permissions?.includes(
+                  "service-category-create"
+                ) ||
+                  userInfo?.user?.userType == "super-admin") && (
+                  <Button
+                    className="!py-2 !px-5 !font-bold !text-white !bg-yellow-500 !capitalize"
+                    onClick={createHandler}
+                  >
+                    Category Service Create
+                  </Button>
+                )}
               </Link>
             </div>
             <Box

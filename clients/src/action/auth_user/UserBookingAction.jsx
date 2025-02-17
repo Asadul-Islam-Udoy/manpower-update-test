@@ -4,6 +4,9 @@ import {
   GET_USER_PERSONAL_BOOKING_REQUEST,
   GET_USER_PERSONAL_BOOKING_SUCCESS,
   GET_USER_PERSONAL_BOOKING_FAIL,
+  GET_WORKER_PERSONAL_BOOKING_REQUEST,
+  GET_WORKER_PERSONAL_BOOKING_SUCCESS,
+  GET_WORKER_PERSONAL_BOOKING_FAIL,
   USER_GIVEN_THE_REVIEWS_SUCCESS,
   USER_GIVEN_THE_REVIEWS_REQUEST,
   USER_GIVEN_THE_REVIEWS_FAIL,
@@ -51,6 +54,40 @@ export const getUserBookingAction = (id) => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: GET_USER_PERSONAL_BOOKING_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+//get worker booking action
+export const getWorkerBookingAction = (id) => async (dispatch, getState) => {
+  try {
+    const {
+      userLoginState: { clientInfo },
+    } = getState();
+    const {
+      loginState: { userInfo },
+    } = getState();
+    dispatch({ type: GET_WORKER_PERSONAL_BOOKING_REQUEST });
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: clientInfo?.token?.accesstoken || userInfo?.token?.accesstoken,
+      },
+    };
+    const { data } = await axios.get(
+      Localhost + `/api/bookings/get/unique/worker/booking/${id}`,
+      config
+    );
+    if (data) {
+      dispatch({
+        type: GET_WORKER_PERSONAL_BOOKING_SUCCESS,
+        payload: data.workerBookingList,
+      });
+    }
+  } catch (error) {
+    dispatch({
+      type: GET_WORKER_PERSONAL_BOOKING_FAIL,
       payload: error.response.data.message,
     });
   }

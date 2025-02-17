@@ -74,7 +74,7 @@ const Statics = () => {
               class="order-1 md:text-5xl text-xl font-extrabold leading-none text-orange-400 dark:text-indigo-100"
               id="sponsorsCount"
             >
-              ${processing_free}
+              Tk {processing_free}
             </dd>
           </div>
           <div class="flex flex-col md:p-6 p-2 text-center  border-gray-100 dark:border-gray-700 ">

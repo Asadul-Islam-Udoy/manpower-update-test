@@ -44,7 +44,7 @@ const Sidebar = () => {
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
-  const {  userInfo } = useSelector((state) => state.loginState);
+  const { userInfo } = useSelector((state) => state.loginState);
   return (
     <Box
       sx={{
@@ -171,62 +171,90 @@ const Sidebar = () => {
                 setSelected={setSelected}
               />
             )}
-            <Item
-              title="Manage Services"
-              to="/dashboard/services"
-              icon={<CleaningServicesIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Manage Categories"
-              to="/dashboard/services/categories"
-              icon={<CategoryIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Manage Notifications"
-              to="/dashboard/notifications/"
-              icon={<NotificationsActiveIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Workers Apply"
-              to="/dashboard/applications"
-              icon={<ApprovalIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Banner Informations"
-              to="/dashboard/banners"
-              icon={<ViewCarouselIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Invoices Balances"
-              to="/dashboard/invoices"
-              icon={<ReceiptOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Manage Bookings"
-              to="/dashboard/booking"
-              icon={<LaptopChromebookIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Manage Home Pages"
-              to="/dashboard/home/page"
-              icon={<AccountBalanceIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
+            {(userInfo?.user?.permissions?.includes("service-lists") ||
+              userInfo?.user?.userType == "super-admin") && (
+              <Item
+                title="Manage Services"
+                to="/dashboard/services"
+                icon={<CleaningServicesIcon />}
+                selected={selected}
+                setSelected={setSelected}
+              />
+            )}
+            {(userInfo?.user?.permissions?.includes("service-category-lists") ||
+              userInfo?.user?.userType == "super-admin") && (
+              <Item
+                title="Manage Categories"
+                to="/dashboard/services/categories"
+                icon={<CategoryIcon />}
+                selected={selected}
+                setSelected={setSelected}
+              />
+            )}
+            {(userInfo?.user?.permissions?.includes(
+              "client-notification-lists"
+            ) ||
+              userInfo?.user?.userType == "super-admin") && (
+              <Item
+                title="Manage Notifications"
+                to="/dashboard/notifications/"
+                icon={<NotificationsActiveIcon />}
+                selected={selected}
+                setSelected={setSelected}
+              />
+            )}
+            {(userInfo?.user?.permissions?.includes("apply-worker-lists") ||
+              userInfo?.user?.userType == "super-admin") && (
+              <Item
+                title="Workers Apply"
+                to="/dashboard/applications"
+                icon={<ApprovalIcon />}
+                selected={selected}
+                setSelected={setSelected}
+              />
+            )}
+            {(userInfo?.user?.permissions?.includes("banner-lists") ||
+              userInfo?.user?.userType == "super-admin") && (
+              <Item
+                title="Banner Informations"
+                to="/dashboard/banners"
+                icon={<ViewCarouselIcon />}
+                selected={selected}
+                setSelected={setSelected}
+              />
+            )}
+            {(userInfo?.user?.permissions?.includes(
+              "invoices-balances-lists"
+            ) ||
+              userInfo?.user?.userType == "super-admin") && (
+              <Item
+                title="Invoices Balances"
+                to="/dashboard/invoices"
+                icon={<ReceiptOutlinedIcon />}
+                selected={selected}
+                setSelected={setSelected}
+              />
+            )}
+            {(userInfo?.user?.permissions?.includes("booking-lists") ||
+              userInfo?.user?.userType == "super-admin") && (
+              <Item
+                title="Manage Bookings"
+                to="/dashboard/booking"
+                icon={<LaptopChromebookIcon />}
+                selected={selected}
+                setSelected={setSelected}
+              />
+            )}
+            {(userInfo?.user?.permissions?.includes("home-pages-lists") ||
+              userInfo?.user?.userType == "super-admin") && (
+              <Item
+                title="Manage Home Pages"
+                to="/dashboard/home/page"
+                icon={<AccountBalanceIcon />}
+                selected={selected}
+                setSelected={setSelected}
+              />
+            )}
             <Typography
               variant="h6"
               color={colors.grey[300]}
@@ -234,14 +262,16 @@ const Sidebar = () => {
             >
               Pages
             </Typography>
-            <Item
-              title="Profile Form"
-              to={`/dashboard/admin/profile/${userInfo?.user?._id}`}
-              icon={<PersonOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-
+            {(userInfo?.user?.permissions?.includes("admin-profile-lists") ||
+              userInfo?.user?.userType == "super-admin") && (
+              <Item
+                title="Profile Form"
+                to={`/dashboard/admin/profile/${userInfo?.user?._id}`}
+                icon={<PersonOutlinedIcon />}
+                selected={selected}
+                setSelected={setSelected}
+              />
+            )}
             {/* <Item
               title="FAQ Pages"
               to="/faq"

@@ -21,7 +21,7 @@ const Invoices = () => {
   const { lodding, error, allpayments } = useSelector(
     (state) => state.paymentState
   );
-
+const { userInfo } = useSelector((state) => state.loginState);
   useEffect(() => {
     dispatch(getAllPaymentAction());
   }, [dispatch]);
@@ -84,45 +84,53 @@ const Invoices = () => {
                 height: "100%",
               }}
             >
-              <button
-                style={{
-                  border: "none",
-                  borderRadius: "3px",
-                  backgroundColor: "#50a6f5",
-                  padding: "0px 10px",
-                  marginLeft: "3px",
-                  height: "30px",
-                  width: "40px",
-                  display: "flex",
-                  alignItems: "center",
-                }}
-                title="payment and booking info"
-              >
-                <Link to={`/dashboard/payment/booking/info/${params.row?.id}`}>
-                  <InfoIcon style={{ color: "white" }} />
-                </Link>
-              </button>
-              <button
-                style={{
-                  backgroundColor: "#ef630f",
-                  marginLeft: "3px",
-                  border: "none",
-                  borderRadius: "3px",
-                  padding: "0px 10px",
-                  cursor: "pointer",
-                  height: "30px",
-                  width: "40px",
-                  display: "flex",
-                  alignItems: "center",
-                }}
-                title="delete"
-                onClick={() => [
-                  setShowDelete((pre) => !pre),
-                  setPaymentId(params.row.id),
-                ]}
-              >
-                <DeleteForeverIcon style={{ color: "white" }} />
-              </button>
+              {(userInfo?.user?.permissions?.includes("invoices-balances-info-get") ||
+                userInfo?.user?.userType == "super-admin") && (
+                <button
+                  style={{
+                    border: "none",
+                    borderRadius: "3px",
+                    backgroundColor: "#50a6f5",
+                    padding: "0px 10px",
+                    marginLeft: "3px",
+                    height: "30px",
+                    width: "40px",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                  title="payment and booking info"
+                >
+                  <Link
+                    to={`/dashboard/payment/booking/info/${params.row?.id}`}
+                  >
+                    <InfoIcon style={{ color: "white" }} />
+                  </Link>
+                </button>
+              )}
+              {(userInfo?.user?.permissions?.includes("invoices-balances-delete") ||
+                userInfo?.user?.userType == "super-admin") && (
+                <button
+                  style={{
+                    backgroundColor: "#ef630f",
+                    marginLeft: "3px",
+                    border: "none",
+                    borderRadius: "3px",
+                    padding: "0px 10px",
+                    cursor: "pointer",
+                    height: "30px",
+                    width: "40px",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                  title="delete"
+                  onClick={() => [
+                    setShowDelete((pre) => !pre),
+                    setPaymentId(params.row.id),
+                  ]}
+                >
+                  <DeleteForeverIcon style={{ color: "white" }} />
+                </button>
+              )}
             </div>
           </>
         );

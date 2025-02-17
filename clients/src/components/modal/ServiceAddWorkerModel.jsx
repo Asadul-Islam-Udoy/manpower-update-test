@@ -16,6 +16,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import {
   GetAllBookingAction,
+  GetSingleBookingAction,
   refreshBookingAction,
   updateBookingWorkerAction,
 } from "../../action/auth_admin/BookingAction";
@@ -27,6 +28,9 @@ function ServiceAddWrokerModal({ bookingId }) {
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
   const navigate = useNavigate();
   const theme = useTheme();
+  const {singlebooking } = useSelector(
+    (state) => state.singleBookingState
+  );
   const colors = tokens(theme.palette.mode);
   const [open, setOpen] = useState(true);
   const isNonMobile = useMediaQuery("(min-width:600px)");
@@ -70,11 +74,49 @@ function ServiceAddWrokerModal({ bookingId }) {
     if (!workerId.includes(id)) {
       setWorkerId((pre) => [...pre, id]);
     } else {
-      const filter_list = workerId.filter((i) => i !== id);
-      setWorkerId(filter_list);
+      setWorkerId((pre) =>workerId.filter((i) => i !== id));
     }
   };
 
+ 
+
+    useEffect(() => {
+      dispatch(GetSingleBookingAction(bookingId));
+    }, [dispatch, bookingId]);
+
+
+  useEffect(() => {
+      if (singlebooking?.workers?.length > 0) {
+        singlebooking?.workers?.forEach((element) => {
+          if (!workerId.includes(element?.user?._id)) {
+            setWorkerId((pre) => [...pre, element?.user?._id]);
+          }
+        });
+      }
+    }, [singlebooking?.workers?.length> 0]);
+
+  function checkHandler(singlebooking,item){
+    const value = singlebooking?.workers?.some((i)=>i.user?._id == item?.user?._id);
+    if(value){
+      return  true
+    }
+    else{
+      return false
+    }
+  }
+
+  // useEffect(()=>{
+  //   if(singlebooking?.workers?.length >= 0){
+  //     singlebooking?.workers?.forEach(element => {
+  //       if (!workerId.includes(element?.user?._id)) {
+  //         setWorkerId((pre) => [...pre, element?.user?._id]);
+  //       } 
+  //     }); 
+  //   }
+  // },[])
+
+
+  console.log('wir',workerId)
   return (
     <>
       <Dialog
@@ -133,7 +175,7 @@ function ServiceAddWrokerModal({ bookingId }) {
                   control={
                     <Checkbox
                       {...label}
-                      defaultChecked={false}
+                      defaultChecked={checkHandler(singlebooking,item)}
                       color="secondary"
                       onClick={() => workerIdHandler(item?.user?._id)}
                     />

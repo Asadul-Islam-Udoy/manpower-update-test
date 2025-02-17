@@ -18,8 +18,9 @@ const UserPersonalOrderInfo = () => {
     dispatch(getSingleBookingByIdAction(id));
   }, [id]);
   return (
+    <>
+    <Header/>
     <div className="bg-blue-200">
-      <Header />
       <section className="w-full  px-6  pt-28 pb-20  max-w-7xl mx-auto">
         <div className="shadow-md px-10 pb-5 rounded-md bg-blue-200">
           <div className="flex justify-center items-center w-full gap-2 border-b py-8">
@@ -253,6 +254,7 @@ const UserPersonalOrderInfo = () => {
       </section>
       <Footer />
     </div>
+    </>
   );
 };
 

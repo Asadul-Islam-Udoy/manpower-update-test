@@ -1,12 +1,10 @@
 import { Box, IconButton, useTheme } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import { ColorModeContext, tokens } from "../../theme";
-import InputBase from "@mui/material/InputBase";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
-import SearchIcon from "@mui/icons-material/Search";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
@@ -59,7 +57,12 @@ const Topbar = () => {
     return list.length;
   };
   return (
-    <Box display="flex" backgroundColor={colors.primary[400]} justifyContent="space-between" p={2}>
+    <Box
+      display="flex"
+      backgroundColor={colors.primary[400]}
+      justifyContent="space-between"
+      p={2}
+    >
       {/* SEARCH BAR */}
       <Box
         display="flex"
@@ -81,7 +84,6 @@ const Topbar = () => {
             position: "relative",
             overflow: "hidden",
           }}
-         
         >
           <span
             style={{
@@ -97,7 +99,7 @@ const Topbar = () => {
                   ? "2px solid white"
                   : "2px solid black",
             }}
-             className=" flex w-full items-center justify-center"
+            className=" flex w-full items-center justify-center"
           >
             {allnewbooking?.length}
           </span>

@@ -2,6 +2,9 @@ import {
   GET_USER_PERSONAL_BOOKING_FAIL,
   GET_USER_PERSONAL_BOOKING_REQUEST,
   GET_USER_PERSONAL_BOOKING_SUCCESS,
+  GET_WORKER_PERSONAL_BOOKING_REQUEST,
+  GET_WORKER_PERSONAL_BOOKING_SUCCESS,
+  GET_WORKER_PERSONAL_BOOKING_FAIL,
   USER_GIVEN_THE_REVIEWS_SUCCESS,
   USER_GIVEN_THE_REVIEWS_REQUEST,
   USER_GIVEN_THE_REVIEWS_FAIL,
@@ -26,6 +29,7 @@ export const UserPersonalBookingReducers = (
 ) => {
   switch (action.type) {
     case GET_USER_PERSONAL_BOOKING_REQUEST:
+    case GET_WORKER_PERSONAL_BOOKING_REQUEST:
     case USER_GIVEN_THE_REVIEWS_REQUEST:
     case USER_BOOKING_CALCEL_REQUEST:
     case USER_BOOKING_AGAIN_REQUEST:
@@ -40,6 +44,7 @@ export const UserPersonalBookingReducers = (
         isClientBookingDelete: false,
       };
     case GET_USER_PERSONAL_BOOKING_SUCCESS:
+    case GET_WORKER_PERSONAL_BOOKING_SUCCESS:
       return {
         ...state,
         lodding: false,
@@ -77,6 +82,7 @@ export const UserPersonalBookingReducers = (
         isClientBookingDelete: true,
       };
     case GET_USER_PERSONAL_BOOKING_FAIL:
+    case GET_WORKER_PERSONAL_BOOKING_FAIL:
     case USER_GIVEN_THE_REVIEWS_FAIL:
     case USER_BOOKING_CALCEL_FAIL:
     case USER_BOOKING_AGAIN_FAIL:

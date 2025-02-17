@@ -10,6 +10,7 @@ import {
 } from "../../action/auth_user/UserAction";
 import { Localhost } from "../../action/host/HostConnection";
 import LodderFrom from "../../components/lodder/LodderFrom";
+import AddTaskIcon from '@mui/icons-material/AddTask';
 const WorkerApply = () => {
   const navigate = useNavigate();
   const {lodding, error, isapply, getsingleapplyresume } = useSelector(
@@ -75,6 +76,8 @@ const WorkerApply = () => {
     setResume(getsingleapplyresume?.resume);
   }, [getsingleapplyresume]);
   return (
+    <>
+    {!getsingleapplyresume ? 
     <div className="py-10  md:pt-36 md:pb-20 md:mt-0 flex justify-center items-center fixed left-0 top-0 z-[1055] bg-blue-100 bg-opacity-65 h-full w-full overflow-y-auto overflow-x-hidden scrollbar  scrollbar-thumb-gray-500 scrollbar-track-gray-300 outline-none">
       <div className="bg-white shadow-2xl md:mt-0 mt-10 md:overflow-hidden  h-[750px] rounded-xl p-8 w-full md:w-3/4 lg:w-1/2">
         <div className="flex  justify-between items-center">
@@ -208,6 +211,15 @@ const WorkerApply = () => {
         )}
       </div>
     </div>
+    :
+     <div onClick={()=>navigate(-1)} className="h-screen flex items-center justify-center cursor-pointer text-blue-600 w-full bg-white">
+        <div className=" flex items-center flex-col justify-center border h-48 md:w-96 border-orange-300 rounded-md shadow-sm w-[90%]">
+          <AddTaskIcon style={{color:'tomato'}}/> 
+          <h1 className=" border-b border-blue-400 italic">Your resume submitted</h1>
+        </div> 
+    </div>
+  }
+  </>
   );
 };
 

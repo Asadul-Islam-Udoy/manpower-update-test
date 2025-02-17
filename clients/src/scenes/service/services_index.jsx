@@ -32,7 +32,7 @@ function ServicesIndex() {
   const dispatch = useDispatch();
   const { error, allservices, isServiceCreate, isServiceDiscount } =
     useSelector((state) => state.servicesState);
-
+  const { userInfo } = useSelector((state) => state.loginState);
   useEffect(() => {
     if (error) {
       toast.error(error);
@@ -152,63 +152,74 @@ function ServicesIndex() {
                 justifyContent: "center",
               }}
             >
-              <button
-                style={{
-                  border: "none",
-                  borderRadius: "3px",
-                  backgroundColor: "rgb(17 98 20)",
-                  padding: "0px 10px",
-                  margin: "3px",
-                  height: "30px",
-                  width: "40px",
-                  display: "flex",
-                  alignItems: "center",
-                }}
-                title="add discount"
-                onClick={() => [
-                  setDiscountShow((pre) => !pre),
-                  setServiceId(params.row.id),
-                ]}
-              >
-                <Link>
-                  <DiscountIcon style={{ color: "white" }} />
-                </Link>
-              </button>
-              <button
-                style={{
-                  border: "none",
-                  borderRadius: "3px",
-                  backgroundColor: "#50a6f5",
-                  padding: "0px 10px",
-                  height: "30px",
-                  width: "40px",
-                  display: "flex",
-                  alignItems: "center",
-                }}
-                title="update"
-              >
-                <Link to={`/dashboard/service/update/${params.row.id}`}>
-                  <BorderColorIcon style={{ color: "white" }} />
-                </Link>
-              </button>
-              <button
-                style={{
-                  backgroundColor: "#ef630f",
-                  marginLeft: "3px",
-                  border: "none",
-                  borderRadius: "3px",
-                  padding: "0px 10px",
-                  cursor: "pointer",
-                  height: "30px",
-                  width: "40px",
-                  display: "flex",
-                  alignItems: "center",
-                }}
-                title="delete"
-                onClick={() => deleteHandler(params.row.id, params.row.name)}
-              >
-                <DeleteForeverIcon style={{ color: "white" }} />
-              </button>
+              {(userInfo?.user?.permissions?.includes(
+                "service-discount-edit"
+              ) ||
+                userInfo?.user?.userType == "super-admin") && (
+                <button
+                  style={{
+                    border: "none",
+                    borderRadius: "3px",
+                    backgroundColor: "rgb(17 98 20)",
+                    padding: "0px 10px",
+                    margin: "3px",
+                    height: "30px",
+                    width: "40px",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                  title="add discount"
+                  onClick={() => [
+                    setDiscountShow((pre) => !pre),
+                    setServiceId(params.row.id),
+                  ]}
+                >
+                  <Link>
+                    <DiscountIcon style={{ color: "white" }} />
+                  </Link>
+                </button>
+              )}
+              {(userInfo?.user?.permissions?.includes("service-update") ||
+                userInfo?.user?.userType == "super-admin") && (
+                <button
+                  style={{
+                    border: "none",
+                    borderRadius: "3px",
+                    backgroundColor: "#50a6f5",
+                    padding: "0px 10px",
+                    height: "30px",
+                    width: "40px",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                  title="update"
+                >
+                  <Link to={`/dashboard/service/update/${params.row.id}`}>
+                    <BorderColorIcon style={{ color: "white" }} />
+                  </Link>
+                </button>
+              )}
+              {(userInfo?.user?.permissions?.includes("service-delete") ||
+                userInfo?.user?.userType == "super-admin") && (
+                <button
+                  style={{
+                    backgroundColor: "#ef630f",
+                    marginLeft: "3px",
+                    border: "none",
+                    borderRadius: "3px",
+                    padding: "0px 10px",
+                    cursor: "pointer",
+                    height: "30px",
+                    width: "40px",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                  title="delete"
+                  onClick={() => deleteHandler(params.row.id, params.row.name)}
+                >
+                  <DeleteForeverIcon style={{ color: "white" }} />
+                </button>
+              )}
             </div>
           </>
         );
@@ -267,12 +278,15 @@ function ServicesIndex() {
               <Header title="Services" />
               <Link>
                 {" "}
-                <Button
-                  className="!py-2 !px-5 !font-bold !text-white !bg-yellow-500 !capitalize"
-                  onClick={createHandler}
-                >
-                  Create Service
-                </Button>
+                {(userInfo?.user?.permissions?.includes("service-create") ||
+                  userInfo?.user?.userType == "super-admin") && (
+                  <Button
+                    className="!py-2 !px-5 !font-bold !text-white !bg-yellow-500 !capitalize"
+                    onClick={createHandler}
+                  >
+                    Create Service
+                  </Button>
+                )}
               </Link>
             </div>
             <Box

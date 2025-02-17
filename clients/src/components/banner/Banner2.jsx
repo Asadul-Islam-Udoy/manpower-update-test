@@ -30,7 +30,6 @@ function Banner2() {
   return (
     <>
       <div className="banner__image__container">
-        {lodding && <Lodder />}
         <div className="banner__image__box">
           {activeBanners?.images
             ?.slice(c_image, c_image + 1)

@@ -39,7 +39,7 @@ function BannerIndex() {
   const { lodding, error, allbanners, isActive } = useSelector(
     (state) => state.bannersState
   );
-
+  const { userInfo } = useSelector((state) => state.loginState);
   useEffect(() => {
     if (error) {
       toast.error(error);
@@ -106,17 +106,20 @@ function BannerIndex() {
                   width: "40%",
                 }}
               >
-                <FormControlLabel
-                  label={`${params.row.isActive}`}
-                  control={
-                    <Checkbox
-                      {...label}
-                      defaultChecked={params.row.isActive}
-                      color="secondary"
-                      onClick={() => updateIsActiveHandler(params.row.id)}
-                    />
-                  }
-                />
+                {(userInfo?.user?.permissions?.includes("banner-active") ||
+                  userInfo?.user?.userType == "super-admin") && (
+                  <FormControlLabel
+                    label={`${params.row.isActive}`}
+                    control={
+                      <Checkbox
+                        {...label}
+                        defaultChecked={params.row.isActive}
+                        color="secondary"
+                        onClick={() => updateIsActiveHandler(params.row.id)}
+                      />
+                    }
+                  />
+                )}
               </FormGroup>
             </div>
           </>
@@ -157,60 +160,69 @@ function BannerIndex() {
                 height: "100%",
               }}
             >
-              <button
-                style={{
-                  border: "none",
-                  borderRadius: "3px",
-                  backgroundColor: " rgb(169 169 19)",
-                  padding: "0px 10px",
-                  marginRight: "3px",
-                  height: "30px",
-                  width: "40px",
-                  display: "flex",
-                  alignItems: "center",
-                }}
-                title="images"
-              >
-                <Link to={`/dashboard/banners/images/${params.row.id}`}>
-                  <ViewCarouselIcon style={{ color: "white" }} />
-                </Link>
-              </button>
-              <button
-                style={{
-                  border: "none",
-                  borderRadius: "3px",
-                  backgroundColor: "#50a6f5",
-                  padding: "0px 10px",
-                  height: "30px",
-                  width: "40px",
-                  display: "flex",
-                  alignItems: "center",
-                }}
-                title="update"
-                onClick={() => updateHandler(params.row.id)}
-              >
-                <Link>
-                  <BorderColorIcon style={{ color: "white" }} />
-                </Link>
-              </button>
-              <button
-                style={{
-                  backgroundColor: "#ef630f",
-                  marginLeft: "3px",
-                  border: "none",
-                  borderRadius: "3px",
-                  padding: "0px 10px",
-                  cursor: "pointer",
-                  height: "30px",
-                  width: "40px",
-                  display: "flex",
-                  alignItems: "center",
-                }}
-                title="delete"
-                onClick={() => deleteHandler(params.row.id)}
-              >
-                <DeleteForeverIcon style={{ color: "white" }} />
-              </button>
+              {(userInfo?.user?.permissions?.includes("banner-image") ||
+                userInfo?.user?.userType == "super-admin") && (
+                <button
+                  style={{
+                    border: "none",
+                    borderRadius: "3px",
+                    backgroundColor: " rgb(169 169 19)",
+                    padding: "0px 10px",
+                    marginRight: "3px",
+                    height: "30px",
+                    width: "40px",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                  title="images"
+                >
+                  <Link to={`/dashboard/banners/images/${params.row.id}`}>
+                    <ViewCarouselIcon style={{ color: "white" }} />
+                  </Link>
+                </button>
+              )}
+              {(userInfo?.user?.permissions?.includes("banner-update") ||
+                userInfo?.user?.userType == "super-admin") && (
+                <button
+                  style={{
+                    border: "none",
+                    borderRadius: "3px",
+                    backgroundColor: "#50a6f5",
+                    padding: "0px 10px",
+                    height: "30px",
+                    width: "40px",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                  title="update"
+                  onClick={() => updateHandler(params.row.id)}
+                >
+                  <Link>
+                    <BorderColorIcon style={{ color: "white" }} />
+                  </Link>
+                </button>
+              )}
+              {(userInfo?.user?.permissions?.includes("banner-delete") ||
+                userInfo?.user?.userType == "super-admin") && (
+                <button
+                  style={{
+                    backgroundColor: "#ef630f",
+                    marginLeft: "3px",
+                    border: "none",
+                    borderRadius: "3px",
+                    padding: "0px 10px",
+                    cursor: "pointer",
+                    height: "30px",
+                    width: "40px",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                  title="delete"
+                  onClick={() => deleteHandler(params.row.id)}
+                >
+                  <DeleteForeverIcon style={{ color: "white" }} />
+                </button>
+              )}
             </div>
           </>
         );

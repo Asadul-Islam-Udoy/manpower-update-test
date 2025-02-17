@@ -29,7 +29,7 @@ const CreateClientProfile = ({initialData,handleCloseModal,handleSaveProfile}) =
       <div className="bg-white shadow-2xl md:mt-0 mt-[30%] rounded-xl p-8 w-full md:w-3/4 lg:w-1/2">
         <div className="flex justify-between items-center">
           <h1 className="text-3xl font-serif font-extrabold text-gray-800 mb-4">
-            Create Client Profile
+            Edit Your Profile
           </h1>
           <button onClick={handleCloseModal} className="text-3xl text-red-600">
             <MdClose />

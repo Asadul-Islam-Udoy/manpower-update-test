@@ -3,7 +3,6 @@ import { motion, useInView } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { getHomeAppsAction } from "../../action/auth_admin/AdminMaintainAction";
 import { Localhost } from "../../action/host/HostConnection";
-import Lodder from "../lodder/Lodder";
 
 const AppSection = () => {
   const ref = useRef(null);
@@ -16,7 +15,6 @@ const AppSection = () => {
   }, [dispatch]);
   return (
     <>
-      {lodding && <Lodder />}
       <section
         ref={ref}
         className="max-w-screen-xl px-4 mx-auto mb-8 text-gray-800"

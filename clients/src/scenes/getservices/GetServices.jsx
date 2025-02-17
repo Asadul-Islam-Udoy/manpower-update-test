@@ -46,8 +46,8 @@ const GetService = () => {
 
   return (
     <>
+      <Header />
       <div className="min-h-[300px] overflow-hidden bg-white text-gray-700 pb-4">
-        <Header />
         <div className="flex items-center flex-col justify-center  w-[100%] mt-20 ">
           <div className=" md:w-[50%] w-[100%] mt-7 flex items-center flex-col py-3 justify-center ">
             <h1 className="md:text-5xl text-4xl text-[#25a267] text-center p-2 font-serif">

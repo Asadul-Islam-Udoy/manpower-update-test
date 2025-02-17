@@ -6,7 +6,10 @@ import Sidebar from "../global/Sidebar";
 import Topbar from "../global/Topbar";
 import AppsCreateModal from "../../components/modal/AppsCreateModal";
 import VideoCreateModal from "../../components/modal/VideoCreateModal";
-import { getHomeAppsAction, getHomeVideosAction } from "../../action/auth_admin/AdminMaintainAction";
+import {
+  getHomeAppsAction,
+  getHomeVideosAction,
+} from "../../action/auth_admin/AdminMaintainAction";
 import { Localhost } from "../../action/host/HostConnection";
 
 function HomePageManage() {
@@ -14,13 +17,16 @@ function HomePageManage() {
   const colors = tokens(theme.palette.mode);
   const [isSidebar, setIsSidebar] = useState(true);
   const dispatch = useDispatch();
-  const [showVideoModal,setShowVideoModal] = useState(false);
-  const [showAppsModal,setShowAppsModal] = useState(false);
-  const {lodding,apps,videos} = useSelector((state)=>state.homePagesState);
-  useEffect(()=>{
-   dispatch(getHomeAppsAction());
-   dispatch(getHomeVideosAction());
-  },[dispatch])
+  const [showVideoModal, setShowVideoModal] = useState(false);
+  const [showAppsModal, setShowAppsModal] = useState(false);
+  const { lodding, apps, videos } = useSelector(
+    (state) => state.homePagesState
+  );
+  const { userInfo } = useSelector((state) => state.loginState);
+  useEffect(() => {
+    dispatch(getHomeAppsAction());
+    dispatch(getHomeVideosAction());
+  }, [dispatch]);
   return (
     <div className="sidbar__app">
       <Sidebar isSidebar={isSidebar} />
@@ -31,13 +37,41 @@ function HomePageManage() {
             : "sidbar__container__2"
         }
       >
-        {showVideoModal && <VideoCreateModal/>}
-        {showAppsModal && <AppsCreateModal/>}
+        {showVideoModal && <VideoCreateModal />}
+        {showAppsModal && <AppsCreateModal />}
         <Topbar setIsSidebar={setIsSidebar} />
         <Box m="20px">
           <div className="flex justify-around">
-            <button  Click={()=>setShowVideoModal((pre)=>!pre)} style={{backgroundColor:theme.palette.mode === "dark"?"rgb(18, 48, 85)":"white"}} className=" p-3 rounded-md hover:text-blue-400">New Video Create</button>
-            <button onClick={()=>setShowAppsModal((pre)=>!pre)} style={{backgroundColor:theme.palette.mode === "dark"?"rgb(18, 48, 85)":"white"}} className=" p-3 rounded-md hover:text-blue-400 ">New Apps Image Create</button>
+            {(userInfo?.user?.permissions?.includes(
+              "home-pages-video-update"
+            ) ||
+              userInfo?.user?.userType == "super-admin") && (
+              <button
+                Click={() => setShowVideoModal((pre) => !pre)}
+                style={{
+                  backgroundColor:
+                    theme.palette.mode === "dark" ? "rgb(18, 48, 85)" : "white",
+                }}
+                className=" p-3 rounded-md hover:text-blue-400"
+              >
+                New Video Create
+              </button>
+            )}
+            {(userInfo?.user?.permissions?.includes(
+              "home-pages-apps-imges-create"
+            ) ||
+              userInfo?.user?.userType == "super-admin") && (
+              <button
+                onClick={() => setShowAppsModal((pre) => !pre)}
+                style={{
+                  backgroundColor:
+                    theme.palette.mode === "dark" ? "rgb(18, 48, 85)" : "white",
+                }}
+                className=" p-3 rounded-md hover:text-blue-400 "
+              >
+                New Apps Image Create
+              </button>
+            )}
           </div>
           <section
             style={{
@@ -74,7 +108,7 @@ function HomePageManage() {
                         </dt>
                         <dd className="mt-1.5 text-base text-[9px]  dark:text-white">
                           <a href="#" className="hover:underline">
-                           {videos[0]?._id}
+                            {videos[0]?._id}
                           </a>
                         </dd>
                       </dl>
@@ -84,7 +118,7 @@ function HomePageManage() {
                           Title:
                         </dt>
                         <p className="mt-1.5 text-base text-[9px]  dark:text-white">
-                        {videos[0]?.title}
+                          {videos[0]?.title}
                         </p>
                       </dl>
 
@@ -93,7 +127,7 @@ function HomePageManage() {
                           Description
                         </dt>
                         <dd className="mt-1.5 text-base text-[9px]  dark:text-white">
-                        {videos[0]?.description}
+                          {videos[0]?.description}
                         </dd>
                       </dl>
                       <dl className="w-1/2 sm:w-1/4 lg:w-auto lg:flex-1">
@@ -103,7 +137,9 @@ function HomePageManage() {
                         <dd className="mt-1.5 text-base font-semibold  dark:text-white">
                           <video
                             style={{ height: "50px", width: "50px" }}
-                            src= {Localhost + `/images/videos/${videos[0]?.video}`}
+                            src={
+                              Localhost + `/images/videos/${videos[0]?.video}`
+                            }
                             alt=""
                           />
                         </dd>
@@ -115,7 +151,7 @@ function HomePageManage() {
                         <dd className="mt-1.5 text-base font-semibold  dark:text-white">
                           <img
                             style={{ height: "50px", width: "50px" }}
-                            src= {videos[0]?.coverimage}
+                            src={videos[0]?.coverimage}
                             alt=""
                           />
                         </dd>
@@ -134,7 +170,7 @@ function HomePageManage() {
                         </dt>
                         <dd className="mt-1.5 text-base text-[9px]  dark:text-white">
                           <a href="#" className="hover:underline">
-                          {apps[0]?._id}
+                            {apps[0]?._id}
                           </a>
                         </dd>
                       </dl>
@@ -153,7 +189,7 @@ function HomePageManage() {
                           Description
                         </dt>
                         <dd className="mt-1.5 text-base text-[9px]  dark:text-white">
-                        {apps[0]?.description}
+                          {apps[0]?.description}
                         </dd>
                       </dl>
                       <dl className="w-1/2 sm:w-1/4 lg:w-auto lg:flex-1">
@@ -163,7 +199,7 @@ function HomePageManage() {
                         <dd className="mt-1.5 text-base font-semibold  dark:text-white">
                           <img
                             style={{ height: "50px", width: "50px" }}
-                            src= {Localhost + `/images/apps/${apps[0]?.image}`}
+                            src={Localhost + `/images/apps/${apps[0]?.image}`}
                             alt=""
                           />
                         </dd>

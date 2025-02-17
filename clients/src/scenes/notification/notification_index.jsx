@@ -21,6 +21,7 @@ function NotificationIndex() {
   const { lodding, error, allnotification } = useSelector(
     (state) => state.notificationState
   );
+  const { userInfo } = useSelector((state) => state.loginState);
   useEffect(() => {
     if (error) {
       toast.error(error);
@@ -54,23 +55,28 @@ function NotificationIndex() {
             <div
               style={{ display: "flex", alignItems: "center", height: "100%" }}
             >
-              <button
-                style={{
-                  border: "none",
-                  borderRadius: "3px",
-                  backgroundColor: "#50a6f5",
-                  padding: "0px 10px",
-                  height: "30px",
-                  width: "40px",
-                  display: "flex",
-                  alignItems: "center",
-                }}
-                title="notification info"
-              >
-                <Link to={`/dashboard/notification/info/${params.row.id}`}>
-                  <InfoIcon style={{ color: "white" }} />
-                </Link>
-              </button>
+              {(userInfo?.user?.permissions?.includes(
+                "client-notification-info-get"
+              ) ||
+                userInfo?.user?.userType == "super-admin") && (
+                <button
+                  style={{
+                    border: "none",
+                    borderRadius: "3px",
+                    backgroundColor: "#50a6f5",
+                    padding: "0px 10px",
+                    height: "30px",
+                    width: "40px",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                  title="notification info"
+                >
+                  <Link to={`/dashboard/notification/info/${params.row.id}`}>
+                    <InfoIcon style={{ color: "white" }} />
+                  </Link>
+                </button>
+              )}
               {/* <button
                 style={{
                   backgroundColor: "#ef630f",

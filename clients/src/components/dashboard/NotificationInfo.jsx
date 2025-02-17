@@ -28,9 +28,11 @@ function NotificationInfo() {
   const [url, setUrl] = useState("");
   const [end_date, setEnd_Date] = useState("");
   const [notificationId, setNofificationId] = useState("");
-  const [userId,setUserId] = useState('');
+  const [userId, setUserId] = useState("");
   const { lodding, error, isDeletleNotiA, isUpdateNoti, singlenotification } =
     useSelector((state) => state.notificationState);
+  const { userInfo } = useSelector((state) => state.loginState);
+
   const dispatch = useDispatch();
   useEffect(() => {
     if (error) {
@@ -57,15 +59,22 @@ function NotificationInfo() {
   };
 
   ///delete notification
-  const deleteNotificationHandler = (id,userid,text) => {
+  const deleteNotificationHandler = (id, userid, text) => {
     setNofificationId(id);
-    setUserId(userid)
+    setUserId(userid);
     setNotificationText(text);
     setIsShowing((pre) => !pre);
   };
-  const updateNotificationHandler = (id,userid, text, description, url, enddate) => {
+  const updateNotificationHandler = (
+    id,
+    userid,
+    text,
+    description,
+    url,
+    enddate
+  ) => {
     setNofificationId(id);
-    setUserId(userid)
+    setUserId(userid);
     setNotificationText(text);
     setDiscription(description);
     setUrl(url);
@@ -141,13 +150,22 @@ function NotificationInfo() {
                         {/* <button>
                           <ModeEditIcon />
                         </button> */}
-                        <button
-                          onClick={() =>
-                            deleteNotificationHandler(item?._id,item?.user, item?.title)
-                          }
-                        >
-                          <HighlightOffIcon />
-                        </button>
+                        {(userInfo?.user?.permissions?.includes(
+                          "client-notification-delete"
+                        ) ||
+                          userInfo?.user?.userType == "super-admin") && (
+                          <button
+                            onClick={() =>
+                              deleteNotificationHandler(
+                                item?._id,
+                                item?.user,
+                                item?.title
+                              )
+                            }
+                          >
+                            <HighlightOffIcon />
+                          </button>
+                        )}
                       </div>
                       <div className="flex flex-col">
                         <span>
@@ -183,27 +201,41 @@ function NotificationInfo() {
                       className="notification__info__1__box"
                     >
                       <div>
-                        <button
-                          onClick={() =>
-                            updateNotificationHandler(
-                              item?._id,
-                              item?.user,
-                              item?.title,
-                              item?.description,
-                              item?.details_url,
-                              item.end_date
-                            )
-                          }
-                        >
-                          <ModeEditIcon />
-                        </button>
-                        <button
-                          onClick={() =>
-                            deleteNotificationHandler(item?._id,item?.user, item?.title)
-                          }
-                        >
-                          <HighlightOffIcon />
-                        </button>
+                        {(userInfo?.user?.permissions?.includes(
+                          "client-notification-update"
+                        ) ||
+                          userInfo?.user?.userType == "super-admin") && (
+                          <button
+                            onClick={() =>
+                              updateNotificationHandler(
+                                item?._id,
+                                item?.user,
+                                item?.title,
+                                item?.description,
+                                item?.details_url,
+                                item.end_date
+                              )
+                            }
+                          >
+                            <ModeEditIcon />
+                          </button>
+                        )}
+                        {(userInfo?.user?.permissions?.includes(
+                          "client-notification-delete"
+                        ) ||
+                          userInfo?.user?.userType == "super-admin") && (
+                          <button
+                            onClick={() =>
+                              deleteNotificationHandler(
+                                item?._id,
+                                item?.user,
+                                item?.title
+                              )
+                            }
+                          >
+                            <HighlightOffIcon />
+                          </button>
+                        )}
                       </div>
                       <div className="flex flex-col">
                         <span>
