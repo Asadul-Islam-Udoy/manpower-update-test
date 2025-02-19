@@ -42,28 +42,28 @@ const ServiceForm = ({timeKey ,timeSchedule, startwork}) => {
   };
 
   return (
-    <div className="p-4">
-      <div className="w-full p-6 mx-auto bg-transparent bg-white border rounded-lg shadow-lg">
-        <h1 className="mb-3 text-3xl font-bold text-center text-[#25a267]">
+    <div className="p-4 md:-mt-0 -mt-[60px]">
+      <div className="w-full p-6 mx-auto bg-transparent bg-white border">
+        <h1 className="mb-2 italic text-2xl -mt-3 font-bold text-center text-orange-400">
           Your Information
         </h1>
         <form onSubmit={handleSubmit}>
           <div className="mb-5">
             <label
               htmlFor="name"
-              className="mb-3 font-serif block text-base font-medium text-[#07074D]"
+              className="mb-1 font-serif block text-base font-medium text-[#07074D]"
             > 
-              Full Name <sup>*</sup>
+              {/* Full Name <sup>*</sup> */}
             </label>
-            <div className="flex border-b-[1px]  rounded-md items-center justify-center">
+            <div className="flex border-[0.5px]   items-center justify-center">
             <BadgeIcon style={{color:'white'}} />
             <input
               type="text"
               name="name"
               required
               id="name"
-              placeholder="Enter your full name"
-              className="w-full px-1 py-3 font-serif text-base text-black bg-transparent outline-none focus:shadow-md"
+              placeholder="Enter your full name..."
+              className="w-full px-1 py-2 font-sans text-base text-black bg-transparent outline-none focus:shadow-md"
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
@@ -75,17 +75,17 @@ const ServiceForm = ({timeKey ,timeSchedule, startwork}) => {
               htmlFor="phone"
               className="mb-3 font-serif block text-base font-medium text-[#07074D]"
             >
-              Phone Number<sup>*</sup>
+              {/* Phone Number<sup>*</sup> */}
             </label>
-            <div className="flex border-b-[1px] rounded-md items-center justify-center">
+            <div className="flex border-[1px] items-center justify-center">
               <PhoneIcon style={{color:'white'}} />
               <input
                 type="text"
                 name="phone"
                 required
                 id="phone"
-                placeholder="Enter your phone number"
-                className="w-full px-1 py-3 font-serif text-base text-black bg-transparent outline-none "
+                placeholder="Enter your phone number..."
+                className="w-full px-1 py-2 font-sans text-base text-black bg-transparent outline-none "
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
               />
@@ -97,9 +97,9 @@ const ServiceForm = ({timeKey ,timeSchedule, startwork}) => {
                 htmlFor="state"
                 className="mb-3 font-serif block text-base font-medium text-[#07074D]"
               >
-                Address<sup>*</sup>
+                {/* Address<sup>*</sup> */}
               </label>
-              <div className="flex border-b-[1px] rounded-md items-center justify-center">
+              <div className="flex border-[1px]  items-center justify-center">
               
               <AccountBalanceIcon style={{color:'white'}} />
               <input
@@ -107,8 +107,8 @@ const ServiceForm = ({timeKey ,timeSchedule, startwork}) => {
                 required
                 name="state"
                 id="state"
-                placeholder="Enter your address"
-                className="w-full px-1 py-3 font-serif text-base text-black bg-transparent outline-none "
+                placeholder="Enter your address..."
+                className="w-full px-1 py-2 font-sans text-base text-black bg-transparent outline-none "
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
               />
@@ -120,9 +120,9 @@ const ServiceForm = ({timeKey ,timeSchedule, startwork}) => {
               htmlFor="area"
               className="mb-3 block font-serif text-base font-medium text-[#07074D]"
             >
-              Area<sup>*</sup>
+              {/* Area<sup>*</sup> */}
             </label>
-            <div className="flex border-b-[1px] rounded-md items-center justify-center">
+            <div className="flex border-[1px]  items-center justify-center">
             
             < AddHomeWorkIcon style={{color:'white'}} />
             <input
@@ -130,8 +130,8 @@ const ServiceForm = ({timeKey ,timeSchedule, startwork}) => {
               required
               name="area"
               id="area"
-              placeholder="Enter your area"
-              className="w-full px-1 py-3 font-serif text-base text-black bg-transparent outline-none "
+              placeholder="Enter your area..."
+              className="w-full px-1 py-2 font-sans text-base text-black bg-transparent outline-none "
               value={area}
               onChange={(e) => setArea(e.target.value)}
             />
@@ -142,17 +142,17 @@ const ServiceForm = ({timeKey ,timeSchedule, startwork}) => {
               htmlFor="area"
               className="mb-3 block text-base font-serif font-medium text-[#07074D]"
             >
-              State<sup>*</sup>
+              {/* State<sup>*</sup> */}
             </label>
-           <div className="flex border-b-[1px] rounded-md items-center justify-center">
+           <div className="flex border-[1px]  items-center justify-center">
             <AddBusinessIcon style={{color:'white'}} />
             <input
               type="text"
               required
               name="state"
               id="state"
-              placeholder="Enter your state"
-              className="w-full px-1 py-3 font-serif text-base text-black bg-transparent outline-none "
+              placeholder="Enter your state..."
+              className="w-full px-1 py-2 font-sans text-base text-black bg-transparent outline-none "
               value={state}
               onChange={(e) => setState(e.target.value)}
             />
@@ -162,19 +162,19 @@ const ServiceForm = ({timeKey ,timeSchedule, startwork}) => {
           <div className="mb-5">
             <label
               htmlFor="city"
-              className="mb-3 block text-base font-serif font-medium text-[#07074D]"
+              className="mb-3 block text-base font-sans font-medium text-[#07074D]"
             >
-              City<sup>*</sup>
+              {/* City<sup>*</sup> */}
             </label>
-            <div className="flex border-b-[1px] rounded-md items-center justify-center">
+            <div className="flex border-[1px] items-center justify-center">
             <BusinessIcon style={{color:'white'}} />
             <input
               type="text"
               name="city"
               required
               id="city"
-              placeholder="Enter your city"
-              className="w-full px-1 py-3 font-serif text-base text-black bg-transparent outline-none "
+              placeholder="Enter your city..."
+              className="w-full px-1 py-2 font-seri  text-base text-black bg-transparent outline-none "
               value={city}
               onChange={(e) => setCity(e.target.value)}
             />

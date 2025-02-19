@@ -17,7 +17,7 @@ const ServiceBooking = () => {
   return (
     <>
       <Header />
-      <div className="flex-col justify-between min-h-screen overflow-hidden text-gray-500 bg-white md:flex md:w-full md:mt-24">
+      <div className="flex-col justify-around min-h-screen overflow-hidden text-gray-500 bg-[#edf3ff] md:flex md:w-full md:mt-20 mt-4">
         <div className="flex flex-col items-center justify-center w-full mt-20 font-serif text-center py-7 md:mt-0 ">
           <h1 className="text-3xl md:text-5xl text-[#25a267] p-2 font-serif w-[100%] text-center ">
             Your Services Workers And Give me a Same Information
@@ -29,7 +29,8 @@ const ServiceBooking = () => {
             We deliver the solutions that drive your business forward.
           </p>
         </div>
-        <div className="justify-between max-w-screen-xl m-auto -mt-24 overflow-hidden md:flex md:w-full md:-mt-0">
+        <div className="w-full p-4 bg-white"></div>
+        <div className="justify-between   max-w-screen-xl m-auto -mt-24 overflow-hidden md:flex md:w-[57%] md:-mt-0">
           <div className="h-[90%] items-center  max-w-screen-xl flex flex-col justify-center text-black w-full pb-3">
             {cartItems?.length > 0 ? (
               cartItems.map((item) => (

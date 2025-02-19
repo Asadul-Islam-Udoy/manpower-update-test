@@ -47,13 +47,13 @@ const GetService = () => {
   return (
     <>
       <Header />
-      <div className="min-h-[300px] overflow-hidden bg-white text-gray-700 pb-4">
+      <div className="min-h-[300px] overflow-hidden bg-[#edf3ff] text-gray-700 pb-4">
         <div className="flex items-center flex-col justify-center  w-[100%] mt-20 ">
-          <div className=" md:w-[50%] w-[100%] mt-7 flex items-center flex-col py-3 justify-center ">
+          <div className=" md:w-[55%] w-[100%] mt-7 flex items-center flex-col py-3 justify-center ">
             <h1 className="md:text-5xl text-4xl text-[#25a267] text-center p-2 font-serif">
               Our Suite of Services Solutions
             </h1>
-            <p className=" block md:w-[80%] w-[75%] text-center">
+            <p className=" block  w-[75%] text-center">
               Our comprehensive family of brands address the complex workforce
               challenges organizations face today, from contingent and permanent
               staffing to talent management, outsourcing, and talent
@@ -62,6 +62,7 @@ const GetService = () => {
             </p>
           </div>
         </div>
+        <div className="w-full p-4 bg-white"></div>
         {lodding ? (
           <Lodder />
         ) : (

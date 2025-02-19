@@ -106,8 +106,8 @@ function CartItem({ item, workersItems ,timeSchedule, setTimeSchedule,timeKey,se
     <>
       <div key={item?._id}>
         <div className="max-w-5xl px-6 mx-auto my-4 md:justify-center md:w-full md:flex md:space-x-6 xl:px-0">
-          <div className="w-full rounded-lg">
-            <div className="justify-around items-center bg-white shadow-lg md:min-w-[600px] md:mt-0 mt-24 mb-6 rounded-lg border flex flex-col  p-6 sm:flex sm:justify-start">
+          <div className="w-full ">
+            <div className="justify-around items-center bg-white  md:min-w-[500px]  md:mt-0 mt-24 mb-6  border flex flex-col  p-6 sm:flex sm:justify-start">
               <div className="flex justify-between w-[100%] py-2">
                 <h2 className="px-3 py-2 font-serif text-sm ">
                   <CleaningServicesIcon
@@ -130,7 +130,7 @@ function CartItem({ item, workersItems ,timeSchedule, setTimeSchedule,timeKey,se
                   alt="product-image"
                   className="w-full rounded-md sm:w-40 md:h-24 md:w-36"
                 />
-                <div className="items-center sm:ml-4 sm:flex sm:w-full sm:justify-around">
+                <div className="items-center mt-3 sm: sm:flex sm:w-full sm:justify-around">
                   <div className="flex justify-between mt-4 sm:space-y-6 sm:mt-0 sm:block sm:space-x-6">
                     <div className="flex flex-col">
                       <select

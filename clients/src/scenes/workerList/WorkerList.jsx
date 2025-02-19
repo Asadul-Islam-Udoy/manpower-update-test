@@ -61,14 +61,14 @@ const WorkerList = () => {
 
   return (
     <>
-      <div className="min-h-[300px] overflow-hidden bg-white">
-        <Header />
-        <div className="flex items-center flex-col justify-center  w-[100%] mt-20 ">
+    <Header/>
+      <div className="min-h-[300px] py-14 overflow-hidden bg-[#edf3ff]">
+        <div className="flex items-center flex-col justify-center  w-[100%] md:mt-5 mt-7">
           <div className=" md:w-[50%] py-3 w-[100%] mt-7 flex items-center flex-col justify-center ">
             <h1 className="md:text-5xl text-4xl text-center text-[#25a267] p-2 font-serif">
               Our Suite of Workers Solutions
             </h1>
-            <p className="md:w-[80%] w-[75%] text-gray-400 text-center">
+            <p className="md:w-[50%] w-[75%] text-gray-400 text-center">
               Our comprehensive family of brands address the complex workforce
               challenges organizations face today, from contingent and permanent
               staffing to talent management, outsourcing, and talent
@@ -77,7 +77,7 @@ const WorkerList = () => {
             </p>
           </div>
         </div>
-        <div className="w-full p-4"></div>
+        <div className="w-full p-4 bg-white"></div>
         {lodding ? (
           <Lodder />
         ) : (
@@ -88,11 +88,11 @@ const WorkerList = () => {
                   <div
                     class={`p-4 max-w-sm ${
                       cart.some((item) => item?._id === worker?._id)
-                        ? "border p-0 mt-3 opacity-45 rounded-md shadow-lg"
+                        ? "border p-0 mt-3 opacity-45  rounded-md  shadow-lg"
                         : ""
                     }`}
                   >
-                    <div class="flex rounded-md h-full bg-transparent p-8 flex-col border-[0.3px] border-green-400 shadow-md text-gray-800">
+                    <div class="flex rounded-md w-[300px] h-full bg-white p-8 flex-col border-[0.3px] border-green-400 shadow-md text-gray-800">
                       {cart.some((item) => item?._id === worker?._id) && (
                         <div
                           style={{
@@ -111,16 +111,18 @@ const WorkerList = () => {
                       <div className="flex justify-center w-full overflow-hidden transition-all rounded-full">
                         {worker.avatar ? (
                           <img
+                            width="217"
+                            height="200"
                             src={Localhost + `/images/avatars/${worker.avatar}`}
-                            className="w-48 h-48 transition-all duration-1000 ease-linear border rounded-full hover:scale-110"
+                            className="transition-all duration-1000 ease-linear border rounded-full hover:scale-110"
                           />
                         ) : (
                           <img
                             src="https://media.istockphoto.com/id/1451587807/vector/user-profile-icon-vector-avatar-or-person-icon-profile-picture-portrait-symbol-vector.jpg?s=612x612&w=0&k=20&c=yDJ4ITX1cHMh25Lt1vI1zBn2cAKKAlByHBvPJ8gEiIg="
                             alt="user name"
                             title="user name"
-                            width="300"
-                            height="300"
+                            width="200"
+                            height="200"
                             className="max-w-full rounded-md"
                           />
                         )}
@@ -193,17 +195,18 @@ const WorkerList = () => {
                 ))}
               </>
             ) : (
-              <div className="flex flex-col items-center justify-center p-48 bg-white-300">
+              <div className="flex flex-col -mt-16 items-center justify-center p-32 bg-white-300">
                 <h1 className="pb-3 text-5xl font-bold text-center text-red-700">
                   Booking
                 </h1>
-                <button
+                <p
                   onClick={() => navigate("/service/booking")}
-                  className="p-2 pl-8 pr-8 bg-gray-300 rounded-sm hover:bg-red-200"
+                  className=" w-24 flex items-center justify-center text-blue-600 hover:border-b border-blue-600 cursor-pointer"
                 >
-                  <ArrowForwardIcon style={{ fontSize: "12px" }} />
+                 
                   Next
-                </button>
+                  <ArrowForwardIcon style={{ fontSize: "12px" }} />
+                </p>
               </div>
             )}
           </div>

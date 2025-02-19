@@ -46,27 +46,28 @@ const CategoryService = () => {
       ) : (
         <div
           style={{ backgroundColor: "#436da7ss" }}
-          className="min-h-[300px] overflow-hidden bg-white"
+          className="min-h-[300px] overflow-hidden bg-[#edf3ff]"
         >
+          {" "}
+          <div className="flex items-center flex-col justify-center  w-[100%] mt-20 ">
+            <div className="flex flex-col items-center justify-center py-3 mt-7">
+              <h1 className="md:text-5xl text-4xl text-center p-2 text-[#25a267] font-serif">
+                Our Suite of Services Solutions
+              </h1>
+              <p className=" block w-[75%] text-center text-gray-400">
+                Our comprehensive family of brands address the complex workforce
+                challenges organizations face today, from contingent and
+                permanent staffing to talent management, outsourcing, and talent
+                development. We deliver the solutions that drive your business
+                forward.
+              </p>
+            </div>
+          </div>
+          <div className=" p-4 bg-white"></div>
           {ServiceCategoryservicesList?.length > 0 ? (
-            <div className="max-w-screen-xl p-4 mx-auto ">
+            <div className="max-w-screen-xl w-[100%] p-4 mx-auto ">
               {ServiceCategoryservicesList !== undefined ? (
                 <>
-                  <div className="flex items-center flex-col justify-center  w-[100%] mt-20 ">
-                    <div className="flex flex-col items-center justify-center py-3 mt-7">
-                      <h1 className="md:text-5xl text-4xl text-center p-2 text-[#25a267] font-serif">
-                        Our Suite of Services Solutions
-                      </h1>
-                      <p className=" block w-[75%] text-center text-gray-400">
-                        Our comprehensive family of brands address the complex
-                        workforce challenges organizations face today, from
-                        contingent and permanent staffing to talent management,
-                        outsourcing, and talent development. We deliver the
-                        solutions that drive your business forward.
-                      </p>
-                    </div>
-                  </div>
-                  <div className="w-full p-4"></div>
                   <div className="flex items-center justify-center w-full my-3">
                     <div className="w-full text-center">
                       {" "}
@@ -106,8 +107,7 @@ const CategoryService = () => {
                           <div class="flex rounded-md h-full p-2 flex-col border-[0.3px] border-blue-400 text-gray-800 shadow-lg hover:shadow-xl hover:shadow-green-200 duration-400">
                             <Link
                               to={
-                                Localhost +
-                               `/images/services/${service.image}`
+                                Localhost + `/images/services/${service.image}`
                               }
                             >
                               <div className="flex overflow-hidden transition-all rounded-md">
