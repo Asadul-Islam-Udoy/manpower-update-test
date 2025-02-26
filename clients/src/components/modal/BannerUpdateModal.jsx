@@ -173,7 +173,6 @@ function BannerUpdateModal({ id }) {
               <TextField
                 fullWidth
                 variant="filled"
-                required
                 type="file"
                 inputProps={{ accept: "image/*", multiple: true }} // Move multiple inside inputProps
                 sx={{ gridColumn: "span 4" }}
