@@ -17,8 +17,8 @@ The application follows modern software engineering practices, including RESTful
 
 | Service | URL |
 |--------|-----|
-| Frontend | https://localhost:3000 |
-| Backend API | https://localhost:5000 |
+| Frontend | http://manpowerstation.com |
+| Backend API |http://api.manpowerstation.com/ |
 
 > 🔹 Replace the above URLs with your deployed application links.
 
