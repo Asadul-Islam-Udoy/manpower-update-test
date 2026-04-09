@@ -94,6 +94,5 @@ If you’d like, I can also help you create:
 ### 1️⃣ Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/manpower-station-technologies.git
-cd manpower-station-technologies
+https://github.com/Asadul-Islam-Udoy/manpower-update-test.git
 ---
